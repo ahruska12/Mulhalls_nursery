@@ -1,0 +1,8 @@
+Django
+six
+django-filter
+djangorestframework
+djangorestframework-jwt
+django-cors-headers
+pytz
+psycopg2-binary
