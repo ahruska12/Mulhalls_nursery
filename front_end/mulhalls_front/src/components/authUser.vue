@@ -99,6 +99,7 @@
     import router from '../router';
     import {APIService} from '../http/APIService';
     const apiService = new APIService();
+    import bcrypt from 'bcryptjs'
 
 
   export default {
@@ -115,7 +116,7 @@
             v => !!v || "Email is required",
             v => (v && v.length > 3) || "A username must be more than 3 characters long",
           ],
-          customer_password: [
+          password: [
             v => !!v || "Password is required",
             v => (v && v.length > 7) || "The password must be longer than 7 characters"
           ]
@@ -127,21 +128,36 @@
           // checking if the input is valid
           if (this.$refs.form) {
             this.loading = true;
-              apiService.authenticateLogin(this.credentials).then((res)=>{
-              localStorage.setItem('token', res.data.token);
-              localStorage.setItem('isAuthenticates', JSON.stringify(true));
-              localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
-              router.push("/");
-              //router.go(-1);
-               window.location = "/"
-            // }).catch(e => {
-              // this.loading = false;
-              // localStorage.removeItem('isAuthenticates');
-              // localStorage.removeItem('log_user');
-              // localStorage.removeItem('token');
-              // router.go(-1);
-              // this.showMsg = 'error';
-             })
+
+            console.log(this.credentials)
+
+            console.log("password before hashing: ", this.credentials.customer_password)
+
+            //hash password
+            bcrypt.hash(this.credentials.password, 10, (err, hash) => {
+              if (err) {
+                console.error('error hashing password: ', err);
+                return;
+              }
+
+              this.credentials.password = hash;
+
+              apiService.authenticateLogin(this.credentials).then((res) => {
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('isAuthenticates', JSON.stringify(true));
+                localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
+                router.push("/");
+                //router.go(-1);
+                window.location = "/"
+                }).catch(e => {
+                this.loading = false;
+                localStorage.removeItem('isAuthenticates');
+                localStorage.removeItem('log_user');
+                localStorage.removeItem('token');
+                router.go(-1);
+                this.showMsg = 'error';
+              })
+            })
           }
         }
       }

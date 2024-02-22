@@ -11,6 +11,7 @@ export class APIService {
         return axios.post(url, credentials);
     }
     authenticateLogin(credentials) {
+        console.log(credentials)
         const url = `${API_URL}/user/auth/`;
         return axios.post(url, credentials);
   }
