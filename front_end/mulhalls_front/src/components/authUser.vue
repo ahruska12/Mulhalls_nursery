@@ -12,20 +12,15 @@
                 :value="true"
                 class="alert alert-danger"
                 role="alert"
-                dense
-              >
-                Invalid username or password. Please Try again.
+                dense>
+                Invalid email or password. Please Try again.
               </div>
               <div class="card-text pt-2">
                 <div
                   class="row align-items-center justify-content-center"
-                  v-if="loading"
-                >
+                  v-if="loading">
                   <div class="progress">
-                    <div
-                      class="
-                        progress-bar progress-bar-striped progress-bar-animated
-                      "
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
                       role="progressbar"
                       aria-valuenow="75"
                       aria-valuemin="0"
@@ -34,10 +29,6 @@
                     ></div>
                   </div>
                 </div>
-
-
-
-
 
                 <div class="col-md-10 mb-3">
                   <div class="input-group">
@@ -48,13 +39,13 @@
 
                       v-model="credentials.username"
                       :counter="70"
-                      label="Username"
+                      label="Email"
                       :rules="rules.username"
                       maxlength="70"
                       required
                       type="text"
                       class="form-control mb-3"
-                      placeholder="Username"
+                      placeholder="Email"
                       aria-describedby="inputGroupPrepend2"
                     />
 
@@ -121,11 +112,10 @@
         loading: false,
         rules: {
           username: [
-            v => !!v || "Username is required",
+            v => !!v || "Email is required",
             v => (v && v.length > 3) || "A username must be more than 3 characters long",
-            v => /^[a-z0-9_]+$/.test(v) || "A username can only contain letters and digits"
           ],
-          password: [
+          customer_password: [
             v => !!v || "Password is required",
             v => (v && v.length > 7) || "The password must be longer than 7 characters"
           ]
@@ -140,7 +130,7 @@
               apiService.authenticateLogin(this.credentials).then((res)=>{
               localStorage.setItem('token', res.data.token);
               localStorage.setItem('isAuthenticates', JSON.stringify(true));
-              localStorage.setItem('log_user', JSON.stringify(this.credentials.username));
+              localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
               router.push("/");
               //router.go(-1);
                window.location = "/"

@@ -2,58 +2,54 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_jwt.serializers import User
+from .models import Customer
+from django.contrib.auth.hashers import make_password
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(
+    customer_email = serializers.EmailField(
         required=True,
-        validators=[UniqueValidator(queryset=User.objects.all())]
+        validators=[UniqueValidator(queryset=Customer.objects.all())]
     )
-    password = serializers.CharField(write_only=True,
-                                     required=True,
-                                     style={'input_type': 'password'},
-                                     validators=[validate_password])
+    customer_password = serializers.CharField(write_only=True,
+                                              required=True,
+                                              style={'input_type': 'password'},
+                                              validators=[validate_password])
     password2 = serializers.CharField(write_only=True,
                                       style={'input_type': 'password'},
                                       required=True)
 
     class Meta:
-        model = User
-        fields = ('username',
-                  'password',
-                  'password2',
-                  'email',
-                  'first_name',
-                  'last_name',
-                  'is_staff',
-                  'is_superuser'
+        model = Customer
+        fields = ('customer_email',
+                  'customer_password',
+                  'customer_first_name',
+                  'customer_last_name',
+                  'password2'
                   )
-        extra_kwargs = {'first_name': {'required': True},
-                        'last_name': {'required': True},
-                        'password': {'write_only': True, 'min_length': 6},
-                        'password2': {'write_only': True, 'min_length': 6}
-                        }
+        extra_kwargs = {
+            'password2': {'write_only': True, 'min_length': 6}
+        }
 
-        def validate(self, attrs):
-            if attrs['password'] != attrs['password2']:
-                raise serializers.ValidationError({"password": "Password fields didn't match."})
-            return attrs
+    def validate(self, attrs):
+        if attrs['customer_password'] != attrs['password2']:
+            raise serializers.ValidationError({"customer_password": "Password fields didn't match."})
+        return attrs
 
     def create(self, validated_data):
-        is_staff = validated_data.pop('is_staff', False)
-        is_superuser = validated_data.pop('is_superuser', False)
-
-        user = User.objects.create(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name']
+        validated_data['customer_password'] = make_password(validated_data['customer_password'])
+        print(validated_data)
+        user = Customer.objects.create(
+            customer_email=validated_data['customer_email'],
+            customer_first_name=validated_data['customer_first_name'],
+            customer_last_name=validated_data['customer_last_name'],
+            customer_password=validated_data['customer_password']
         )
-        user.set_password(validated_data['password'])
         user.save()
-
-        user.is_staff = is_staff
-        user.is_superuser = is_superuser
-        user.save()
-
         return user
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    class meta:
+        model = Customer
+        fields = ['__all__']

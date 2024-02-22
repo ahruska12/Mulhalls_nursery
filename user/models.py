@@ -3,7 +3,7 @@ from product.models import Plant
 
 
 class Department(models.Model):
-    department_id = models.IntegerField(primary_key=True)
+    department_id = models.AutoField(primary_key=True)
     department_name = models.CharField(max_length=30, blank=True, null=True)
 
     def __str__(self):
@@ -14,7 +14,7 @@ class Department(models.Model):
 
 
 class Employee(models.Model):
-    employee_id = models.IntegerField(primary_key=True)
+    employee_id = models.AutoField(primary_key=True)
     employee_first_name = models.CharField(max_length=30, blank=True, null=True)
     employee_last_name = models.CharField(max_length=30, blank=True, null=True)
     employee_password = models.CharField(max_length=30, blank=True, null=True)
@@ -29,11 +29,11 @@ class Employee(models.Model):
 
 
 class Customer(models.Model):
-    customer_id = models.IntegerField(primary_key=True)
+    customer_id = models.AutoField(primary_key=True)
     customer_first_name = models.CharField(max_length=30, blank=True, null=True)
     customer_last_name = models.CharField(max_length=30, blank=True, null=True)
     customer_email = models.CharField(max_length=30, blank=True, null=True)
-    customer_password = models.CharField(max_length=30, blank=True, null=True)
+    customer_password = models.CharField(blank=True, null=True)
 
     def __str__(self):
         return self.customer_first_name + " " + self.customer_last_name
@@ -43,7 +43,7 @@ class Customer(models.Model):
 
 
 class SearchHistory(models.Model):
-    search_id = models.IntegerField(primary_key=True)
+    search_id = models.AutoField(primary_key=True)
     search_date = models.DateField(blank=True, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE, blank=True, null=True)
@@ -56,7 +56,7 @@ class SearchHistory(models.Model):
 
 
 class QuestionsAsked(models.Model):
-    question_id = models.IntegerField(primary_key=True)
+    question_id = models.AutoField(primary_key=True)
     question_date = models.DateField(blank=True, null=True)
     question = models.CharField(max_length=1000, blank=True, null=True)
     answer = models.CharField(max_length=1000, blank=True, null=True)
