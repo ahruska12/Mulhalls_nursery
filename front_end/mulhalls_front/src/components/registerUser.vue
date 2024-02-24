@@ -3,7 +3,7 @@
         <div class="row align-items-center justify-content-center">
             <div class="col col-12 col-sm-6 col-md-10 col-lg-6">
                 <div class="card">
-                    <div class="card-header">Create Account</div>
+                    <div class="card-header">Create Customer Account</div>
                     <div v-if="showMsg === 'error'" class="alert alert-danger" role="alert">
                     Invalid username or password. Please Try again.
                     </div>
@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="row justify-content-around">
                                         <div type="button" class="btn btn-secondary col-6" @click="login">Back to Login</div>
-                                       <div type="button" class="btn btn-primary col-4" @click="register">Register</div>
+                                       <div type="button" class="btn btn-primary col-4" @click="registerUser">Register</div>
                                    </div>
                            </div>
                         </form>
@@ -66,7 +66,7 @@
   const apiService = new APIService();
 
   export default {
-    name: 'RegisterUser',
+    name: 'RegisterCustomer',
 
     data: () => ({
       credentials: {},
@@ -92,6 +92,7 @@
     methods: {
       register() {
        apiService.registerUser(this.credentials).then(response => {
+         console.log(this.credentials)
           if (response.status === 201) {
             this.movie = response.data;
             this.showMsg = "";
@@ -108,6 +109,9 @@
           }
         });
       },
+      login() {
+        router.push("/authUser");
+      }
     },
     computed: {
       passwordConfirmationRule() {

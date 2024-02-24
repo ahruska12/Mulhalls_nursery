@@ -7,12 +7,18 @@ export class APIService {
 
     }
     registerUser(credentials) {
-        const url = `${API_URL}/user/register/`;
+        const url = `${API_URL}/user/register/customer`;
         return axios.post(url, credentials);
     }
     authenticateLogin(credentials) {
         console.log(credentials)
         const url = `${API_URL}/user/auth/`;
         return axios.post(url, credentials);
-  }
+    }
+    registerEmployee(credentials) {
+        const url = `${API_URL}/user/register/employee`;
+        return axios.post(url, credentials);
+    }
+
+
 }

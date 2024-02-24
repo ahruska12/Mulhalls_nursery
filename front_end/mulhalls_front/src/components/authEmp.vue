@@ -76,9 +76,7 @@
 
 
                 <button ref ="form" @click.prevent="login" class="btn btn-primary">Login</button>
-                <div type="button" class="btn btn-primary col-4" @click="register">Not a member? <b>Register Here</b></div>
-                <br>
-                <div type="button" class="btn btn-primary col-4" @click="empLogin">Employee Login</div>
+                <div type="button" class="btn btn-primary col-4" @click="custLogin">Customer Login</div>
 
 
 
@@ -106,7 +104,7 @@
 
 
   export default {
-      name: 'authUser',
+      name: 'authEmp',
 
 
       data: () => ({
@@ -145,6 +143,7 @@
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('isAuthenticates', JSON.stringify(true));
                 localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
+                localStorage.setItem('isAdmin', JSON.stringify(true));
                 router.push("/");
                 //router.go(-1);
                 window.location = "/"
@@ -153,17 +152,18 @@
                 localStorage.removeItem('isAuthenticates');
                 localStorage.removeItem('log_user');
                 localStorage.removeItem('token');
+                localStorage.removeItem('isAdmin');
                 router.go(-1);
                 this.showMsg = 'error';
               })
             })
           }
         },
-        register() {
+        empLogin() {
           router.push('/registerUser')
         },
-        empLogin() {
-          router.push('/authEmp')
+        custLogin() {
+          router.push('/authUser')
         }
       }
   }
