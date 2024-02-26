@@ -4,6 +4,7 @@ import AuthUser from '@/components/authUser.vue'
 import RegisterCustomer from "@/components/registerUser.vue"
 import registerEmp from "@/components/registerEmp.vue";
 import authEmp from "@/components/authEmp.vue";
+import mainMenu from "@/components/mainMenu.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
           path: '/registerEmp',
           name: 'registerEmployee',
           component: registerEmp
+      },
+      {
+          path: '/mainMenu',
+          name: 'mainMenu',
+          component: mainMenu
       },
 
   ]
