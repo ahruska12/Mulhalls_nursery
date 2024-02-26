@@ -16,19 +16,29 @@ from .serializer import RegisterSerializer, CustomerSerializer
 # generic view for registering to our site
 
 class RegisterView(generics.CreateAPIView):
-    queryset = Customer.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
 
+@api_view(['GET'])
+def get_customer_account(request, email):
+    print(email)
+    if email is None:
+        return JsonResponse({'error': 'Email parameter is missing'}, status=400)
+
+    try:
+        customer = Customer.objects.get(customer_email=email)
+        return JsonResponse({'password': customer.customer_password})
+    except Customer.DoesNotExist:
+        return JsonResponse({'error': 'Customer not found'}, status=404)
+
 @api_view(['POST'])
-def obtain_jwt_token(request):
+def customer_obtain_jwt_token(request):
     if request.method == 'POST':
         email = request.data.get('username')
         password = request.data.get('password')
         print(email, password)
         try:
-            cust = Customer.objects.get(customer_email=email)
+            cust = Customer.objects.get(customer_email=email, customer_password=password)
             print("customer found")
         except Customer.DoesNotExist:
             print("customer not found")

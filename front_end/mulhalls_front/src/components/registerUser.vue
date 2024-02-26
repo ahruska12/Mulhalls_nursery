@@ -4,8 +4,11 @@
             <div class="col col-12 col-sm-6 col-md-10 col-lg-6">
                 <div class="card">
                     <div class="card-header">Create Customer Account</div>
-                    <div v-if="showMsg === 'error'" class="alert alert-danger" role="alert">
-                    Invalid username or password. Please Try again.
+                    <div v-if="showMsg === 'Passwords Must Match'" class="alert alert-danger" role="alert">
+                    Passwords do not match
+                    </div>
+                    <div v-if="showMsg === 'Email already exists'" class="alert alert-danger" role="alert">
+                    That email is already registered
                     </div>
                     <div class="p-2"> </div>
 
@@ -26,7 +29,12 @@
                                             <input v-model="credentials.customer_password" type="password" class="form-control-sm form-control">
                                         </div>
                                     </div>
-
+                                    <div v-if="this.valid === true" class="alert alert-danger" role="alert">
+                                      GREEN CHECK
+                                    </div>
+                                    <div v-if="this.valid === false" class="alert alert-danger" role="alert">
+                                      RED X
+                                    </div>
                                     <div class="form-group row justify-content-left py-2">
                                         <label class="col-4">Re-enter password</label>
                                         <div class="col col-8">
@@ -63,6 +71,7 @@
 
   import router from '../router';
   import {APIService} from '../http/APIService';
+  import bcrypt from "bcryptjs";
   const apiService = new APIService();
 
   export default {
@@ -74,49 +83,61 @@
       repassword: "",
       valid: true,
       showMsg: '',
+      passwordMsg: "",
       loading: false,
-      rules: {
-        customer_password: [
-          v => !!v || "Password is required",
-          v => (v && v.length > 7) || "The password must be longer than 7 characters"
-        ],
-        customer_email: [
-          v => !!v || "Email is required"
-        ],
-        repassword: [
-          v => (v === this.customer_password) || 'Passwords must match'
-        ]
-      },
       showPassword: false,
     }),
     methods: {
-      register() {
-       apiService.registerUser(this.credentials).then(response => {
-         console.log(this.credentials)
-          if (response.status === 201) {
-            this.movie = response.data;
-            this.showMsg = "";
-            router.push('/AuthUser/');
-          }else{
-            this.showMsg = "error";
-          }
-        }).catch(error => {
-          if (error.response.status === 401) {
-            router.push("/AuthUser");
-          }else if (error.response.status === 400) {
-            this.showMsg = "error";
-            console.log(this.credentials)
-          }
-        });
+      registerUser() {
+        if (this.credentials.customer_password === this.credentials.password2) {
+          const salt = bcrypt.genSaltSync(10);
+          bcrypt.hash(this.credentials.customer_password, salt, (err, hash) => {
+            if (err) {
+              console.error('error hashing password: ', err);
+              return;
+            }
+
+            this.credentials.customer_password = hash;
+
+            apiService.registerUser(this.credentials).then(response => {
+              if (response.status === 201) {
+                this.movie = response.data;
+                this.showMsg = "User Registered";
+                router.push('/AuthUser/');
+              } else {
+                this.showMsg = "Email already exists";
+              }
+            }).catch(error => {
+              if (error.response.status === 401) {
+                router.push("/AuthUser");
+              } else if (error.response.status === 400) {
+                this.showMsg = "Email already exists";
+              }
+            });
+          })
+        }
+        else {
+          this.showMsg = "Passwords Must Match"
+        }
       },
       login() {
         router.push("/authUser");
+      },
+      comparePasswords() {
+        if (this.credentials.customer_password !== this.credentials.password2) {
+          this.valid = false;
+        } else {
+          this.valid = true;
+        }
       }
     },
-    computed: {
-      passwordConfirmationRule() {
-        return (this.customer_password === this.repassword) || 'Password must match'
-    }
-    }
+    watch: {
+      'credentials.customer_password': function(newVal, oldVal) {
+        this.comparePasswords();
+      },
+      'credentials.password2': function(newVal, oldVal) {
+        this.comparePasswords();
+      }
+    },
   }
 </script>

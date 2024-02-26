@@ -7,14 +7,14 @@ from django.contrib.auth.hashers import make_password
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    customer_email = serializers.EmailField(
-        required=True,
-        validators=[UniqueValidator(queryset=Customer.objects.all())]
-    )
+    print("register serializer started")
+    customer_email = serializers.EmailField(required=True,
+                                            validators=[UniqueValidator(queryset=Customer.objects.all())])
     customer_password = serializers.CharField(write_only=True,
                                               required=True,
                                               style={'input_type': 'password'},
-                                              validators=[validate_password])
+                                              validators=[validate_password]
+                                              )
     password2 = serializers.CharField(write_only=True,
                                       style={'input_type': 'password'},
                                       required=True)
@@ -31,13 +31,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             'password2': {'write_only': True, 'min_length': 6}
         }
 
-    def validate(self, attrs):
-        if attrs['customer_password'] != attrs['password2']:
-            raise serializers.ValidationError({"customer_password": "Password fields didn't match."})
-        return attrs
-
     def create(self, validated_data):
-        validated_data['customer_password'] = make_password(validated_data['customer_password'])
         print(validated_data)
         user = Customer.objects.create(
             customer_email=validated_data['customer_email'],

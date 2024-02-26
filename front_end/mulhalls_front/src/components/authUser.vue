@@ -132,8 +132,14 @@
           if (this.$refs.form) {
             this.loading = true;
 
+            apiService.findCustomerAccount(this.credentials.username).then(response => {
+
+
+            })
+
             //hash password
-            bcrypt.hash(this.credentials.password, 10, (err, hash) => {
+            const salt = bcrypt.genSaltSync(10);
+            bcrypt.hash(this.credentials.password, salt, (err, hash) => {
               if (err) {
                 console.error('error hashing password: ', err);
                 return;
