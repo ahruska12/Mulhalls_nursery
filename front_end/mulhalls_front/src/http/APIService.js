@@ -11,27 +11,18 @@ export class APIService {
         return axios.post(url, credentials);
     }
     authenticateLogin(credentials) {
-        console.log(credentials)
-        const url = `${API_URL}/user/auth/`;
-        return axios.post(url, credentials);
+        const password = credentials.password
+        console.log(credentials);
+        const url = `${API_URL}/user/auth/${password}`;
+        return axios.post(url, password);
     }
     registerEmployee(credentials) {
         const url = `${API_URL}/user/register/employee`;
         return axios.post(url, credentials);
     }
     findCustomerAccount(email) {
-    const url = `${API_URL}/user/find-account/customer/${encodeURIComponent(email)}`;
-    return axios.get(url)
-        .then(response => {
-            // Handle successful response
-            console.log(response.data, "this is the response")
-            return response.data;// Assuming the response contains the password
-        })
-        .catch(error => {
-            // Handle error
-            console.error('Error finding customer account:', error);
-            throw error; // You might want to handle the error differently
-        });
+        const url = `${API_URL}/user/find-account/customer/${email}`;
+        return axios.get(url);
 }
 
 

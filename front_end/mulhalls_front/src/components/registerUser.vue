@@ -90,8 +90,7 @@
     methods: {
       registerUser() {
         if (this.credentials.customer_password === this.credentials.password2) {
-          const salt = bcrypt.genSaltSync(10);
-          bcrypt.hash(this.credentials.customer_password, salt, (err, hash) => {
+          bcrypt.hash(this.credentials.customer_password, 10, (err, hash) => {
             if (err) {
               console.error('error hashing password: ', err);
               return;

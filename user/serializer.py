@@ -44,6 +44,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    class meta:
+    class Meta:
         model = Customer
-        fields = ['__all__']
+        fields = '__all__'

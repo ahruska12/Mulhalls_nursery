@@ -5,6 +5,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from rest_framework_jwt.serializers import User
 from rest_framework_jwt.settings import api_settings
 
@@ -20,16 +21,11 @@ class RegisterView(generics.CreateAPIView):
 
 
 @api_view(['GET'])
-def get_customer_account(request, email):
-    print(email)
-    if email is None:
-        return JsonResponse({'error': 'Email parameter is missing'}, status=400)
-
-    try:
-        customer = Customer.objects.get(customer_email=email)
-        return JsonResponse({'password': customer.customer_password})
-    except Customer.DoesNotExist:
-        return JsonResponse({'error': 'Customer not found'}, status=404)
+def get_customer_account(self, email):
+    customer = Customer.objects.get(customer_email=email)
+    serializer = CustomerSerializer(customer)
+    print(customer, "customer found and sent")
+    return Response(data=serializer.data)
 
 @api_view(['POST'])
 def customer_obtain_jwt_token(request):

@@ -7,7 +7,7 @@
             <div class="card-body">
               <div class="card-title"><span>Login</span></div>
               <div
-                v-if="showMsg === 'error'"
+                v-if="showMsg === 'Wrong Password or Username'"
                 close-icon="mdi-close-circle"
                 :value="true"
                 class="alert alert-danger"
@@ -108,12 +108,13 @@
   export default {
       name: 'authUser',
 
-
       data: () => ({
         credentials: {},
+        stored_info: "",
         valid: true,
         showMsg: '',
         loading: false,
+        pwMatch: false,
         rules: {
           username: [
             v => !!v || "Email is required",
@@ -133,36 +134,62 @@
             this.loading = true;
 
             apiService.findCustomerAccount(this.credentials.username).then(response => {
-
-
+              this.stored_info = response.data;
+              console.log(this.stored_info)
             })
+                .catch(error => {
+                  console.error(error);
+                });
 
             //hash password
-            const salt = bcrypt.genSaltSync(10);
-            bcrypt.hash(this.credentials.password, salt, (err, hash) => {
+            bcrypt.hash(this.credentials.password, 10, (err, hash) => {
               if (err) {
                 console.error('error hashing password: ', err);
-                return;
               }
-
-              this.credentials.password = hash;
-
-              apiService.authenticateLogin(this.credentials).then((res) => {
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem('isAuthenticates', JSON.stringify(true));
-                localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
-                router.push("/");
-                //router.go(-1);
-                window.location = "/"
-                }).catch(e => {
-                this.loading = false;
-                localStorage.removeItem('isAuthenticates');
-                localStorage.removeItem('log_user');
-                localStorage.removeItem('token');
-                router.go(-1);
-                this.showMsg = 'error';
-              })
+              else {
+                console.log("hashed new pw: ", this.credentials.password)
+                console.log("hashed og pw: ", this.stored_info.customer_password)
+                bcrypt.compare(this.credentials.password, this.stored_info.customer_password, (err, result) => {
+                  if (err) {
+                    console.error('error comparing passwords: ', err);
+                    // Handle error appropriately
+                  } else {
+                    if (result) {
+                    console.log('Passwords match');
+                    this.pwMatch = true
+                    // Proceed with authentication
+                  } else {
+                    console.log('Passwords do not match');
+                    this.pwMatch = false
+                    // Handle mismatch appropriately (e.g., show error message)
+                  }
+                  }
+                });
+              }
             })
+            console.log(this.pwMatch)
+            if (this.pwMatch) {
+              this.credentials.password = this.stored_info.customer_password
+              console.log("this.credentials", this.credentials)
+              apiService.authenticateLogin(this.credentials).then((res) => {
+              localStorage.setItem('token', res.data.token);
+              localStorage.setItem('isAuthenticates', JSON.stringify(true));
+              localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
+              router.push("/");
+              //router.go(-1);
+              window.location = "/"
+            }).catch(e => {
+              this.loading = false;
+              localStorage.removeItem('isAuthenticates');
+              localStorage.removeItem('log_user');
+              localStorage.removeItem('token');
+              router.go(-1);
+              this.showMsg = 'error';
+            })
+            }
+            else {
+              this.showMsg = "Wrong Password or Username"
+            }
           }
         },
         register() {
