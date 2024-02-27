@@ -159,10 +159,10 @@
                       apiService.authenticateLogin(this.credentials).then((res) => {
                         localStorage.setItem('token', res.data.token);
                         localStorage.setItem('isAuthenticates', JSON.stringify(true));
-                        localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
+                        localStorage.setItem('log_user', this.stored_info.customer_first_name);
                         router.push("/mainMenu");
                         //router.go(-1);
-                        window.location = "/"
+                        //window.location = "/"
                       }).catch(e => {
                         this.loading = false;
                         localStorage.removeItem('isAuthenticates');
