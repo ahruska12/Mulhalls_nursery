@@ -1,9 +1,5 @@
 import axios from 'axios';
 const API_URL ='http://127.0.0.1:8000';
-const token = localStorage.getItem('token');
-//verify token on every request except register/authenticate login/ find customer account
-
-//axios.get('/api/data', {headers: {'Authorization': `Bearer ${token}`}}).then(response => {}).catch(error => {});
 
 export class APIService {
     constructor() {
@@ -34,6 +30,10 @@ export class APIService {
         const url = `${API_URL}/user/find-account/customer/${email}`;
         return axios.get(url);
     }
+    getDepartments() {
+        const url = `${API_URL}/user/departments`;
+        return axios.get(url)
+    }
 }
 
 export class APIGetPlants {
@@ -42,28 +42,51 @@ export class APIGetPlants {
     }
     //returns list of plants to display in main menu
     getPlantList() {
-        const url = `${API_URL}/product/home`;
-        return axios.get(url);
+        const url = `${API_URL}/product/home/`;
+        let jwtToken = localStorage.getItem('token');
+        console.log(jwtToken);
+        const headers = {Authorization: `Token ${jwtToken}`};
+        return axios.get(url, {headers: headers});
     }
     //returns list of plants depending on the category
     getPlantsByCategory(category_type) {
-
+        const url = `${API_URL}/product`;
+        return axios.get(url);
     }
     //returns plants by department
     getPlantByDepartment(department_id) {
-
+        const url = `${API_URL}/product`;
+        return axios.get(url);
+    }
+    //returns plants by color
+    getPlantByColor(plant_color) {
+        const url = `${API_URL}/product`;
+        return axios.get(url);
+    }
+    //returns plant by specific category
+    getPlantBySpecialCategory(plant_type, category) {
+        const url = `${API_URL}/product`;
+        return axios.get(url);
     }
     //returns specific plants
     getPlantByID(plant_id) {
-
+        const url = `${API_URL}/product`;
+        return axios.get(url);
     }
     //returns most popular searches
     getMostPopularSearches() {
-
+        const url = `${API_URL}/product`;
+        return axios.get(url);
     }
     //returns list of plants recently searched by specific user
     getRecentSearchesByUser(user_id) {
-
+        const url = `${API_URL}/product`;
+        return axios.get(url);
+    }
+    //TEST
+    tokenCheck(token) {
+        const url = `${API_URL}/user/tokencheck/${token}`;
+        return axios.post(url);
     }
 }
 
@@ -72,23 +95,28 @@ export class APIQuestions {
     }
     //posts question to db
     askQuestion(question) {
-
+        const url = `${API_URL}/user`;
+        return axios.get(url);
     }
     //returns questions asked by specific user
     findQuestionByUser(username) {
-
+        const url = `${API_URL}/user`;
+        return axios.get(url);
     }
     //returns questions asked about a specific plant
     findQuestionByPlant(plant_id) {
-
+        const url = `${API_URL}/user`;
+        return axios.get(url);
     }
     //returns questions asked on a specific date
     findQuestionByDate(date) {
-
+        const url = `${API_URL}/user`;
+        return axios.get(url);
     }
     //posts answer to question in db
     answerQuestion(question_id) {
-
+        const url = `${API_URL}/user`;
+        return axios.get(url);
     }
 
 }

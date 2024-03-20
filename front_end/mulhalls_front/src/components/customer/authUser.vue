@@ -7,7 +7,7 @@
             <div class="card-body">
               <div class="card-title"><span>Login</span></div>
               <div
-                v-if="showMsg === 'error'"
+                v-if="showMsg === 'Wrong Password or Username'"
                 close-icon="mdi-close-circle"
                 :value="true"
                 class="alert alert-danger"
@@ -76,7 +76,9 @@
 
 
                 <button ref ="form" @click.prevent="login" class="btn btn-primary">Login</button>
-                <div type="button" class="btn btn-primary col-4" @click="custLogin">Customer Login</div>
+                <div type="button" class="btn btn-primary col-4" @click="register">Not a member? <b>Register Here</b></div>
+                <br>
+                <div type="button" class="btn btn-primary col-4" @click="empLogin">Employee Login</div>
 
 
 
@@ -97,21 +99,22 @@
 
 
 
-    import router from '../router';
-    import {APIService} from '../http/APIService';
+    import router from '../../router/index.js';
+    import {APIService} from '../../http/APIService.js';
     const apiService = new APIService();
     import bcrypt from 'bcryptjs'
 
 
   export default {
-      name: 'authEmp',
-
+      name: 'authUser',
 
       data: () => ({
         credentials: {},
+        stored_info: "",
         valid: true,
         showMsg: '',
         loading: false,
+        pwMatch: false,
         rules: {
           username: [
             v => !!v || "Email is required",
@@ -130,40 +133,62 @@
           if (this.$refs.form) {
             this.loading = true;
 
+            apiService.findCustomerAccount(this.credentials.username).then(response => {
+              this.stored_info = response.data;
+            })
+                .catch(error => {
+                  console.error(error);
+                });
+
             //hash password
             bcrypt.hash(this.credentials.password, 10, (err, hash) => {
               if (err) {
                 console.error('error hashing password: ', err);
-                return;
               }
+              else {
+                bcrypt.compare(this.credentials.password, this.stored_info.customer_password, (err, result) => {
+                  if (err) {
+                    console.error('error comparing passwords: ', err);
+                    // Handle error appropriately
+                  } else {
+                    if (result) {
+                      this.pwMatch = true;
 
-              this.credentials.password = hash;
+                      this.credentials.password = this.stored_info.customer_password;
 
-              apiService.authenticateLogin(this.credentials).then((res) => {
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem('isAuthenticates', JSON.stringify(true));
-                localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
-                localStorage.setItem('isAdmin', JSON.stringify(true));
-                router.push("/");
-                //router.go(-1);
-                window.location = "/"
-                }).catch(e => {
-                this.loading = false;
-                localStorage.removeItem('isAuthenticates');
-                localStorage.removeItem('log_user');
-                localStorage.removeItem('token');
-                localStorage.removeItem('isAdmin');
-                router.go(-1);
-                this.showMsg = 'error';
-              })
+                      apiService.authenticateLogin(this.credentials).then((res) => {
+                        localStorage.setItem('token', res.data.token);
+                        localStorage.setItem('isAuthenticated', JSON.stringify(true));
+                        localStorage.setItem('log_user', this.stored_info.customer_email);
+                        router.push("/mainMenu");
+                        //router.go(-1);
+                        //window.location = "/"
+                      }).catch(e => {
+                        this.loading = false;
+                        localStorage.removeItem('isAuthenticated');
+                        localStorage.removeItem('log_user');
+                        localStorage.removeItem('token');
+                        router.go(-1);
+                        this.showMsg = 'error';
+                      })
+                    // Proceed with authentication
+                  } else {
+                      this.pwMatch = false;
+
+                      this.showMsg = "Wrong Password or Username";
+                    // Handle mismatch appropriately (e.g., show error message)
+                  }
+                  }
+                });
+              }
             })
           }
         },
-        empLogin() {
-          router.push('/registerUser')
+        register() {
+          router.push('/customer/registerUser')
         },
-        custLogin() {
-          router.push('/authUser')
+        empLogin() {
+          router.push('/authEmp')
         }
       }
   }

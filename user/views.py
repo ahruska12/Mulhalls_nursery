@@ -1,6 +1,10 @@
+from datetime import datetime
 
+import jwt
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
 from django.http import JsonResponse
-
+from rest_framework.authtoken.models import Token
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view
@@ -8,25 +12,23 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from rest_framework_jwt.settings import api_settings
+from rest_framework_simplejwt.settings import api_settings
+from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import Customer
+from .models import Customer, CustomerLogin, Department
 
-from .serializer import RegisterSerializer, CustomerSerializer
-
-
-class ProtectedView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def test_permissions(self):
-        print("successfully reached authentication yeeeee")
+from .serializer import RegisterSerializer, CustomerSerializer, DepartmentSerializer, RegisterEmployeeSerializer
 
 
 # generic view for registering to our site
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
+
+
+class RegisterEmpView(generics.CreateAPIView):
+    print("register view called")
+    serializer_class = RegisterEmployeeSerializer
 
 
 @api_view(['GET'])
@@ -38,20 +40,26 @@ def get_customer_account(self, email):
 
 
 @api_view(['POST'])
-def customer_obtain_jwt_token(request, username):
-    try:
-        cust = Customer.objects.get(customer_email=username)
-        print("customer found")
-    except Customer.DoesNotExist:
-        print("customer not found")
-        return JsonResponse({'error': 'Invalid credentials'}, status=400)
+# login view
+def login(request, username):
+    cust = Customer.objects.get(customer_email=username)
     if cust is not None:
-        print("user authenticated")
-        # get token
-        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-        payload = jwt_payload_handler(cust)
-        token = jwt_encode_handler(payload)
+        refresh = RefreshToken.for_user(cust)
+        token = str(refresh.access_token)
+        login = CustomerLogin(customer=cust,
+                              login_token=token,
+                              date=datetime.today())
+        login.save()
+        print("authenticated and token sent")
         return JsonResponse({'token': token}, status=200)
-    print("user not authenticated")
-    return JsonResponse({'error': 'Invalid credentials'}, status=400)
+        # logged in
+    else:
+        return JsonResponse({'error': "no associated account"}, status=200)
+
+
+@api_view(['GET'])
+def getDepartments(request):
+    departments = Department.objects.all()
+    serializer = DepartmentSerializer(departments, many=True)
+
+    return Response(data=serializer.data)

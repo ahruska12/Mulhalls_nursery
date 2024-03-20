@@ -15,6 +15,7 @@ class Department(models.Model):
 
 class Employee(models.Model):
     employee_id = models.AutoField(primary_key=True)
+    employee_email = models.CharField(max_length=30, blank=True, null=True)
     employee_first_name = models.CharField(max_length=30, blank=True, null=True)
     employee_last_name = models.CharField(max_length=30, blank=True, null=True)
     employee_password = models.CharField(max_length=30, blank=True, null=True)
@@ -69,3 +70,13 @@ class QuestionsAsked(models.Model):
 
     class Meta:
         db_table = 'questions_asked'
+
+
+class CustomerLogin(models.Model):
+    login_id = models.AutoField(primary_key=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    login_token = models.CharField(max_length=400)
+    date = models.DateField(null=True)
+
+    class Meta:
+        db_table = 'login_history'

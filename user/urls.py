@@ -1,15 +1,15 @@
 from django.shortcuts import render
 from django.contrib import admin
 from django.urls import path
-from rest_framework_jwt.views import obtain_jwt_token
-from .views import RegisterView, customer_obtain_jwt_token, get_customer_account, ProtectedView
+from .views import RegisterView, login, get_customer_account, RegisterEmpView, getDepartments
 
 app_name = "user"
 
 urlpatterns = [
     # Url that directs to the register view
     path('register/customer', RegisterView.as_view(), name='auth_register'),
-    path('auth/<str:username>', customer_obtain_jwt_token),
-    path('auth/test/protection', ProtectedView.test_permissions),
+    path('register/employee', RegisterEmpView.as_view(), name = 'emp_register'),
+    path('auth/<str:username>', login),
     path('find-account/customer/<str:email>', get_customer_account),
+    path('departments', getDepartments)
     ]

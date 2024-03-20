@@ -10,3 +10,54 @@
 Path\
 \
 /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/rest_framework_jwt/compat.py}
+
+
+
+
+changed - "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/rest_framework_simplejwt/tokens.py"
+
+old
+    @classmethod
+    def for_user(cls, user: AuthUser) -> "Token":
+        """
+        Returns an authorization token for the given user that will be provided
+        after authenticating the user's credentials.
+        """
+        user_id = getattr(user, api_settings.USER_ID_FIELD)
+        if not isinstance(user_id, int):
+            user_id = str(user_id)
+
+        token = cls()
+        token[api_settings.USER_ID_CLAIM] = user_id
+
+        if api_settings.CHECK_REVOKE_TOKEN:
+            token[api_settings.REVOKE_TOKEN_CLAIM] = get_md5_hash_password(
+                user.password
+            )
+
+        return token
+
+    _token_backend: Optional["TokenBackend"] = None
+
+new
+    @classmethod
+    def for_user(cls, user: AuthUser) -> "Token":
+        """
+        Returns an authorization token for the given user that will be provided
+        after authenticating the user's credentials.
+        """
+        user_id = getattr(user, 'customer_id')          <------------change
+        if not isinstance(user_id, int):
+            user_id = str(user_id)
+
+        token = cls()
+        token[api_settings.USER_ID_CLAIM] = user_id
+
+        if api_settings.CHECK_REVOKE_TOKEN:
+            token[api_settings.REVOKE_TOKEN_CLAIM] = get_md5_hash_password(
+                user.password
+            )
+
+        return token
+
+    _token_backend: Optional["TokenBackend"] = None

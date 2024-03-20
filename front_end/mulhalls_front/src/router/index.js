@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import AuthUser from '@/components/authUser.vue'
-import RegisterCustomer from "@/components/registerUser.vue"
-import registerEmp from "@/components/registerEmp.vue";
-import authEmp from "@/components/authEmp.vue";
+import AuthUser from '@/components/customer/authUser.vue'
+import RegisterCustomer from "@/components/customer/registerUser.vue"
+import registerEmp from "@/components/employee/registerEmp.vue";
+import authEmp from "@/components/employee/authEmp.vue";
 import mainMenu from "@/components/mainMenu.vue";
 
 const router = createRouter({
