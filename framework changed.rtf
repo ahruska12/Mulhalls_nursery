@@ -40,13 +40,16 @@ old
     _token_backend: Optional["TokenBackend"] = None
 
 new
+    from django.contrib.auth import get_user_model     <----------- change
     @classmethod
     def for_user(cls, user: AuthUser) -> "Token":
         """
         Returns an authorization token for the given user that will be provided
         after authenticating the user's credentials.
         """
-        user_id = getattr(user, 'customer_id')          <------------change
+        pk_field_name = user._meta.pk.name             <-------- changed
+
+        user_id = getattr(user,pk_field_name)          <------------change
         if not isinstance(user_id, int):
             user_id = str(user_id)
 

@@ -139,11 +139,11 @@
 
               this.credentials.password = hash;
 
-              apiService.authenticateLogin(this.credentials).then((res) => {
+              apiService.authenticateEmpLogin(this.credentials).then((res) => {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('isAuthenticates', JSON.stringify(true));
                 localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
-                localStorage.setItem('isAdmin', JSON.stringify(true));
+                localStorage.setItem('isAdmin', res.data.admin_status);
                 router.push("/");
                 //router.go(-1);
                 window.location = "/"
@@ -153,7 +153,7 @@
                 localStorage.removeItem('log_user');
                 localStorage.removeItem('token');
                 localStorage.removeItem('isAdmin');
-                router.go(-1);
+                //router.go(-1);
                 this.showMsg = 'error';
               })
             })

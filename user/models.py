@@ -18,7 +18,7 @@ class Employee(models.Model):
     employee_email = models.CharField(max_length=30, blank=True, null=True)
     employee_first_name = models.CharField(max_length=30, blank=True, null=True)
     employee_last_name = models.CharField(max_length=30, blank=True, null=True)
-    employee_password = models.CharField(max_length=30, blank=True, null=True)
+    employee_password = models.CharField(blank=True, null=True)
     is_admin = models.CharField(max_length=1, blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, blank=True, null=True)
 
@@ -79,4 +79,14 @@ class CustomerLogin(models.Model):
     date = models.DateField(null=True)
 
     class Meta:
-        db_table = 'login_history'
+        db_table = 'customer_login_history'
+
+
+class EmployeeLogin(models.Model):
+    login_id = models.AutoField(primary_key=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    login_token = models.CharField(max_length=400)
+    date = models.DateField(null=True)
+
+    class Meta:
+        db_table = 'employee_login_history'

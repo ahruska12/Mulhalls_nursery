@@ -9,7 +9,7 @@ from django.contrib.auth.hashers import make_password
 class RegisterSerializer(serializers.ModelSerializer):
     print("register serializer started")
     customer_email = serializers.EmailField(required=True,
-                                            validators=[UniqueValidator(queryset=Customer.objects.all())])
+                                   validators=[UniqueValidator(queryset=Customer.objects.all())])
     customer_password = serializers.CharField(write_only=True,
                                               required=True,
                                               style={'input_type': 'password'},
@@ -52,7 +52,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class RegisterEmployeeSerializer(serializers.ModelSerializer):
     print("serializer called")
     employee_email = serializers.EmailField(required=True,
-                                            validators=[UniqueValidator(queryset=Employee.objects.all())])
+                                   validators=[UniqueValidator(queryset=Employee.objects.all())])
     print("email vvalidated")
     employee_password = serializers.CharField(write_only=True,
                                               required=True,
@@ -79,11 +79,11 @@ class RegisterEmployeeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         print(validated_data)
-        emp = Employee.objects.create(
-            employee_email=validated_data['customer_email'],
-            employee_first_name=validated_data['customer_first_name'],
-            employee_last_name=validated_data['customer_last_name'],
-            employee_password=validated_data['customer_password'],
+        emp = Employee(
+            employee_email=validated_data['employee_email'],
+            employee_first_name=validated_data['employee_first_name'],
+            employee_last_name=validated_data['employee_last_name'],
+            employee_password=validated_data['employee_password'],
             department=validated_data['department'],
             is_admin=validated_data['is_admin']
         )

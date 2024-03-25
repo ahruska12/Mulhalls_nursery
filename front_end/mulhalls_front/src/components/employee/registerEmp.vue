@@ -56,14 +56,16 @@
                                     <div class="form-group row justify-content-left py-2">
                                         <label class="col-4">Admin</label>
                                         <div class="col col-8">
-                                            <input v-model="credentials.is_admin" type="checkbox" class="form-control-sm form-control">
+                                            <input v-model= isAdmin type="checkbox" class="form-control-sm form-control">
                                         </div>
                                     </div>
                                     <div class="form-group row justify-content-left py-2">
                                         <label class="col-4">Department</label>
                                         <div class="col col-8">
                                             <select v-model="credentials.department" class="form-control-sm form-control">
-                                              <option v-for="department in this.departments" :key="department.department_id">
+                                              <option v-for="department in this.departments"
+                                                      :key="department.department_id"
+                                                      :value="department.department_id">
                                                 {{department.department_name}}
                                               </option>
                                             </select>
@@ -94,7 +96,9 @@
     name: 'RegisterEmployee',
 
     data: () => ({
-      credentials: {},
+      credentials: {
+        is_admin: 0,
+      },
       departments: [],
       email_password: "",
       repassword: "",
@@ -117,6 +121,7 @@
             console.log(this.credentials)
 
             apiService.registerEmployee(this.credentials).then(response => {
+              console.log(this.credentials)
               if (response.status === 201) {
                 this.movie = response.data;
                 this.showMsg = "Employee Registered";
@@ -165,6 +170,16 @@
     },
     mounted() {
       this.getDepartments();
+    },
+    computed: {
+      isAdmin: {
+        get() {
+          return this.credentials.is_admin === 1;
+        },
+        set(value) {
+          return this.credentials.is_admin = value ? 1 : 0;
+        }
+      }
     }
   }
 </script>

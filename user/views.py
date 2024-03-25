@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import Customer, CustomerLogin, Department
+from .models import Customer, CustomerLogin, Department, Employee, EmployeeLogin
 
 from .serializer import RegisterSerializer, CustomerSerializer, DepartmentSerializer, RegisterEmployeeSerializer
 
@@ -54,7 +54,25 @@ def login(request, username):
         return JsonResponse({'token': token}, status=200)
         # logged in
     else:
-        return JsonResponse({'error': "no associated account"}, status=200)
+        return JsonResponse({'error': "no associated account"}, status=400)
+
+
+@api_view(['POST'])
+def elogin(request, username):
+    emp = Employee.objects.get(employee_email=username)
+    if emp is not None:
+        refresh = RefreshToken.for_user(emp)
+        token = str(refresh.access_token)
+        login = EmployeeLogin(employee=emp,
+                              login_token=token,
+                              date=datetime.today())
+        admin_status = emp.is_admin
+        login.save()
+        return JsonResponse({'token': token,
+                             'admin_status': admin_status}, status=200)
+
+    else:
+        return JsonResponse({'error': "no employee account"}, status=400)
 
 
 @api_view(['GET'])

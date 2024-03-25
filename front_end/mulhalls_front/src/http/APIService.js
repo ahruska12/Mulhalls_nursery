@@ -25,6 +25,12 @@ export class APIService {
         const url = `${API_URL}/user/register/employee`;
         return axios.post(url, credentials);
     }
+    authenticateEmpLogin(credentials) {
+        const username = credentials.username
+        console.log(credentials);
+        const url = `${API_URL}/user/auth/employee/${username}`;
+        return axios.post(url);
+    }
     //this gets customer account from db when given username, used for password verification
     findCustomerAccount(email) {
         const url = `${API_URL}/user/find-account/customer/${email}`;
