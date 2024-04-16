@@ -48,11 +48,6 @@ def is_valid_token(token):
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
 def get_plant_list(request):
-    result = authenticate(request)
-    if result is not None:
-        print("request", request.user)
-        plants = Plant.objects.all()
-        serializer = PlantSerializer(plants, many=True)
-        return Response(serializer.data)
-    else:
-        return JsonResponse({"Error": "Error authenticating"}, status=401)
+    plants = Plant.objects.all()
+    serializer = PlantSerializer(plants, many=True)
+    return Response(serializer.data)

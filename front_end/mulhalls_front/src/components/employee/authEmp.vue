@@ -36,7 +36,6 @@
                       <span class="input-group-text">@</span>
                     </div>
                     <input
-
                       v-model="credentials.username"
                       :counter="70"
                       label="Email"
@@ -48,11 +47,7 @@
                       placeholder="Email"
                       aria-describedby="inputGroupPrepend2"
                     />
-
-
                     <div class="w-100"></div>
-
-
                     <div class="input-group-prepend">
                       <span class="input-group-text">***</span>
                     </div>
@@ -67,40 +62,25 @@
                       @click:append="showPassword = ! showPassword"
                       class="form-control"
                       placeholder="Password"
-                      aria-describedby="inputGroupPrepend2"
-
-
-                    />
+                      aria-describedby="inputGroupPrepend2"/>
                   </div>
                 </div>
-
-
                 <button ref ="form" @click.prevent="login" class="btn btn-primary">Login</button>
                 <div type="button" class="btn btn-primary col-4" @click="custLogin">Customer Login</div>
-
-
-
-
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
   </template>
-
 
   <script>
 
-
-
-
-    import router from '../../router/index.js';
-    import {APIService} from '../../http/APIService.js';
-    const apiService = new APIService();
-    import bcrypt from 'bcryptjs'
+import router from '../../router/index.js';
+import {APIService} from '../../http/APIService.js';
+const apiService = new APIService();
+import bcrypt from 'bcryptjs'
 
 
   export default {
@@ -140,16 +120,15 @@
               this.credentials.password = hash;
 
               apiService.authenticateEmpLogin(this.credentials).then((res) => {
+                console.log(this.credentials)
                 localStorage.setItem('token', res.data.token);
-                localStorage.setItem('isAuthenticates', JSON.stringify(true));
-                localStorage.setItem('log_user', JSON.stringify(this.credentials.customer_email));
+                localStorage.setItem('isAuthenticated', JSON.stringify(true));
+                localStorage.setItem('log_user', this.credentials.username);
                 localStorage.setItem('isAdmin', res.data.admin_status);
-                router.push("/");
-                //router.go(-1);
-                window.location = "/"
+                router.push("/mainMenu");
                 }).catch(e => {
                 this.loading = false;
-                localStorage.removeItem('isAuthenticates');
+                localStorage.removeItem('isAuthenticated');
                 localStorage.removeItem('log_user');
                 localStorage.removeItem('token');
                 localStorage.removeItem('isAdmin');

@@ -61,6 +61,7 @@ class QuestionsAsked(models.Model):
     question_date = models.DateField(blank=True, null=True)
     question = models.CharField(max_length=1000, blank=True, null=True)
     answer = models.CharField(max_length=1000, blank=True, null=True)
+    answer_date = models.DateField(blank=True, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=True, null=True)
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE, blank=True, null=True)

@@ -36,6 +36,12 @@ export class APIService {
         const url = `${API_URL}/user/find-account/customer/${email}`;
         return axios.get(url);
     }
+    //this gets employee account from db to authenticate employee acct on sign in, right now it doesnt work!
+    findEmployeeAccount(email) {
+        const url = `${API_URL}/user/find-account/employee/${email}`;
+        return axios.get(url);
+    }
+
     getDepartments() {
         const url = `${API_URL}/user/departments`;
         return axios.get(url)
@@ -49,10 +55,7 @@ export class APIGetPlants {
     //returns list of plants to display in main menu
     getPlantList() {
         const url = `${API_URL}/product/home/`;
-        let jwtToken = localStorage.getItem('token');
-        console.log(jwtToken);
-        const headers = {Authorization: `Token ${jwtToken}`};
-        return axios.get(url, {headers: headers});
+        return axios.get(url);
     }
     //returns list of plants depending on the category
     getPlantsByCategory(category_type) {
