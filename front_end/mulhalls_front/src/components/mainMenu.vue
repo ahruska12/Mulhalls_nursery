@@ -8,7 +8,7 @@
         </a>
       </div>
     </div>
-    <input type="text" placeholder="Search" class="search-box">
+    <input type="text" placeholder="Search Plants" class="search-box">
     <button v-if="isEmpl" class="question-btn">Questions</button>
     <button v-if="!isLoggedIn" @click="login" class="login-btn">Login</button>
     <div v-if="isLoggedIn" class="username">{{this.username}}</div>
@@ -37,45 +37,75 @@
 
    data: () => ({
      valid: true,
+     //message variable
      showMsg: '',
+     //loading variable for loading bars
      loading: false,
+     //current user
      username: "Guest",
+     //if the local storage spot "isAdmin" is true this is set to true
      isEmpl: false,
+     //list of all plants for main dashboard
      plant_list: [],
+     //for login/logout button to show logged in or logged out
      isLoggedIn: false,
+     //this is the current users account info from customer or employee table
+     account_info: [],
+     //dropdown menu shown or not
      showDropdown: false,
+     //categories for each plant
      categories: ['All Plants','Annual', 'Perennial', 'Tree', 'Shrub'],
+     //current category
      category: "All Plants",
    }),
    methods: {
      //login method
      login() {
-      // will perform login function here
-       router.push()
+       //push to customer login page so customer or employee can login then redirect back to main menu
+       router.push('/authUser');
+       //show user is logged in
        this.isLoggedIn = true;
        console.log('User logged in:', this.username);
     },
      //logout method
      logout() {
-       // will perform a logout here
+       //good practice to set to true for every method
+       this.loading = true;
+       //user now is logged out
        this.isLoggedIn = false;
+       //remove tokens and keys from local storage
+       localStorage.removeItem('isAuthenticated');
+       localStorage.removeItem('log_user');
+       localStorage.removeItem('token');
+       //if user is an employee remove the isAdmin key
+       if (this.isEmpl === true) {
+         localStorage.removeItem('isAdmin');
+       }
+       //done loading
+       this.loading = false;
+       //push to login screen, or maybe we push back to main menu and reload?
+       router.push('/authUser')
        console.log('User logged out');
      },
      //this shows the dropdown
      toggleDropdown() {
+       //toggle just does the opposite of what is currently being shown
        this.showDropdown = !this.showDropdown;
      },
      //this picks the category dropdown
      selectCategory(category) {
+       //so we can display the current category
        this.category = category;
        console.log('Category selected:', category);
-       // Perform actions when a category is selected
+       // once category selected dropdown goes away
        this.showDropdown = false;
      },
-     //I don't think this method is needed will hold here for now
+     //to store the current user information, might be useful
      getAcc() {
+       //method for get request for customer account information need employee one also
        apiService.findCustomerAccount(this.username).then(response => {
               this.account_info = response.data;
+              console.log("getAcc called")
             })
            .catch(error => {
              console.error(error);
@@ -84,6 +114,7 @@
      checkAuth() {
        //everytime the webpage is reloaded it checks to make sure the user is authenticated
        console.log("checkAuth called");
+       //this verifies all keys are valid and ensures logged in, username, and isEmpl are up to date
        try {
          if (localStorage.getItem("isAuthenticated") && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
            this.username = localStorage.getItem("log_user");
@@ -99,6 +130,7 @@
          console.error("Error occurred during authentication check:", error);
        }
      },
+     //list of all plants
      getPlantList() {
        plantAPI.getPlantList().then((response) => {
          this.plant_list = response.data;
@@ -108,9 +140,12 @@
        });
      }
    },
+   //these are loaded on refresh
    mounted() {
      this.getPlantList();
+     this.getAcc();
    },
+   //these should be loaded on refresh of page
    created() {
        this.checkAuth();
    }

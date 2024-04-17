@@ -27,6 +27,7 @@ export class APIService {
     }
     authenticateEmpLogin(credentials) {
         const username = credentials.username
+        //make sure to take this out at some point....
         console.log(credentials);
         const url = `${API_URL}/user/auth/employee/${username}`;
         return axios.post(url);
@@ -36,7 +37,7 @@ export class APIService {
         const url = `${API_URL}/user/find-account/customer/${email}`;
         return axios.get(url);
     }
-    //this gets employee account from db to authenticate employee acct on sign in, right now it doesnt work!
+    //this gets employee account from db to authenticate employee acct on sign in, right now it doesn't work!
     findEmployeeAccount(email) {
         const url = `${API_URL}/user/find-account/employee/${email}`;
         return axios.get(url);
@@ -92,11 +93,6 @@ export class APIGetPlants {
         const url = `${API_URL}/product`;
         return axios.get(url);
     }
-    //TEST
-    tokenCheck(token) {
-        const url = `${API_URL}/user/tokencheck/${token}`;
-        return axios.post(url);
-    }
 }
 
 export class APIQuestions {
@@ -104,6 +100,11 @@ export class APIQuestions {
     }
     //posts question to db
     askQuestion(question) {
+        const url = `${API_URL}/user`;
+        return axios.get(url);
+    }
+    //returns all questions
+    listQuestions() {
         const url = `${API_URL}/user`;
         return axios.get(url);
     }
@@ -122,8 +123,9 @@ export class APIQuestions {
         const url = `${API_URL}/user`;
         return axios.get(url);
     }
-    //posts answer to question in db
-    answerQuestion(question_id) {
+    //posts answer to question in db, arr is either going to be array of question id, emp number, answer, and date, or
+    //seperate variables
+    answerQuestion(arr) {
         const url = `${API_URL}/user`;
         return axios.get(url);
     }
