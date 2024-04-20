@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -80,14 +80,7 @@ WSGI_APPLICATION = 'mulhalls_nursery.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mulhalls_nursery',
-        'USER': 'postgres',
-        'PASSWORD': 'nbastats',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(default='postgres://u9ke3i88bug1j0:pfb9297a72793d298aea744e4a2eb1b28c9a70703b9deb358bf56457ca0879073@ceu9lmqblp8t3q.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d3pg1kk1uaoje9')
 }
 
 # Password validation

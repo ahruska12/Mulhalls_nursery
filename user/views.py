@@ -17,7 +17,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import Customer, CustomerLogin, Department, Employee, EmployeeLogin
 
-from .serializer import RegisterSerializer, CustomerSerializer, DepartmentSerializer, RegisterEmployeeSerializer
+from .serializer import RegisterSerializer, CustomerSerializer, DepartmentSerializer, RegisterEmployeeSerializer, \
+    EmployeeSerializer
 
 
 # generic view for registering to our site
@@ -36,6 +37,14 @@ def get_customer_account(self, email):
     customer = Customer.objects.get(customer_email=email)
     serializer = CustomerSerializer(customer)
     print(customer, "customer found and sent")
+    return Response(data=serializer.data)
+
+
+@api_view(['GET'])
+def get_employee_account(self, email):
+    employee = Employee.objects.get(employee_email=email)
+    serializer = EmployeeSerializer(employee)
+    print(employee, "customer found and sent")
     return Response(data=serializer.data)
 
 
