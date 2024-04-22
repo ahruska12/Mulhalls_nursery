@@ -1,5 +1,8 @@
 from django.db import models
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 class Plant(models.Model):
     PLANT_TYPES = [
@@ -62,3 +65,20 @@ class Tree(models.Model):
 
     class Meta:
         db_table = 'tree'
+
+
+@receiver(post_save, sender=Plant)
+def create_plant_subtype(instance, created, **kwargs):
+    if created:
+        if instance.plant_type == "Annual":
+            annual = Annual(plant=instance)
+            annual.save()
+        elif instance.plant_type == "Tree":
+            tree = Tree(plant=instance)
+            tree.save()
+        elif instance.plant_type == "Perennial":
+            per = Perennial(plant=instance)
+            per.save()
+        elif instance.plant_type == "Shrub":
+            shrub = Shrub(plant=instance)
+            shrub.save()

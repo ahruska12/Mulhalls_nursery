@@ -58,29 +58,29 @@ export class APIGetPlants {
         const url = `${API_URL}/product/home/`;
         return axios.get(url);
     }
-    //returns list of plants depending on the category
+    //returns list of plants depending on the category - done
     getPlantsByCategory(category_type) {
-        const url = `${API_URL}/product`;
+        const url = `${API_URL}/product/plant/type/${category_type}`;
         return axios.get(url);
     }
-    //returns plants by department
+    //returns plants by department - done
     getPlantByDepartment(department_id) {
-        const url = `${API_URL}/product`;
+        const url = `${API_URL}/product/plant/dept${department_id}`;
         return axios.get(url);
     }
-    //returns plants by color
+    //returns plants by color - done
     getPlantByColor(plant_color) {
-        const url = `${API_URL}/product`;
+        const url = `${API_URL}/product/plant/color/${plant_color}`;
         return axios.get(url);
     }
-    //returns plant by specific category
+    //returns plant by specific category - done
     getPlantBySpecialCategory(plant_type, category) {
-        const url = `${API_URL}/product`;
+        const url = `${API_URL}/product/plant/category/${plant_type}/${category}`;
         return axios.get(url);
     }
-    //returns specific plants
+    //returns specific plants - done
     getPlantByID(plant_id) {
-        const url = `${API_URL}/product`;
+        const url = `${API_URL}/product/plant/select/${plant_id}`;
         return axios.get(url);
     }
     //returns most popular searches

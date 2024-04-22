@@ -102,14 +102,25 @@
      },
      //to store the current user information, might be useful
      getAcc() {
-       //method for get request for customer account information need employee one also
-       apiService.findCustomerAccount(this.username).then(response => {
+       if (this.isEmpl) {
+         apiService.findEmployeeAccount(this.username).then(response => {
+           this.account_info = response.data;
+           console.log("emp acc called");
+         })
+             .catch(error => {
+               console.error(error);
+             })
+       }
+       if (this.isLoggedIn && !this.isEmpl) {
+         apiService.findCustomerAccount(this.username).then(response => {
               this.account_info = response.data;
-              console.log("getAcc called")
+              console.log("cust acc called")
             })
            .catch(error => {
              console.error(error);
            });
+       }
+       //method for get request for customer account information need employee one also
      },
      checkAuth() {
        //everytime the webpage is reloaded it checks to make sure the user is authenticated

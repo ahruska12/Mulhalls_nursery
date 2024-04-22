@@ -44,7 +44,7 @@ def get_customer_account(self, email):
 def get_employee_account(self, email):
     employee = Employee.objects.get(employee_email=email)
     serializer = EmployeeSerializer(employee)
-    print(employee, "customer found and sent")
+    print(employee, "employee found and sent")
     return Response(data=serializer.data)
 
 
