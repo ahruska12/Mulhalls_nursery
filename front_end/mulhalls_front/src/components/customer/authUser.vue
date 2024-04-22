@@ -128,61 +128,54 @@
         showPassword: false,
       }),
       methods: {
-        login() {
-          // checking if the input is valid
-          if (this.$refs.form) {
-            this.loading = true;
-
-            apiService.findCustomerAccount(this.credentials.username).then(response => {
-              this.stored_info = response.data;
-            })
-                .catch(error => {
-                  console.error(error);
-                });
-
-            //hash password
-            bcrypt.hash(this.credentials.password, 10, (err, hash) => {
-              if (err) {
-                console.error('error hashing password: ', err);
-              }
-              else {
-                bcrypt.compare(this.credentials.password, this.stored_info.customer_password, (err, result) => {
-                  if (err) {
-                    console.error('error comparing passwords: ', err);
-                    // Handle error appropriately
-                  } else {
-                    if (result) {
-                      this.pwMatch = true;
-
-                      this.credentials.password = this.stored_info.customer_password;
-
-                      apiService.authenticateLogin(this.credentials).then((res) => {
-                        localStorage.setItem('token', res.data.token);
-                        localStorage.setItem('isAuthenticated', JSON.stringify(true));
-                        localStorage.setItem('log_user', this.stored_info.customer_email);
-                        router.push("/mainMenu");
-                        //router.go(-1);
-                        //window.location = "/"
-                      }).catch(e => {
-                        this.loading = false;
-                        localStorage.removeItem('isAuthenticated');
-                        localStorage.removeItem('log_user');
-                        localStorage.removeItem('token');
-                        router.go(-1);
-                        this.showMsg = 'error';
-                      })
-                    // Proceed with authentication
-                  } else {
-                      this.pwMatch = false;
-
-                      this.showMsg = "Wrong Password or Username";
-                    // Handle mismatch appropriately (e.g., show error message)
-                  }
-                  }
-                });
-              }
-            })
+        async login() {
+          if (!this.$refs.form) {
+            return; // Early exit if the form reference doesn't exist
           }
+
+          this.loading = true;
+
+          try {
+            // Fetch customer account information
+            const response = await apiService.findCustomerAccount(this.credentials.username);
+            this.stored_info = response.data;
+            console.log("Fetched stored info: ", this.stored_info);
+
+            // Compare the hashed password
+            const result = await bcrypt.compare(this.credentials.password, this.stored_info.customer_password);
+            if (result) {
+              // Passwords match
+              this.pwMatch = true;
+              await this.handleSuccessfulLogin();
+            } else {
+              // Passwords do not match
+              this.handleFailedLogin("Wrong Password or Username");
+            }
+          } catch (error) {
+            console.error('Login error: ', error);
+            this.handleFailedLogin('Error during login process');
+          }
+        },
+
+        async handleSuccessfulLogin() {
+          try {
+            const res = await apiService.authenticateLogin(this.credentials);
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('isAuthenticated', JSON.stringify(true));
+            localStorage.setItem('log_user', this.stored_info.customer_email);
+            router.push("/mainMenu");
+          } catch (error) {
+            this.handleFailedLogin('Authentication failed');
+          }
+        },
+
+        handleFailedLogin(message) {
+          this.loading = false;
+          localStorage.removeItem('isAuthenticated');
+          localStorage.removeItem('log_user');
+          localStorage.removeItem('token');
+          this.showMsg = message;
+          router.go(-1);
         },
         register() {
           router.push('/customer/registerUser')

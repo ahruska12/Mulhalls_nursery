@@ -105,39 +105,57 @@ import bcrypt from 'bcryptjs'
         showPassword: false,
       }),
       methods: {
-        login() {
-          // checking if the input is valid
-          if (this.$refs.form) {
-            this.loading = true;
+        async login() {
+          if (!this.$refs.form) {
+            return; // Early exit if the form reference doesn't exist
+          }
 
-            //hash password
-            bcrypt.hash(this.credentials.password, 10, (err, hash) => {
-              if (err) {
-                console.error('error hashing password: ', err);
-                return;
-              }
+          this.loading = true;
 
-              this.credentials.password = hash;
+          try {
+            // Fetch customer account information
+            const response = await apiService.findEmployeeAccount(this.credentials.username);
+            this.stored_info = response.data;
+            console.log("Fetched stored info: ", this.stored_info);
 
-              apiService.authenticateEmpLogin(this.credentials).then((res) => {
-                console.log(this.credentials)
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem('isAuthenticated', JSON.stringify(true));
-                localStorage.setItem('log_user', this.credentials.username);
-                localStorage.setItem('isAdmin', res.data.admin_status);
-                router.push("/mainMenu");
-                }).catch(e => {
-                this.loading = false;
-                localStorage.removeItem('isAuthenticated');
-                localStorage.removeItem('log_user');
-                localStorage.removeItem('token');
-                localStorage.removeItem('isAdmin');
-                //router.go(-1);
-                this.showMsg = 'error';
-              })
-            })
+            // Compare the hashed password
+            const result = await bcrypt.compare(this.credentials.password, this.stored_info.employee_password);
+            if (result) {
+              // Passwords match
+              this.pwMatch = true;
+              await this.handleSuccessfulLogin();
+            } else {
+              // Passwords do not match
+              this.handleFailedLogin("Wrong Password or Username");
+            }
+          } catch (error) {
+            console.error('Login error: ', error);
+            this.handleFailedLogin('Error during login process');
           }
         },
+
+        async handleSuccessfulLogin() {
+          try {
+            const res = await apiService.authenticateEmpLogin(this.credentials);
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('isAdmin', "1");
+            localStorage.setItem('isAuthenticated', JSON.stringify(true));
+            localStorage.setItem('log_user', this.stored_info.employee_email);
+            router.push("/mainMenu");
+          } catch (error) {
+            this.handleFailedLogin('Authentication failed');
+          }
+        },
+
+        handleFailedLogin(message) {
+          this.loading = false;
+          localStorage.removeItem('isAuthenticated');
+          localStorage.removeItem('log_user');
+          localStorage.removeItem('token');
+          this.showMsg = message;
+          router.go('/authEmp');
+        },
+
         empLogin() {
           router.push('/registerUser')
         },

@@ -153,12 +153,13 @@
    },
    //these are loaded on refresh
    mounted() {
-     this.getPlantList();
+     this.checkAuth();
      this.getAcc();
+     this.getPlantList();
    },
    //these should be loaded on refresh of page
    created() {
-       this.checkAuth();
+
    }
  }
 </script>

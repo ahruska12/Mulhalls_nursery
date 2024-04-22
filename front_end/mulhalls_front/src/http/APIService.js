@@ -98,24 +98,24 @@ export class APIGetPlants {
 export class APIQuestions {
     constructor() {
     }
-    //posts question to db
-    askQuestion(question) {
-        const url = `${API_URL}/user`;
-        return axios.get(url);
+    //posts question to db requires cust_id, plant_id, and question - done
+    askQuestion(question_details) {
+        const url = `${API_URL}/user/ask/question`;
+        return axios.post(url, question_details);
     }
-    //returns all questions
+    //returns all questions - done
     listQuestions() {
-        const url = `${API_URL}/user`;
+        const url = `${API_URL}/user/list/questions`;
         return axios.get(url);
     }
-    //returns questions asked by specific user
-    findQuestionByUser(username) {
-        const url = `${API_URL}/user`;
+    //returns questions asked by specific customer - done
+    findQuestionByUser(cust_id) {
+        const url = `${API_URL}/user/find/questions-cust/${cust_id}`;
         return axios.get(url);
     }
     //returns questions asked about a specific plant
     findQuestionByPlant(plant_id) {
-        const url = `${API_URL}/user`;
+        const url = `${API_URL}/user/find/questions-plant/${plant_id}`;
         return axios.get(url);
     }
     //returns questions asked on a specific date

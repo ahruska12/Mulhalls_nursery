@@ -2,8 +2,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import Customer, Employee, Department
+from .models import Customer, Employee, Department, QuestionsAsked
+from product.models import Plant
 from django.contrib.auth.hashers import make_password
+from datetime import date
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -100,4 +102,45 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
+        fields = '__all__'
+
+
+class QuestionAskedSerializer(serializers.ModelSerializer):
+    print("test question asked")
+    customer_id = serializers.IntegerField(required=True, )
+    plant_id = serializers.IntegerField(required=True, )
+    question = serializers.CharField(required=True, )
+
+    class Meta:
+        model = QuestionsAsked
+        fields = ('question_id',
+                  'question_date',
+                  'question',
+                  'answer',
+                  'answer_date',
+                  'customer_id',
+                  'employee',
+                  'plant_id',
+                  )
+
+    def create(self, validated_data):
+        print(validated_data)
+        plant_obj = Plant.objects.get(plant_id=validated_data['plant_id'])
+        customer_obj = Customer.objects.get(customer_id=validated_data['customer_id'])
+        question = QuestionsAsked.objects.create(
+            question=validated_data['question'],
+            customer=customer_obj,
+            plant=plant_obj,
+            question_date=date.today(),
+            answer="Not Answered Yet",
+            answer_date=None,
+            employee=None,
+        )
+        question.save()
+        return question
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionsAsked
         fields = '__all__'

@@ -15,10 +15,10 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import Customer, CustomerLogin, Department, Employee, EmployeeLogin
+from .models import Customer, CustomerLogin, Department, Employee, EmployeeLogin, QuestionsAsked
 
 from .serializer import RegisterSerializer, CustomerSerializer, DepartmentSerializer, RegisterEmployeeSerializer, \
-    EmployeeSerializer
+    EmployeeSerializer, QuestionAskedSerializer, QuestionSerializer
 
 
 # generic view for registering to our site
@@ -88,5 +88,33 @@ def elogin(request, username):
 def getDepartments(request):
     departments = Department.objects.all()
     serializer = DepartmentSerializer(departments, many=True)
+
+    return Response(data=serializer.data)
+
+
+class QuestionAsked(generics.CreateAPIView):
+    serializer_class = QuestionAskedSerializer
+
+
+@api_view(['GET'])
+def getAllQuestions(request):
+    questions = QuestionsAsked.objects.all()
+    serializer = QuestionSerializer(questions, many=True)
+
+    return Response(data=serializer.data)
+
+
+@api_view(['GET'])
+def getQuestionsByCust(request, cust_id):
+    questions = QuestionsAsked.objects.filter(customer_id=cust_id)
+    serializer = QuestionSerializer(questions, many=True)
+
+    return Response(data=serializer.data)
+
+
+@api_view(['GET'])
+def getQuestionsByPlant(request, plant_id):
+    questions = QuestionsAsked.objects.filter(plant_id=plant_id)
+    serializer = QuestionSerializer(questions, many=True)
 
     return Response(data=serializer.data)
