@@ -98,7 +98,7 @@ export class APIGetPlants {
 export class APIQuestions {
     constructor() {
     }
-    //posts question to db requires cust_id, plant_id, and question - done
+    //posts question to db requires cust_id, plant_id, and question in that order - done
     askQuestion(question_details) {
         const url = `${API_URL}/user/ask/question`;
         return axios.post(url, question_details);
@@ -113,21 +113,24 @@ export class APIQuestions {
         const url = `${API_URL}/user/find/questions-cust/${cust_id}`;
         return axios.get(url);
     }
-    //returns questions asked about a specific plant
+    //returns questions asked about a specific plant - done
     findQuestionByPlant(plant_id) {
         const url = `${API_URL}/user/find/questions-plant/${plant_id}`;
         return axios.get(url);
     }
-    //returns questions asked on a specific date
-    findQuestionByDate(date) {
-        const url = `${API_URL}/user`;
+
+     //returns questions asked by question id - done
+    findQuestionByID(question_id) {
+        const url = `${API_URL}/user/find/questions-id/${question_id}`;
         return axios.get(url);
     }
+
     //posts answer to question in db, arr is either going to be array of question id, emp number, answer, and date, or
     //seperate variables
-    answerQuestion(arr) {
-        const url = `${API_URL}/user`;
-        return axios.get(url);
+    // answer should contain in this exact order - question_id, employee_id, answer - done
+    answerQuestion(answer) {
+        const url = `${API_URL}/user/answer/question`;
+        return axios.post(url, answer);
     }
 
 }

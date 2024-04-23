@@ -121,6 +121,7 @@ class QuestionAskedSerializer(serializers.ModelSerializer):
                   'customer_id',
                   'employee',
                   'plant_id',
+                  'is_answered',
                   )
 
     def create(self, validated_data):
@@ -144,3 +145,33 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionsAsked
         fields = '__all__'
+
+
+class QuestionAnsweredSerializer(serializers.ModelSerializer):
+    print("test question asked")
+    question_id = serializers.IntegerField(required=True, )
+    employee_id = serializers.IntegerField(required=True, )
+    answer = serializers.CharField(required=True, )
+
+    class Meta:
+        model = QuestionsAsked
+        fields = ('question_id',
+                  'question_date',
+                  'question',
+                  'answer',
+                  'answer_date',
+                  'customer_id',
+                  'employee_id',
+                  'plant_id',
+                  'is_answered',
+                  )
+
+    def create(self, validated_data):
+        print(validated_data)
+        question = QuestionsAsked.objects.get(question_id=validated_data['question_id'])
+        question.employee_id = validated_data['employee_id']
+        question.answer = validated_data['answer']
+        question.answer_date = date.today()
+        question.is_answered = True
+        question.save()
+        return question

@@ -18,7 +18,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Customer, CustomerLogin, Department, Employee, EmployeeLogin, QuestionsAsked
 
 from .serializer import RegisterSerializer, CustomerSerializer, DepartmentSerializer, RegisterEmployeeSerializer, \
-    EmployeeSerializer, QuestionAskedSerializer, QuestionSerializer
+    EmployeeSerializer, QuestionAskedSerializer, QuestionSerializer, QuestionAnsweredSerializer
 
 
 # generic view for registering to our site
@@ -118,3 +118,15 @@ def getQuestionsByPlant(request, plant_id):
     serializer = QuestionSerializer(questions, many=True)
 
     return Response(data=serializer.data)
+
+
+@api_view(['GET'])
+def getQuestionsByID(request, question_id):
+    questions = QuestionsAsked.objects.get(question_id=question_id)
+    serializer = QuestionSerializer(questions)
+
+    return Response(data=serializer.data)
+
+
+class AnswerQuestion(generics.CreateAPIView):
+    serializer_class = QuestionAnsweredSerializer

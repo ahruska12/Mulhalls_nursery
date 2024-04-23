@@ -58,6 +58,7 @@ class SearchHistory(models.Model):
 
 class QuestionsAsked(models.Model):
     question_id = models.AutoField(primary_key=True)
+    is_answered = models.BooleanField(default=False)
     question_date = models.DateField(blank=True, null=True)
     question = models.CharField(max_length=1000, blank=True, null=True)
     answer = models.CharField(max_length=1000, blank=True, null=True)
