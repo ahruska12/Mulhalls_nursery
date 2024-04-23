@@ -1,10 +1,11 @@
-<! --Template for the Navigation >
 <template>
   <div id="app">
     <nav>
       <ul>
         <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/plant_list">Plants List</router-link></li>
+        <li><router-link to="/plants">Plants List</router-link></li>
+        <li><router-link to="/registerUser">Register</router-link></li>
+        <li><router-link to="/authUser">Login</router-link></li>
       </ul>
     </nav>
     <router-view></router-view>
@@ -12,8 +13,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: 'App',
 }

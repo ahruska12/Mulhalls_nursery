@@ -1,67 +1,75 @@
 <template>
-  <div class="plant-list">
-    <h2>Plant Catalog</h2>
-    <ul v-if="plants.length">
-      <li v-for="plant in plants" :key="plant.id">
-        <h3>{{ plant.name }}</h3>
-        <p>Price: {{ plant.price }}</p>
-        <p>Description: {{ plant.description }}</p>
-        <!-- Add more plant details as needed -->
-      </li>
-    </ul>
-    <p v-else>No plants found.</p>
+  <div class="plant_list">
+    <!-- Search and Filter Section -->
+    <div class="filters row mb-3">
+      <div class="col-md-4">
+        <input v-model="searchQuery" @input="filterPlants" type="text" class="form-control" placeholder="Search plants...">
+      </div>
+      <div class="col-md-4">
+        <select v-model="selectedType" @change="filterPlants" class="form-control">
+          <option value="">All Types</option>
+          <option v-for="type in types" :key="type" :value="type">{{ type }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Plants Display -->
+    <div class="row">
+      <div class="col-md-4" v-for="plant in filteredPlants" :key="plant.plant_id">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ plant.plant_name }}</h5>
+            <p class="card-text">{{ plant.plant_description }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+
+import {APIGetPlants} from '@/http/APIService';
+
 export default {
   name: 'PlantList',
   data() {
     return {
-      plants: []
-    }
+      plant: [],
+      filteredPlants: [],
+      searchQuery: '',
+      selectedType: '',
+      sortKey: 'name',
+      types: ['Shrub', 'Tree', 'Annual', 'Perennial']
+    };
   },
-  mounted() {
+  created() {
     this.fetchPlants();
   },
   methods: {
-    async fetchPlants() {
-      try {
-        const response = await fetch('https://your-backend-api.com/plants');
-        if (!response.ok) {
-          throw new Error('Failed to fetch plants');
-        }
-        const data = await response.json();
-        this.plants = data;
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    fetchPlants() {
+      const apiService = new APIGetPlants();
+      apiService.getPlantList()
+        .then(response => {
+          this.plant = response.data;
+          this.filteredPlants = this.plant;
+        })
+        .catch(error => {
+          console.error("Failed to fetch plants:", error);
+        });
+    },
+    filterPlants() {
+      this.filteredPlants = this.plant.filter((plant) => {
+        return plant.name.toLowerCase().includes(this.searchQuery.toLowerCase()) &&
+               (this.selectedType ? plant.type === this.selectedType : true);
+      });
+    },
   }
 }
 </script>
 
-<style scoped>
-/* Add component-specific styles here */
-.plant-list {
-  margin: 20px;
-}
+<style>
 
-.plant-list h2 {
-  color: #333;
-}
-
-.plant-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.plant-list li {
-  border-bottom: 1px solid #ccc;
-  padding: 10px 0;
-}
-
-.plant-list li:last-child {
-  border-bottom: none;
-}
 </style>
