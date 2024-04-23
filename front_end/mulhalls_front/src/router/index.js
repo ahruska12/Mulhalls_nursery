@@ -1,18 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import AuthUser from '@/components/customer/authUser.vue'
 import RegisterCustomer from "@/components/customer/registerUser.vue"
 import registerEmp from "@/components/employee/registerEmp.vue";
 import authEmp from "@/components/employee/authEmp.vue";
-import mainMenu from "@/components/mainMenu.vue";
+import PlantList from "@/components/PlantList.vue";
+import home from "@/views/Home.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
       {
+          // changed the home screen to mainMenu
           path: '/',
           name: 'home',
-          component: HomeView
+          component: home,
+      },
+      {
+          // added plant list
+          path: '/plant_list',
+          name: 'PlantList',
+          component: PlantList,
       },
       {
           path: '/authUser',
@@ -34,13 +41,8 @@ const router = createRouter({
           name: 'registerEmployee',
           component: registerEmp
       },
-      {
-          path: '/mainMenu',
-          name: 'mainMenu',
-          component: mainMenu
-      },
-
   ]
 })
+
 
 export default router

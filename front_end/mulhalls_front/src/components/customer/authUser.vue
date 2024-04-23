@@ -163,7 +163,7 @@
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('isAuthenticated', JSON.stringify(true));
             localStorage.setItem('log_user', this.stored_info.customer_email);
-            router.push("/mainMenu");
+            router.push("/");
           } catch (error) {
             this.handleFailedLogin('Authentication failed');
           }

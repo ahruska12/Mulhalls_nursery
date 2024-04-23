@@ -33,7 +33,7 @@
 
 
  export default {
-   name: 'mainMenu',
+   name: 'Home',
 
    data: () => ({
      valid: true,
