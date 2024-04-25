@@ -141,7 +141,7 @@ import bcrypt from 'bcryptjs'
             localStorage.setItem('isAdmin', "1");
             localStorage.setItem('isAuthenticated', JSON.stringify(true));
             localStorage.setItem('log_user', this.stored_info.employee_email);
-            router.push("/mainMenu");
+            router.push("/");
           } catch (error) {
             this.handleFailedLogin('Authentication failed');
           }

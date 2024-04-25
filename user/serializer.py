@@ -107,31 +107,28 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 class QuestionAskedSerializer(serializers.ModelSerializer):
     print("test question asked")
-    customer_id = serializers.IntegerField(required=True, )
-    plant_id = serializers.IntegerField(required=True, )
-    question = serializers.CharField(required=True, )
+    customer = serializers.PrimaryKeyRelatedField(queryset=Customer.objects.all())
+    plant = serializers.PrimaryKeyRelatedField(queryset=Plant.objects.all())
+    question = serializers.CharField(required=True)
 
     class Meta:
         model = QuestionsAsked
-        fields = ('question_id',
-                  'question_date',
+        fields = ('question_date',
                   'question',
                   'answer',
                   'answer_date',
-                  'customer_id',
+                  'customer',
                   'employee',
-                  'plant_id',
+                  'plant',
                   'is_answered',
                   )
 
     def create(self, validated_data):
         print(validated_data)
-        plant_obj = Plant.objects.get(plant_id=validated_data['plant_id'])
-        customer_obj = Customer.objects.get(customer_id=validated_data['customer_id'])
         question = QuestionsAsked.objects.create(
             question=validated_data['question'],
-            customer=customer_obj,
-            plant=plant_obj,
+            customer=validated_data['customer'],
+            plant=validated_data['plant'],
             question_date=date.today(),
             answer="Not Answered Yet",
             answer_date=None,

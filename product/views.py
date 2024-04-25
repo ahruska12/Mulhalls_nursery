@@ -8,7 +8,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from .serializer import PlantSerializer
+from .serializer import PlantSerializer, PlantPrevSerializer
 from .models import Plant, Tree, Shrub, Annual, Perennial
 from user.models import SearchHistory
 
@@ -126,8 +126,30 @@ def getPlantByID(request, plant_id):
 
 
 @api_view(['GET'])
+def getPlantPrev(request, plant_id):
+    plant = Plant.objects.get(plant_id=plant_id)
+    serializer = PlantPrevSerializer(plant)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getPlantsByArr(request):
+    # Get plant ids from request query parameters
+    ids = request.query_params.get('ids')
+    if ids:
+        # Convert ids from comma-separated string to a list of integers
+        ids_list = [int(id) for id in ids.split(',')]
+        # Query the database for plants with these IDs
+        plants = Plant.objects.filter(plant_id__in=ids_list)
+        # Serialize the queryset
+        serializer = PlantSerializer(plants, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
 def getPopularSearches(request):
-    plant_search_counts = SearchHistory.objects.values('plant_id').annotate(search_count=Count('plant_id')).order_by('-search_count')
+    plant_search_counts = SearchHistory.objects.values('plant_id').annotate(search_count=Count('plant_id')).order_by(
+        '-search_count')
 
     if plant_search_counts:
         most_popular_plant = plant_search_counts[0]

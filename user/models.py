@@ -37,7 +37,7 @@ class Customer(models.Model):
     customer_password = models.CharField(blank=True, null=True)
 
     def __str__(self):
-        return self.customer_first_name + " " + self.customer_last_name
+        return f"{self.customer_first_name} {self.customer_last_name}"
 
     class Meta:
         db_table = 'customer'

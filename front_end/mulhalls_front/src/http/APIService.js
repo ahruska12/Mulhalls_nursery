@@ -58,6 +58,10 @@ export class APIGetPlants {
         const url = `${API_URL}/product/home/`;
         return axios.get(url);
     }
+    getPlantPrevByID(plant_id) {
+        const url = `${API_URL}/product/plant/prev/${plant_id}`;
+        return axios.get(url);
+    }
     //returns list of plants depending on the category - done
     getPlantsByCategory(category_type) {
         const url = `${API_URL}/product/plant/type/${category_type}`;
@@ -83,6 +87,11 @@ export class APIGetPlants {
         const url = `${API_URL}/product/plant/select/${plant_id}`;
         return axios.get(url);
     }
+    //gets list of plants from list of plant ids
+    getPlantByArr(arr) {
+        const url = `${API_URL}/product/plant/group?ids=${arr.join(',')}`;
+        return axios.get(url);
+    }
     //returns most popular searches
     getMostPopularSearches() {
         const url = `${API_URL}/product`;
@@ -94,7 +103,7 @@ export class APIGetPlants {
         return axios.get(url);
     }
 }
-
+//commented out methods aren't needed (right now)
 export class APIQuestions {
     constructor() {
     }
@@ -108,16 +117,21 @@ export class APIQuestions {
         const url = `${API_URL}/user/list/questions`;
         return axios.get(url);
     }
+    //returns all unanswered questions - done
+    listUnQuestions(v) {
+        const url = `${API_URL}/user/list/questions/${v}`;
+        return axios.get(url);
+    }
     //returns questions asked by specific customer - done
-    findQuestionByUser(cust_id) {
-        const url = `${API_URL}/user/find/questions-cust/${cust_id}`;
-        return axios.get(url);
-    }
+    //findQuestionByUser(cust_id) {
+    //    const url = `${API_URL}/user/find/questions-cust/${cust_id}`;
+    //    return axios.get(url);
+    //}
     //returns questions asked about a specific plant - done
-    findQuestionByPlant(plant_id) {
-        const url = `${API_URL}/user/find/questions-plant/${plant_id}`;
-        return axios.get(url);
-    }
+    //findQuestionByPlant(plant_id) {
+    //   const url = `${API_URL}/user/find/questions-plant/${plant_id}`;
+    //   return axios.get(url);
+    //}
 
      //returns questions asked by question id - done
     findQuestionByID(question_id) {

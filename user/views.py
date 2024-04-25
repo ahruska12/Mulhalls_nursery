@@ -97,8 +97,11 @@ class QuestionAsked(generics.CreateAPIView):
 
 
 @api_view(['GET'])
-def getAllQuestions(request):
-    questions = QuestionsAsked.objects.all()
+def getAllQuestions(request, var=None):
+    if var is not None:
+        questions = QuestionsAsked.objects.filter(is_answered=False)
+    else:
+        questions = QuestionsAsked.objects.all()
     serializer = QuestionSerializer(questions, many=True)
 
     return Response(data=serializer.data)

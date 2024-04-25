@@ -5,6 +5,8 @@ import registerEmp from "@/components/employee/registerEmp.vue";
 import authEmp from "@/components/employee/authEmp.vue";
 import PlantList from "@/components/PlantList.vue";
 import home from "@/components/Home.vue";
+import QuestionDetail from "@/components/product/QuestionDetail.vue";
+import QuestionList from "@/components/product/QuestionList.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +42,18 @@ const router = createRouter({
           path: '/registerEmp',
           name: 'registerEmployee',
           component: registerEmp
+      },
+      {
+          // added question list
+          path: '/questions',
+          name: 'QuestionList',
+          component: QuestionList,
+      },
+      {
+          // added question detail
+          path: '/question-detail/:question_id',
+          name: 'QuestionDetail',
+          component: QuestionDetail,
       },
   ]
 })

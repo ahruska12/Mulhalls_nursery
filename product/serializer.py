@@ -32,3 +32,9 @@ class PlantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plant
         fields = "__all__"
+
+
+class PlantPrevSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plant
+        fields = "plant_name", "plant_picture"
