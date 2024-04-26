@@ -1,14 +1,12 @@
 <template>
-  <h1>Test {{email}}</h1>
   <div class="main-container">
-    <button @click="showQuestions">{{list}}</button>
+    <button @click="showQuestions" class="button">{{list}}</button>
     <div v-if="!current_list">
       <div v-for="data in combinedData" v-bind:key="data.question_id" class="card">
         <p>{{ data.plant.plant_name }}</p>
         <p>{{ data.question }}</p>
         <button @click="answerQuestion(data.question_id)">Answer</button>
         <div v-if="currentAnsweringID === data.question_id">
-          <p>{{ answer }}</p>
           <input v-model="answer" placeholder="Answer me" />
           <button @click="submitQuestion(data.question_id)">Send</button>
         </div>
@@ -61,6 +59,8 @@ export default {
     combinedAllData: [],
     //the question ID of the question currently being answered
     currentAnsweringID: "",
+    //is the question being answered now?
+    currentAnswerFlag: false,
     //current answer being typed in
     answer: "",
     //array to be used in the API call to answer the question
@@ -128,7 +128,14 @@ export default {
     },
     //change answer id to current question being answered
     answerQuestion(question_id) {
-      this.currentAnsweringID = question_id;
+      if (!this.currentAnswerFlag) {
+        this.currentAnsweringID = question_id;
+        this.currentAnswerFlag = true;
+      }
+      else {
+        this.currentAnsweringID = "";
+        this.currentAnswerFlag = false;
+      }
     },
     submitQuestion(question_id) {
       //set the array for answering the question

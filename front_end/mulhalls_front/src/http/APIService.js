@@ -127,11 +127,11 @@ export class APIQuestions {
     //    const url = `${API_URL}/user/find/questions-cust/${cust_id}`;
     //    return axios.get(url);
     //}
-    //returns questions asked about a specific plant - done
-    //findQuestionByPlant(plant_id) {
-    //   const url = `${API_URL}/user/find/questions-plant/${plant_id}`;
-    //   return axios.get(url);
-    //}
+    //returns answered questions asked about a specific plant - done
+    findQuestionByPlant(plant_id) {
+       const url = `${API_URL}/user/find/questions-plant/${plant_id}`;
+       return axios.get(url);
+    }
 
      //returns questions asked by question id - done
     findQuestionByID(question_id) {

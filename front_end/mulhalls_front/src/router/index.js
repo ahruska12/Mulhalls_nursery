@@ -5,7 +5,7 @@ import registerEmp from "@/components/employee/registerEmp.vue";
 import authEmp from "@/components/employee/authEmp.vue";
 import PlantList from "@/components/PlantList.vue";
 import home from "@/components/Home.vue";
-import QuestionDetail from "@/components/product/QuestionDetail.vue";
+import PlantDetail from "@/components/product/PlantDetail.vue";
 import QuestionList from "@/components/product/QuestionList.vue";
 
 const router = createRouter({
@@ -51,9 +51,9 @@ const router = createRouter({
       },
       {
           // added question detail
-          path: '/question-detail/:question_id',
-          name: 'QuestionDetail',
-          component: QuestionDetail,
+          path: '/plants/:plant_id',
+          name: 'PlantDetail',
+          component: PlantDetail,
       },
   ]
 })

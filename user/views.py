@@ -117,7 +117,8 @@ def getQuestionsByCust(request, cust_id):
 
 @api_view(['GET'])
 def getQuestionsByPlant(request, plant_id):
-    questions = QuestionsAsked.objects.filter(plant_id=plant_id)
+    questions = QuestionsAsked.objects.filter(plant_id=plant_id,
+                                              is_answered=True)
     serializer = QuestionSerializer(questions, many=True)
 
     return Response(data=serializer.data)
