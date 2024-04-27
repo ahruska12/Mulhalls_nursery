@@ -17,7 +17,7 @@
     <div class="row">
       <div class="col-md-4" v-for="plant in filteredPlants" :key="plant.plant_id">
         <div class="card mb-4 shadow-sm">
-          <div class="card-body">
+          <div class="card-body" @click="getPlantDetail(plant.plant_id)">
             <h5 class="card-title">{{ plant.plant_name }}</h5>
             <p class="card-text">{{ plant.plant_description }}</p>
             <div class="d-flex justify-content-between align-items-center">
@@ -32,6 +32,7 @@
 <script>
 
 import {APIGetPlants} from '@/http/APIService';
+import router from "@/router/index.js";
 
 export default {
   name: 'PlantList',
@@ -66,6 +67,9 @@ export default {
                (this.selectedType ? plant.type === this.selectedType : true);
       });
     },
+    getPlantDetail(plant_id) {
+      router.push(`plants/${plant_id}`)
+    }
   }
 }
 </script>
