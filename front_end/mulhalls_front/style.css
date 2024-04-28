@@ -146,3 +146,9 @@ nav ul li button:hover {
   padding: 8px 16px; /* Adjust username padding to match buttons */
   color: white;
 }
+/*ADDING PLANT*/
+
+.enter-info {
+    flex: 10;
+    align-items: initial;
+}

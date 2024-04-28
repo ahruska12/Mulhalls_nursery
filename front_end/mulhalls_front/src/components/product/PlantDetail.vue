@@ -18,6 +18,16 @@
     </div>
   </div>
 </div>
+<div class="main-container">
+  <h1>Frequently Asked Questions</h1>
+  <div class="frequent_questions-card">
+    <div v-for="quest in questions" :key="question.question_id" class="card">
+      <p>{{quest.question}}</p>
+      <p>Expert Answer :</p>
+      <p>{{quest.answer}}</p>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -40,8 +50,8 @@ export default {
     beingAsked: false,
     //current question - customer_id, plant_id, question
     question_info: {'customer': "",
-               'plant': "",
-               'question': ""},
+                    'plant': "",
+                    'question': ""},
     //question holder
     question: "",
     //used to store any sys messages
@@ -81,16 +91,21 @@ export default {
         this.msg = "Employees cannot submit questions!"
       }
       else {
-        this.question_info.customer = this.account_info.customer;
+        this.question_info.customer = this.account_info.customer_id;
         this.question_info.plant = plant_id;
         this.question_info.question = this.question;
+        console.log("quest info: ", this.question_info)
         questAPI.askQuestion(this.question_info)
             .then(response => {
               console.log("Question submitted successfully:", response);
             })
+        //reset question info
         this.question_info.customer = "";
         this.question_info.plant = "";
         this.question_info.question = "";
+        //reset question flags
+        this.beingAsked = false;
+        this.question = "";
       }
     }
   },

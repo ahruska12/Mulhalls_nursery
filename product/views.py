@@ -2,18 +2,19 @@ from datetime import datetime
 
 from django.db.models import Count
 from django.http import JsonResponse
+from rest_framework import generics
 from rest_framework.authtoken.models import Token
 import jwt
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from .serializer import PlantSerializer, PlantPrevSerializer
+from .serializer import PlantSerializer, PlantPrevSerializer, CreatePlantSerializer
 from .models import Plant, Tree, Shrub, Annual, Perennial
 from user.models import SearchHistory
 
-
 # Create your views here.
+"""
 def authenticate(request):
     try:
         for token in Token.objects.all():
@@ -45,10 +46,10 @@ def is_valid_token(token):
     except jwt.DecodeError:
         print("Invalid token")
         return False
+"""
 
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
 def get_plant_list(request):
     plants = Plant.objects.all()
     serializer = PlantSerializer(plants, many=True)
@@ -144,6 +145,10 @@ def getPlantsByArr(request):
         # Serialize the queryset
         serializer = PlantSerializer(plants, many=True)
         return Response(serializer.data)
+
+
+class addPlant(generics.CreateAPIView):
+    serializer_class = CreatePlantSerializer
 
 
 @api_view(['GET'])

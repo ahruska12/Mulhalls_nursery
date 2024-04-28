@@ -7,6 +7,7 @@ import PlantList from "@/components/PlantList.vue";
 import home from "@/components/Home.vue";
 import PlantDetail from "@/components/product/PlantDetail.vue";
 import QuestionList from "@/components/product/QuestionList.vue";
+import AddPlant from "@/components/product/AddPlant.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,6 +55,12 @@ const router = createRouter({
           path: '/plants/:plant_id',
           name: 'PlantDetail',
           component: PlantDetail,
+      },
+      {
+          // added question detail
+          path: '/add/plant',
+          name: 'AddPlant',
+          component: AddPlant,
       },
   ]
 })
