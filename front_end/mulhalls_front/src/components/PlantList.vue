@@ -20,6 +20,7 @@
           <div class="card-body" @click="getPlantDetail(plant.plant_id)">
             <h5 class="card-title">{{ plant.plant_name }}</h5>
             <p class="card-text">{{ plant.plant_description }}</p>
+            <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name">
             <div class="d-flex justify-content-between align-items-center">
             </div>
           </div>
@@ -56,6 +57,7 @@ export default {
         .then(response => {
           this.plant = response.data;
           this.filteredPlants = this.plant;
+          console.log("fil plant: ", this.filteredPlants);
         })
         .catch(error => {
           console.error("Failed to fetch plants:", error);
@@ -69,6 +71,9 @@ export default {
     },
     getPlantDetail(plant_id) {
       router.push(`plants/${plant_id}`)
+    },
+    getImageUrl(relativePath) {
+      return `http://127.0.0.1:8000${relativePath}`;
     }
   }
 }

@@ -53,6 +53,14 @@ export class APIGetPlants {
     constructor() {
 
     }
+    addPlant(plant_info) {
+        const url = `${API_URL}/product/add/plant`;
+        return axios.post(url, plant_info, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    }
     //returns list of plants to display in main menu
     getPlantList() {
         const url = `${API_URL}/product/home/`;

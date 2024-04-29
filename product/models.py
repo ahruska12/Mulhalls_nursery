@@ -5,19 +5,13 @@ from django.dispatch import receiver
 
 
 class Plant(models.Model):
-    PLANT_TYPES = [
-        ('Shrub', 'Shrub'),
-        ('Tree', 'Tree'),
-        ('Annual', 'Annual'),
-        ('Perennial', 'Perennial'),
-    ]
     plant_id = models.AutoField(primary_key=True)
-    plant_type = models.CharField(max_length=10, choices=PLANT_TYPES)
+    plant_type = models.CharField(max_length=10)
     plant_name = models.CharField(max_length=30, blank=True, null=True)
     plant_size = models.CharField(max_length=30, blank=True, null=True)
     plant_color = models.CharField(max_length=30, blank=True, null=True)
     plant_description = models.CharField(max_length=1000, blank=True, null=True)
-    plant_picture = models.CharField(max_length=300, blank=True, null=True)
+    plant_picture = models.ImageField(upload_to="plants/", default="default/default_plant.png")
     department = models.ForeignKey('user.Department', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):

@@ -42,13 +42,13 @@ class PlantPrevSerializer(serializers.ModelSerializer):
 
 
 class CreatePlantSerializer(serializers.ModelSerializer):
-    plant_type = serializers.CharField(required=True)
-    plant_name = serializers.CharField(required=True)
-    plant_size = serializers.CharField(required=True)
+    department_id = serializers.CharField(required=True)
     plant_color = serializers.CharField(required=True)
     plant_description = serializers.CharField(required=True)
-    plant_picture = serializers.ImageField(required=True)
-    department_id = serializers.PrimaryKeyRelatedField(queryset=Department.objects.all())
+    plant_name = serializers.CharField(required=True)
+    plant_picture = serializers.ImageField(required=False)
+    plant_size = serializers.CharField(required=True)
+    plant_type = serializers.CharField(required=True)
 
     class Meta:
         model = Plant
@@ -62,6 +62,148 @@ class CreatePlantSerializer(serializers.ModelSerializer):
                   "department_id", ]
 
     def create(self, validated_data):
+        if validated_data['plant_picture'] != "":
+            pic = validated_data['plant_picture']
+        else:
+            pic = None
         plant = Plant.objects.create(
-
+            plant_type=validated_data['plant_type'],
+            plant_name=validated_data['plant_name'],
+            plant_size=validated_data['plant_size'],
+            plant_color=validated_data['plant_color'],
+            plant_description=validated_data['plant_description'],
+            plant_picture=validated_data['plant_picture'],
+            department_id=validated_data['department_id']
         )
+        return plant
+
+
+class CreateAnnualSerializer(serializers.ModelSerializer):
+    plant = serializers.CharField(required=True)
+    is_hardy = serializers.BooleanField(required=True)
+    is_semi_hardy = serializers.BooleanField(required=True)
+    shade_tolerant = serializers.BooleanField(required=True)
+    heat_tolerant = serializers.BooleanField(required=True)
+    drought_tolerant = serializers.BooleanField(required=True)
+    annual_category = serializers.BooleanField(required=True)
+
+    class Meta:
+        model = Annual
+        fields = ["plant",
+                  "is_hardy",
+                  "is_semi_hardy",
+                  "shade_tolerant",
+                  "heat_tolerant",
+                  "drought_tolerant",
+                  "annual_category"]
+
+    def create(self, validated_data):
+        plant = Annual.objects.create(
+            plant_type=validated_data['plant_type'],
+            plant_name=validated_data['plant_name'],
+            plant_size=validated_data['plant_size'],
+            plant_color=validated_data['plant_color'],
+            plant_description=validated_data['plant_description'],
+            plant_picture=validated_data['plant_picture'],
+            department_id=validated_data['department_id']
+        )
+        return plant
+
+
+class CreatePerennialSerializer(serializers.ModelSerializer):
+    department_id = serializers.CharField(required=True)
+    plant_color = serializers.CharField(required=True)
+    plant_description = serializers.CharField(required=True)
+    plant_name = serializers.CharField(required=True)
+    plant_picture = serializers.ImageField(required=False)
+    plant_size = serializers.CharField(required=True)
+    plant_type = serializers.CharField(required=True)
+
+    class Meta:
+        model = Perennial
+        fields = ["plant_id",
+                  "plant_type",
+                  "plant_name",
+                  "plant_size",
+                  "plant_color",
+                  "plant_description",
+                  "plant_picture",
+                  "department_id", ]
+
+    def create(self, validated_data):
+        plant = Perennial.objects.create(
+            plant_type=validated_data['plant_type'],
+            plant_name=validated_data['plant_name'],
+            plant_size=validated_data['plant_size'],
+            plant_color=validated_data['plant_color'],
+            plant_description=validated_data['plant_description'],
+            plant_picture=validated_data['plant_picture'],
+            department_id=validated_data['department_id']
+        )
+        return plant
+
+
+class CreateShrubSerializer(serializers.ModelSerializer):
+    department_id = serializers.CharField(required=True)
+    plant_color = serializers.CharField(required=True)
+    plant_description = serializers.CharField(required=True)
+    plant_name = serializers.CharField(required=True)
+    plant_picture = serializers.ImageField(required=False)
+    plant_size = serializers.CharField(required=True)
+    plant_type = serializers.CharField(required=True)
+
+    class Meta:
+        model = Shrub
+        fields = ["plant_id",
+                  "plant_type",
+                  "plant_name",
+                  "plant_size",
+                  "plant_color",
+                  "plant_description",
+                  "plant_picture",
+                  "department_id", ]
+
+    def create(self, validated_data):
+        plant = Shrub.objects.create(
+            plant_type=validated_data['plant_type'],
+            plant_name=validated_data['plant_name'],
+            plant_size=validated_data['plant_size'],
+            plant_color=validated_data['plant_color'],
+            plant_description=validated_data['plant_description'],
+            plant_picture=validated_data['plant_picture'],
+            department_id=validated_data['department_id']
+        )
+        return plant
+
+
+class CreateTreeSerializer(serializers.ModelSerializer):
+    department_id = serializers.CharField(required=True)
+    plant_color = serializers.CharField(required=True)
+    plant_description = serializers.CharField(required=True)
+    plant_name = serializers.CharField(required=True)
+    plant_picture = serializers.ImageField(required=False)
+    plant_size = serializers.CharField(required=True)
+    plant_type = serializers.CharField(required=True)
+
+    class Meta:
+        model = Tree
+        fields = ["plant_id",
+                  "plant_type",
+                  "plant_name",
+                  "plant_size",
+                  "plant_color",
+                  "plant_description",
+                  "plant_picture",
+                  "department_id", ]
+
+    def create(self, validated_data):
+        plant = Tree.objects.create(
+            plant_type=validated_data['plant_type'],
+            plant_name=validated_data['plant_name'],
+            plant_size=validated_data['plant_size'],
+            plant_color=validated_data['plant_color'],
+            plant_description=validated_data['plant_description'],
+            plant_picture=validated_data['plant_picture'],
+            department_id=validated_data['department_id']
+        )
+        return plant

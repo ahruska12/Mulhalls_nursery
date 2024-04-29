@@ -57,7 +57,7 @@ const router = createRouter({
           component: PlantDetail,
       },
       {
-          // added question detail
+          // added addPlant page
           path: '/add/plant',
           name: 'AddPlant',
           component: AddPlant,

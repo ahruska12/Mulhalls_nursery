@@ -5,6 +5,7 @@
         <li><button @click="Home">Home</button></li>
         <li><button @click="PlantList">Plants List</button></li>
         <li><button v-if="isEmpl" @click="Questions">Questions</button></li>
+        <li><button v-if="isEmpl" @click="addPlant">Add Plants</button></li>
         <li><div v-if="isLoggedIn" class="username">Welcome {{username}}!</div></li>
         <li><div v-if="!isLoggedIn" class="username">Welcome Guest!</div></li>
         <li><button v-if="!isLoggedIn" @click="Register">Register</button></li>
@@ -45,6 +46,9 @@ export default {
     },
     Questions() {
       this.$router.push('/questions');
+    },
+    addPlant() {
+      this.$router.push('/add/plant');
     },
     Register() {
       this.$router.push('/registerUser');

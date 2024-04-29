@@ -8,8 +8,9 @@
     <p>{{plant.plant_type}}</p>
     <br>
     <p>{{plant.plant_description}}</p>
+    <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name">
     <div v-if="isLoggedIn">
-      <button @click="askQuestion()">Ask A Question!</button>
+      <button @click="askQuestion()">{{question_msg}}</button>
       <div v-if="beingAsked">
         <p>{{question}}</p>
         <input v-model="question" placeholder="What's your question?"/>
@@ -40,6 +41,7 @@ const questAPI = new APIQuestions()
 export default {
   name: "PlantDetail",
   data: () => ({
+    question_msg: "Ask A Question!",
     //dont think we will need this
     plant_id: "",
     //current plant
@@ -85,6 +87,15 @@ export default {
     askQuestion() {
       console.log(this.beingAsked)
       this.beingAsked = !this.beingAsked;
+      if (this.beingAsked) {
+        this.question_msg = "Cancel!";
+      }
+      else {
+        this.question_msg = "Ask A Question!";
+      }
+    },
+    getImageUrl(relativePath) {
+      return `http://127.0.0.1:8000${relativePath}`;
     },
     submitQuestion(plant_id) {
       if (this.isEmpl) {

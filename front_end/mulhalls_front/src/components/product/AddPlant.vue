@@ -8,8 +8,40 @@
   <div class="enter-info">
     <h2>Type</h2>
     <select v-model="current_type">
-    <option v-for="type in plant_type">{{type}}</option>
-  </select>
+      <option v-for="type in plant_type">{{type}}</option>
+    </select>
+    <div v-if="current_type === 'Tree'" class="enter-info">
+      <h2>Tree Category</h2>
+      <input v-model="plant_sub_info.tree_category" placeholder="Tree Category">
+    </div>
+    <div v-if="current_type === 'Shrub'" class="enter-info">
+      <h2>Shrub Category</h2>
+      <input v-model="plant_sub_info.shrub_category" placeholder="Shrub Category">
+    </div>
+    <div v-if="current_type === 'Perennial'" class="enter-info">
+      <h2>Perennial Category</h2>
+      <input v-model="plant_sub_info.perennial_category" placeholder="Perennial Category">
+      <h2>Light Code</h2>
+      <input v-model="plant_sub_info.light_code" placeholder="Light Code">
+      <h2>Moisture Level</h2>
+      <input v-model="plant_sub_info.moisture_level" placeholder="Moisture Level">
+      <h2>Care Level</h2>
+      <input v-model="plant_sub_info.care_level" placeholder="Care Level">
+    </div>
+    <div v-if="current_type === 'Annual'" class="enter-info">
+      <h2>Annual Category</h2>
+      <input v-model="plant_sub_info.annual_category" placeholder="Annual Category">
+      <h2>Hardy Plant</h2>
+      <input v-model="plant_sub_info.is_hardy" placeholder="Hardy">
+      <h2>Semi-Hardy Plant</h2>
+      <input v-model="plant_sub_info.is_semi_hardy" placeholder="Semi-Hardy">
+      <h2>Shade Tolerance</h2>
+      <input v-model="plant_sub_info.shade_tolerant" placeholder="Shade Tolerance">
+      <h2>Heat Tolerance</h2>
+      <input v-model="plant_sub_info.heat_tolerant" placeholder="Heat Tolerance">
+      <h2>Drought Tolerance</h2>
+      <input v-model="plant_sub_info.drought_tolerant" placeholder="Drought Tolerance">
+    </div>
   </div>
   <div class="enter-info">
     <h2>Color</h2>
@@ -27,18 +59,36 @@
     <h2>Picture</h2>
     <input type="file" @change="inputImage($event)">
   </div>
+  <div class="enter-info">
+    <h2>Department</h2>
+    <select v-model="plant_info.department_id">
+      <option v-for="dept in departments"
+              :key="dept.department_id"
+              :value="dept.department_id">
+        {{dept.department_name}}
+      </option>
+    </select>
+  </div>
+  <div>
+    <button @click="submitPlant" class="button">Submit</button>
+
+  </div>
 </div>
 </template>
 
 <script>
 import {mapState} from "vuex";
+import {APIService} from "@/http/APIService.js";
+import {APIGetPlants} from "@/http/APIService.js";
+const apiService = new APIService()
+const plantApi = new APIGetPlants()
 
 export default {
   name: "AddPlant",
   data: () => ({
     current_type: "",
     //to change inputs based on plant type
-    plant_type: ["Shrub", "Perenial", "Annual", "Tree"],
+    plant_type: ["Shrub", "Perennial", "Annual", "Tree"],
     //used for api call to add plant
     plant_info: {'plant_type': "",
                  'plant_name': "",
@@ -47,15 +97,45 @@ export default {
                  'plant_description': "",
                  'plant_picture': "",
                  'department_id': ""},
+    plant_sub_info: {},
+    image: "",
+    departments: {},
     //used to store any sys messages
     msg: "",
   }),
   methods: {
     inputImage(event) {
-      console.log(event)
-      console.log(event.target)
-      const file = event.target.files[0];
-      console.log(file)
+      // This assumes you want to upload the file as soon as it's selected
+      this.plant_info.plant_picture = event.target.files[0];
+    },
+    submitPlant() {
+      this.plant_info.plant_type = this.current_type;
+      console.log("PLANT INFO", this.plant_info);
+      console.log("SUB PLANT INFO", this.plant_sub_info);
+      let formData = new FormData();
+
+      formData.append('department_id', this.plant_info.department_id);
+      formData.append('plant_color', this.plant_info.plant_color);
+      formData.append('plant_description', this.plant_info.plant_description);
+      formData.append('plant_name', this.plant_info.plant_name);
+      formData.append('plant_size', this.plant_info.plant_size);
+      formData.append('plant_type', this.plant_info.plant_type);
+
+      if (this.plant_info.plant_picture) {
+        formData.append('plant_picture', this.plant_info.plant_picture);
+      }
+      plantApi.addPlant(formData).then(response => {
+        console.log('Success:', response);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    },
+    async getDepartments() {
+      //list all questions in db
+      const result = await apiService.getDepartments();
+      this.departments = result.data;
+      console.log("depts: ", this.departments);
     }
   },
   computed: {
@@ -69,7 +149,8 @@ export default {
     }),
   },
   mounted() {
-  }
+    this.getDepartments();
+  },
 }
 </script>
 
