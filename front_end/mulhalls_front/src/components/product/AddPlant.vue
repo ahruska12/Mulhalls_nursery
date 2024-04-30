@@ -126,9 +126,20 @@ export default {
       }
       plantApi.addPlant(formData).then(response => {
         console.log('Success:', response);
+        this.current_type = "";
+        this.image = ""
+        this.plant_info = {'plant_type': "",
+                           'plant_name': "",
+                           'plant_size': "",
+                           'plant_color': "",
+                           'plant_description': "",
+                           'plant_picture': "",
+                           'department_id': ""}
+        this.msg = "Plant Added!";
       })
       .catch(error => {
         console.error('Error:', error);
+        this.msg = "Plant not added."
       });
     },
     async getDepartments() {

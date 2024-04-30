@@ -117,6 +117,7 @@ export default {
         //reset question flags
         this.beingAsked = false;
         this.question = "";
+        this.question_msg = "Ask A Question!"
       }
     }
   },

@@ -1,26 +1,35 @@
 <template>
-  <div class="main-container">
+  <div class="main-container-questions">
     <button @click="showQuestions" class="button">{{list}}</button>
     <div v-if="!current_list">
       <div v-for="data in combinedData" v-bind:key="data.question_id" class="card">
-        <p>{{ data.plant.plant_name }}</p>
-        <p>{{ data.question }}</p>
+        <div class="card-body">
+        <h1 class="card-title">{{ data.plant.plant_name }}</h1>
+        <h3 class="card-text">{{ data.question }}</h3>
+        <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name">
+          <br>
         <button @click="answerQuestion(data.question_id)">Answer</button>
         <div v-if="currentAnsweringID === data.question_id">
           <input v-model="answer" placeholder="Answer me" />
           <button @click="submitQuestion(data.question_id)">Send</button>
         </div>
+        </div>
       </div>
     </div>
+  </div>
+  <div class="main-container-questions">
     <div v-if="current_list">
       <div v-for="data in combinedAllData" v-bind:key="data.question_id" class="card">
-        <p>{{ data.plant.plant_name }}</p>
-        <p>{{ data.question }}
-        <br>
-           {{data.answer}}
-        </p>
+        <div class="card-body">
+          <h1 class="card-title">{{ data.plant.plant_name }}</h1>
+          <h3 class="card-text">{{ data.question }}
+          <br>
+            {{data.answer}}
+          </h3>
+          <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name">
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -167,6 +176,9 @@ export default {
         this.list = "All Questions";
       }
       console.log("oooo", this.list)
+    },
+    getImageUrl(relativePath) {
+      return `http://127.0.0.1:8000${relativePath}`;
     }
   },
   mounted() {

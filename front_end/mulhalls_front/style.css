@@ -20,6 +20,31 @@ body, html {
     gap: 20px;
 }
 
+.main-container button {
+  color: rgb(31,47,39);
+  text-decoration: none;
+  height: 10%;
+  padding: 8px 8px; /* You can adjust this as needed */
+  border-radius: 8px;
+}
+
+.main-container-questions {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    overflow-y: auto; /* Adds scroll to the container */
+    max-height: 90vh; /* Adjust as necessary */
+}
+
+.main-container-questions button {
+  color: rgb(31,47,39);
+  text-decoration: none;
+  height: 10%;
+  padding: 8px 8px; /* You can adjust this as needed */
+  border-radius: 8px;
+}
+
 .main-container-plant-detail-card {
     flex: 1;
     max-width: 100%;
@@ -31,13 +56,23 @@ body, html {
     margin-right: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #333333;
+    max-height: 80vh;
 }
-.main-container button {
-  color: rgb(31,47,39);
-  text-decoration: none;
-  height: 10%;
-  padding: 8px 8px; /* You can adjust this as needed */
-  border-radius: 8px;
+
+.main-container-plant-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    overflow-y: auto; /* Adds scroll to the container */
+    max-height: 90vh; /* Adjust as necessary */
+}
+
+.plant_list-search {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .card {
@@ -107,12 +142,16 @@ body, html {
 }
 
 nav {
-  display: flex;
-  width: 1000px;
-  align-items: center; /* Center items vertically */
-  background-color: rgb(31,47,39); /* Menu bar background color */
-  padding: 10px; /* Padding around the menu bar */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Shadow for some depth */
+    display: flex;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 1000px;
+    align-items: center; /* Center items vertically */
+    background-color: rgb(31,47,39); /* Menu bar background color */
+    padding: 10px; /* Padding around the menu bar */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Shadow for some depth */
 }
 
 nav ul {
