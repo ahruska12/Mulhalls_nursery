@@ -32,15 +32,15 @@
       <h2>Annual Category</h2>
       <input v-model="plant_sub_info.annual_category" placeholder="Annual Category">
       <h2>Hardy Plant</h2>
-      <input v-model="plant_sub_info.is_hardy" placeholder="Hardy">
+      <input type="checkbox" v-model="plant_sub_info.is_hardy" placeholder="Hardy">
       <h2>Semi-Hardy Plant</h2>
-      <input v-model="plant_sub_info.is_semi_hardy" placeholder="Semi-Hardy">
+      <input type="checkbox" v-model="plant_sub_info.is_semi_hardy" placeholder="Semi-Hardy">
       <h2>Shade Tolerance</h2>
-      <input v-model="plant_sub_info.shade_tolerant" placeholder="Shade Tolerance">
+      <input type="checkbox" v-model="plant_sub_info.shade_tolerant" placeholder="Shade Tolerance">
       <h2>Heat Tolerance</h2>
-      <input v-model="plant_sub_info.heat_tolerant" placeholder="Heat Tolerance">
+      <input type="checkbox" v-model="plant_sub_info.heat_tolerant" placeholder="Heat Tolerance">
       <h2>Drought Tolerance</h2>
-      <input v-model="plant_sub_info.drought_tolerant" placeholder="Drought Tolerance">
+      <input type="checkbox" v-model="plant_sub_info.drought_tolerant" placeholder="Drought Tolerance">
     </div>
   </div>
   <div class="enter-info">
@@ -126,6 +126,13 @@ export default {
       }
       plantApi.addPlant(formData).then(response => {
         console.log('Success:', response);
+
+        this.plant_sub_info.plant = response.plant_id;
+        plantApi.addAnnual(this.plant_sub_info).then(response => {
+          console.log('Success adding sub type: ', response)
+        }).catch(error => {
+          console.error("uh oh: ", error)
+        })
         this.current_type = "";
         this.image = ""
         this.plant_info = {'plant_type': "",
@@ -135,6 +142,7 @@ export default {
                            'plant_description': "",
                            'plant_picture': "",
                            'department_id': ""}
+        this.plant_sub_info = {};
         this.msg = "Plant Added!";
       })
       .catch(error => {

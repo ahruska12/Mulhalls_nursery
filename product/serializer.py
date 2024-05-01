@@ -62,10 +62,6 @@ class CreatePlantSerializer(serializers.ModelSerializer):
                   "department_id", ]
 
     def create(self, validated_data):
-        if validated_data['plant_picture'] != "":
-            pic = validated_data['plant_picture']
-        else:
-            pic = None
         plant = Plant.objects.create(
             plant_type=validated_data['plant_type'],
             plant_name=validated_data['plant_name'],
@@ -79,13 +75,13 @@ class CreatePlantSerializer(serializers.ModelSerializer):
 
 
 class CreateAnnualSerializer(serializers.ModelSerializer):
-    plant = serializers.CharField(required=True)
+    annual_category = serializers.CharField(required=True)
+    drought_tolerant = serializers.BooleanField(required=True)
+    heat_tolerant = serializers.BooleanField(required=True)
     is_hardy = serializers.BooleanField(required=True)
     is_semi_hardy = serializers.BooleanField(required=True)
+    plant = serializers.CharField(required=True)
     shade_tolerant = serializers.BooleanField(required=True)
-    heat_tolerant = serializers.BooleanField(required=True)
-    drought_tolerant = serializers.BooleanField(required=True)
-    annual_category = serializers.BooleanField(required=True)
 
     class Meta:
         model = Annual
@@ -98,14 +94,16 @@ class CreateAnnualSerializer(serializers.ModelSerializer):
                   "annual_category"]
 
     def create(self, validated_data):
+        print(validated_data)
+        p = Plant.objects.get(plant_id=validated_data['plant'])
         plant = Annual.objects.create(
-            plant_type=validated_data['plant_type'],
-            plant_name=validated_data['plant_name'],
-            plant_size=validated_data['plant_size'],
-            plant_color=validated_data['plant_color'],
-            plant_description=validated_data['plant_description'],
-            plant_picture=validated_data['plant_picture'],
-            department_id=validated_data['department_id']
+            plant=p,
+            is_hardy=validated_data['is_hardy'],
+            is_semi_hardy=validated_data['is_semi_hardy'],
+            shade_tolerant=validated_data['shade_tolerant'],
+            heat_tolerant=validated_data['heat_tolerant'],
+            drought_tolerant=validated_data['drought_tolerant'],
+            annual_category=validated_data['annual_category'],
         )
         return plant
 

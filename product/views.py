@@ -12,7 +12,9 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializer import PlantSerializer, PlantPrevSerializer, CreatePlantSerializer
+from .serializer import PlantSerializer, PlantPrevSerializer, CreatePlantSerializer, CreateAnnualSerializer, \
+    CreatePerennialSerializer, CreateTreeSerializer, CreateShrubSerializer
+
 from .models import Plant, Tree, Shrub, Annual, Perennial
 from user.models import SearchHistory
 
@@ -156,10 +158,14 @@ class addPlant(APIView):
     def post(self, request, *args, **kwargs):
         serializer = PlantSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            plant = serializer.save()
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
+
+
+class addAnnual(generics.CreateAPIView):
+    serializer_class = CreateAnnualSerializer
 
 
 @api_view(['GET'])

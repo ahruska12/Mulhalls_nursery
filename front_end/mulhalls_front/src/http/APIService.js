@@ -59,7 +59,18 @@ export class APIGetPlants {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        })
+        }).then(response => {
+        console.log('Plant added with ID:', response.data.plant_id);
+        return response.data;
+        }).catch(error => {
+            console.error('Error adding plant:', error.response.data);
+            throw error;
+        });
+    }
+
+    addAnnual(plant_info) {
+        const url = `${API_URL}/product/add/plant-annual`;
+        return axios.post(url, plant_info);
     }
     //returns list of plants to display in main menu
     getPlantList() {
