@@ -8,7 +8,7 @@
     <p>{{plant.plant_type}}</p>
     <br>
     <p>{{plant.plant_description}}</p>
-    <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name">
+    <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-picture">
     <div v-if="isLoggedIn">
       <button @click="askQuestion()">{{question_msg}}</button>
       <div v-if="beingAsked">
@@ -131,4 +131,9 @@ export default {
 
 <style scoped>
 
+.plant-picture {
+  width: 700px;
+  height: 500px;
+  object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+}
 </style>
