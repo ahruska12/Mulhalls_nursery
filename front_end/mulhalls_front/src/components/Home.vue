@@ -1,9 +1,13 @@
 <template>
-  <h1>Welcome to the Mulhall's Plant Support System</h1>
-  <br>
-  <h1>Here are some of our popular plants this month!</h1>
-  <br>
-  <h1>Here are some of our new plants!</h1>
+  <div>
+    <h1>Welcome to the Mulhall's Plant Support System</h1>
+    <!-- Insert your image here -->
+    <img src="../assets/mulhalls_background.jpg" alt="Mulhall's Background" style="width: 1200px; height: auto;">
+    <br>
+    <h1>Here are some of our popular plants this month!</h1>
+    <br>
+    <h1>Here are some of our new plants!</h1>
+  </div>
 </template>
 
 <script>
@@ -64,4 +68,13 @@
 </script>
 
 <style>
+body {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  overflow-x: hidden;
+}
+#app {
+  background-color: rgb(204, 255, 204);
+}
+
 </style>
