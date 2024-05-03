@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ff01168-ce96-4127-8331-82009c8f01e4" name="Changes" comment="Added database &amp; added login/register&#10;&#10;Working on REST &amp; serializers next">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/PlantList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/PlantList.vue" afterDir="false" />
-    </list>
+    <list default="true" id="0ff01168-ce96-4127-8331-82009c8f01e4" name="Changes" comment="Added database &amp; added login/register&#10;&#10;Working on REST &amp; serializers next" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -118,7 +115,7 @@
       <workItem from="1708535682845" duration="839000" />
       <workItem from="1713915352767" duration="710000" />
       <workItem from="1714597424924" duration="2517000" />
-      <workItem from="1714751438999" duration="5532000" />
+      <workItem from="1714751438999" duration="6258000" />
     </task>
     <task id="LOCAL-00001" summary="Added user application">
       <created>1702594950366</created>
