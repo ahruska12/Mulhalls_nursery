@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ff01168-ce96-4127-8331-82009c8f01e4" name="Changes" comment="Added database &amp; added login/register&#10;&#10;Working on REST &amp; serializers next">
-      <change afterPath="$PROJECT_DIR$/front_end/mulhalls_front/src/assets/mulhalls_background.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/PlantList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/PlantList.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +118,7 @@
       <workItem from="1708535682845" duration="839000" />
       <workItem from="1713915352767" duration="710000" />
       <workItem from="1714597424924" duration="2517000" />
-      <workItem from="1714751438999" duration="4172000" />
+      <workItem from="1714751438999" duration="5532000" />
     </task>
     <task id="LOCAL-00001" summary="Added user application">
       <created>1702594950366</created>
@@ -163,5 +162,17 @@
     <MESSAGE value="Added user application" />
     <MESSAGE value="Added database &amp; added login/register&#10;&#10;Working on REST &amp; serializers next" />
     <option name="LAST_COMMIT_MESSAGE" value="Added database &amp; added login/register&#10;&#10;Working on REST &amp; serializers next" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/front_end/mulhalls_front/src/components/PlantList.vue</url>
+          <line>68</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

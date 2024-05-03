@@ -10,10 +10,9 @@
   <div class="main-container-plant-list">
     <div v-if="filteredPlants.length === 0">No plants found.</div>
     <div v-for="plant in sortedFilteredPlants" :key="plant.plant_id">
-      <div class="card-body" @click="getPlantDetail(plant.plant_id)">
+      <div class="card-body" @click="getPlantDetail(plant.plant_id)" style="cursor: pointer;">
         <h5 class="card-title">{{ plant.plant_name }}</h5>
-        <p class="card-text">{{ plant.plant_description }}</p>
-        <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name">
+        <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-image" style="cursor: pointer;">
       </div>
     </div>
   </div>
@@ -87,5 +86,22 @@ filterPlants() {
 </script>
 
 <style>
+.plant-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+}
+.plant-image:hover {
+  transform: scale(1.1); /* Increase size on hover */
+}
 
+.card-title {
+  font-size: 1.2em; /* Increase font size */
+  font-weight: bold; /* Increase font weight */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for better contrast */
+}
+
+.card-title:hover {
+  color: blue; /* Change text color on hover */
+}
 </style>
