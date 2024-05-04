@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from .views import RegisterView, login, get_customer_account, RegisterEmpView, getDepartments, elogin, \
     get_employee_account, QuestionAsked, getAllQuestions, getQuestionsByCust, getQuestionsByPlant, \
-    getQuestionsByID, AnswerQuestion
+    getQuestionsByID, AnswerQuestion, addPlantSearch
 
 app_name = "user"
 
@@ -24,4 +24,6 @@ urlpatterns = [
     path('find/questions-plant/<int:plant_id>', getQuestionsByPlant, name='question-by-plant'),
     path('find/questions-id/<int:question_id>', getQuestionsByID, name='question-by-id'),
     path('answer/question', AnswerQuestion.as_view(), name='answer-question'),
+
+    path('search/plant', addPlantSearch.as_view(), name='plant-searched'),
 ]

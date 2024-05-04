@@ -16,7 +16,6 @@ from .serializer import PlantSerializer, PlantPrevSerializer, CreatePlantSeriali
     CreatePerennialSerializer, CreateTreeSerializer, CreateShrubSerializer
 
 from .models import Plant, Tree, Shrub, Annual, Perennial
-from user.models import SearchHistory
 
 # Create your views here.
 """
@@ -168,18 +167,13 @@ class addAnnual(generics.CreateAPIView):
     serializer_class = CreateAnnualSerializer
 
 
-@api_view(['GET'])
-def getPopularSearches(request):
-    plant_search_counts = SearchHistory.objects.values('plant_id').annotate(search_count=Count('plant_id')).order_by(
-        '-search_count')
+class addPerennial(generics.CreateAPIView):
+    serializer_class = CreatePerennialSerializer
 
-    if plant_search_counts:
-        most_popular_plant = plant_search_counts[0]
-        return Response({
-            'most_popular_plant_id': most_popular_plant['plant_id'],
-            'search_count': most_popular_plant['search_count']
-        })
-    else:
-        return Response({
-            'message': 'No searches found.'
-        })
+
+class addTree(generics.CreateAPIView):
+    serializer_class = CreateTreeSerializer
+
+
+class addShrub(generics.CreateAPIView):
+    serializer_class = CreateShrubSerializer

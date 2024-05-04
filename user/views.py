@@ -15,10 +15,10 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import Customer, CustomerLogin, Department, Employee, EmployeeLogin, QuestionsAsked
+from .models import Customer, CustomerLogin, Department, Employee, EmployeeLogin, QuestionsAsked, SearchHistory
 
 from .serializer import RegisterSerializer, CustomerSerializer, DepartmentSerializer, RegisterEmployeeSerializer, \
-    EmployeeSerializer, QuestionAskedSerializer, QuestionSerializer, QuestionAnsweredSerializer
+    EmployeeSerializer, QuestionAskedSerializer, QuestionSerializer, QuestionAnsweredSerializer, CreateSearchSerializer
 
 
 # generic view for registering to our site
@@ -134,3 +134,24 @@ def getQuestionsByID(request, question_id):
 
 class AnswerQuestion(generics.CreateAPIView):
     serializer_class = QuestionAnsweredSerializer
+
+
+@api_view(['GET'])
+def getPopularSearches(request):
+    plant_search_counts = SearchHistory.objects.values('plant_id').annotate(search_count=Count('plant_id')).order_by(
+        '-search_count')
+
+    if plant_search_counts:
+        most_popular_plant = plant_search_counts[0]
+        return Response({
+            'most_popular_plant_id': most_popular_plant['plant_id'],
+            'search_count': most_popular_plant['search_count']
+        })
+    else:
+        return Response({
+            'message': 'No searches found.'
+        })
+
+
+class addPlantSearch(generics.CreateAPIView):
+    serializer_class = CreateSearchSerializer

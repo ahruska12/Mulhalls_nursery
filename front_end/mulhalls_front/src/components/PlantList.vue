@@ -21,6 +21,8 @@
 <script>
 import { APIGetPlants } from '@/http/APIService';
 import router from "@/router/index.js";
+import {mapActions, mapState} from "vuex";
+const plantApi = new APIGetPlants()
 
 export default {
   name: 'PlantList',
@@ -32,6 +34,7 @@ export default {
       selectedType: '',
       sortKey: 'name',
       types: ['Shrub', 'Tree', 'Annual', 'Perennial'],
+      search_info: {},
       isLoading: false
     };
   },
@@ -39,6 +42,14 @@ export default {
     this.fetchPlants();
   },
   computed: {
+    ...mapState({
+      isLoggedIn: state => state.isLoggedIn,
+      isEmpl: state => state.isEmpl,
+      email: state => state.email,
+      username: state => state.username,
+      loading: state => state.loading,
+      account_info: state => state.account_info,
+    }),
     sortedFilteredPlants() {
       if (this.sortKey === 'type') {
         return this.filteredPlants.slice().sort((a, b) => {
@@ -50,6 +61,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'logout', // Action to log out
+      'checkAuth', // Action to check authentication
+      // Add other actions you need to dispatch
+    ]),
     fetchPlants() {
       this.isLoading = true;
       const apiService = new APIGetPlants();
@@ -68,19 +84,25 @@ export default {
           this.isLoading = false;
         });
     },
-filterPlants() {
-  this.filteredPlants = this.plant.filter((plant) => {
-    const matchesSearchQuery = plant.plant_name.toLowerCase().includes(this.searchQuery.toLowerCase());
-    const matchesType = !this.selectedType || plant.plant_type === this.selectedType;
-    return matchesSearchQuery && matchesType;
-  });
-},
+    filterPlants() {
+      this.filteredPlants = this.plant.filter((plant) => {
+        const matchesSearchQuery = plant.plant_name.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchesType = !this.selectedType || plant.plant_type === this.selectedType;
+        return matchesSearchQuery && matchesType;
+      });
+    },
     getPlantDetail(plant_id) {
+      this.search_info.customer = this.account_info.customer_id;
+      this.search_info.plant = plant_id;
+      plantApi.addPlantSearch(this.search_info)
       router.push(`plants/${plant_id}`);
     },
     getImageUrl(relativePath) {
       return `http://127.0.0.1:8000${relativePath}`;
     }
+  },
+  mounted() {
+    this.checkAuth();
   }
 }
 </script>

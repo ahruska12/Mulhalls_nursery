@@ -69,10 +69,7 @@
       </option>
     </select>
   </div>
-  <div>
     <button @click="submitPlant" class="button">Submit</button>
-
-  </div>
 </div>
 </template>
 
@@ -126,13 +123,37 @@ export default {
       }
       plantApi.addPlant(formData).then(response => {
         console.log('Success:', response);
-
         this.plant_sub_info.plant = response.plant_id;
-        plantApi.addAnnual(this.plant_sub_info).then(response => {
-          console.log('Success adding sub type: ', response)
-        }).catch(error => {
-          console.error("uh oh: ", error)
-        })
+        switch (this.plant_info.plant_type) {
+          case "Annual":
+            plantApi.addAnnual(this.plant_sub_info).then(response => {
+              console.log('Success adding sub type: ', response)
+            }).catch(error => {
+              console.error("uh oh: ", error)
+            })
+            break;
+          case "Perennial":
+            plantApi.addPerennial(this.plant_sub_info).then(response => {
+              console.log('Success adding sub type: ', response)
+            }).catch(error => {
+              console.error("uh oh: ", error)
+            })
+            break;
+          case "Tree":
+            plantApi.addTree(this.plant_sub_info).then(response => {
+              console.log('Success adding sub type: ', response)
+            }).catch(error => {
+              console.error("uh oh: ", error)
+            })
+            break;
+          case "Shrub":
+            plantApi.addShrub(this.plant_sub_info).then(response => {
+              console.log('Success adding sub type: ', response)
+            }).catch(error => {
+              console.error("uh oh: ", error)
+            })
+            break;
+        }
         this.current_type = "";
         this.image = ""
         this.plant_info = {'plant_type': "",
@@ -144,8 +165,7 @@ export default {
                            'department_id': ""}
         this.plant_sub_info = {};
         this.msg = "Plant Added!";
-      })
-      .catch(error => {
+        }).catch(error => {
         console.error('Error:', error);
         this.msg = "Plant not added."
       });

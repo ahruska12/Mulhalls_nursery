@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import Customer, Employee, Department, QuestionsAsked
+from .models import Customer, Employee, Department, QuestionsAsked, SearchHistory
 from product.models import Plant
 from django.contrib.auth.hashers import make_password
 from datetime import date
@@ -172,3 +172,25 @@ class QuestionAnsweredSerializer(serializers.ModelSerializer):
         question.is_answered = True
         question.save()
         return question
+
+
+class CreateSearchSerializer(serializers.ModelSerializer):
+    customer = serializers.CharField(required=True)
+    plant = serializers.CharField(required=True)
+
+    class Meta:
+        model = SearchHistory
+        fields = ["plant",
+                  "customer",
+                  "search_date"]
+
+    def create(self, validated_data):
+        p = Plant.objects.get(plant_id=validated_data['plant'])
+        c = Customer.objects.get(customer_id=validated_data['customer'])
+        plant = SearchHistory.objects.create(
+            plant=p,
+            customer=c,
+            search_date=date.today()
+        )
+        plant.save()
+        return plant

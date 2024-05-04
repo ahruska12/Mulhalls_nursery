@@ -72,6 +72,21 @@ export class APIGetPlants {
         const url = `${API_URL}/product/add/plant-annual`;
         return axios.post(url, plant_info);
     }
+
+    addPerennial(plant_info) {
+        const url = `${API_URL}/product/add/plant-perennial`;
+        return axios.post(url, plant_info);
+    }
+
+    addTree(plant_info) {
+        const url = `${API_URL}/product/add/plant-tree`;
+        return axios.post(url, plant_info);
+    }
+
+    addShrub(plant_info) {
+        const url = `${API_URL}/product/add/plant-shrub`;
+        return axios.post(url, plant_info);
+    }
     //returns list of plants to display in main menu
     getPlantList() {
         const url = `${API_URL}/product/home/`;
@@ -120,6 +135,11 @@ export class APIGetPlants {
     getRecentSearchesByUser(user_id) {
         const url = `${API_URL}/product`;
         return axios.get(url);
+    }
+
+    addPlantSearch(plant_info) {
+        const url = `${API_URL}/user/search/plant`;
+        return axios.post(url, plant_info);
     }
 }
 //commented out methods aren't needed (right now)
