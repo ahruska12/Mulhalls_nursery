@@ -1,16 +1,15 @@
 <template>
   <div id="app">
     <nav>
-      <ul>
-        <li><button @click="Home">Home</button></li>
-        <li><button @click="PlantList">Plants List</button></li>
-        <li><button v-if="isEmpl" @click="Questions">Questions</button></li>
-        <li><button v-if="isEmpl" @click="addPlant">Add Plants</button></li>
-        <li><div v-if="isLoggedIn" class="username">Welcome {{username}}!</div></li>
-        <li><div v-if="!isLoggedIn" class="username">Welcome Guest!</div></li>
-        <li><button v-if="!isLoggedIn" @click="Register">Register</button></li>
-        <li><button v-if="!isLoggedIn" @click="Login">Login</button></li>
-        <li><button v-if="isLoggedIn" @click="Logout">Logout</button></li>
+      <ul class="nav-list">
+        <li><button class="nav-button" @click="Home">Home</button></li>
+        <li><button class="nav-button" @click="PlantList">Plants List</button></li>
+        <li v-if="isEmpl"><button class="nav-button" @click="Questions">Questions</button></li>
+        <li v-if="isEmpl"><button class="nav-button" @click="addPlant">Add Plants</button></li>
+        <li><div class="username">Welcome {{ isLoggedIn ? username : 'Guest' }}!</div></li>
+        <li v-if="!isLoggedIn"><button class="nav-button" @click="Register">Register</button></li>
+        <li v-if="!isLoggedIn"><button class="nav-button" @click="Login">Login</button></li>
+        <li v-if="isLoggedIn"><button class="nav-button" @click="Logout">Logout</button></li>
       </ul>
     </nav>
     <router-view></router-view>
@@ -21,22 +20,17 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: 'Home',
+  name: 'Navbar',
   computed: {
     ...mapState({
       isLoggedIn: state => state.isLoggedIn,
       isEmpl: state => state.isEmpl,
-      email: state => state.email,
       username: state => state.username,
-      loading: state => state.loading,
-      account_info: state => state.account_info,
     }),
   },
   methods: {
     ...mapActions([
-      'logout', // Action to log out
-      'checkAuth', // Action to check authentication
-      // Add other actions you need to dispatch
+      'logout',
     ]),
     Home() {
       this.$router.push('/');
@@ -57,18 +51,50 @@ export default {
       this.$router.push('/authUser');
     },
     Logout() {
-      this.logout(); // Dispatch the logout action instead of changing data directly
+      this.logout();
     },
   },
-  created() {
-    //doesn't want to work most of the time, might just add this to every page to ensure it works every time a page is loaded
-    //muted for now.....
-    //this.checkAuth();
-  }
 }
 </script>
 
 <style scoped>
 /* Styles for the navigation bar */
+nav {
+  display: flex;
+  justify-content: center; /* Center items horizontally */
+}
+
+.nav-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin-right: 10px;
+}
+
+.nav-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: #45a049;
+}
+
+.username {
+  margin-top: 5px;
+  font-weight: bold;
+}
 
 </style>

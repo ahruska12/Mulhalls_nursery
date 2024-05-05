@@ -108,6 +108,10 @@ export default {
 </script>
 
 <style>
+.plant-list-search {
+  margin-top: 50px; /* Add margin to the top */
+}
+
 .plant-image {
   width: 200px;
   height: 200px;
