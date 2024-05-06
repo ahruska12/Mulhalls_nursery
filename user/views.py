@@ -53,14 +53,8 @@ def get_employee_account(self, email):
 def login(request, username):
     cust = Customer.objects.get(customer_email=username)
     if cust is not None:
-        refresh = RefreshToken.for_user(cust)
-        token = str(refresh.access_token)
-        login = CustomerLogin(customer=cust,
-                              login_token=token,
-                              date=datetime.today())
-        login.save()
         print("authenticated and token sent")
-        return JsonResponse({'token': token}, status=200)
+        return JsonResponse({'success': "Account approved"}, status=200)
         # logged in
     else:
         return JsonResponse({'error': "no associated account"}, status=400)

@@ -162,10 +162,10 @@ export class APIQuestions {
         return axios.get(url);
     }
     //returns questions asked by specific customer - done
-    //findQuestionByUser(cust_id) {
-    //    const url = `${API_URL}/user/find/questions-cust/${cust_id}`;
-    //    return axios.get(url);
-    //}
+    findQuestionByUser(cust_id) {
+        const url = `${API_URL}/user/find/questions-cust/${cust_id}`;
+        return axios.get(url);
+    }
     //returns answered questions asked about a specific plant - done
     findQuestionByPlant(plant_id) {
        const url = `${API_URL}/user/find/questions-plant/${plant_id}`;

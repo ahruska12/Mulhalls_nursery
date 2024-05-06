@@ -36,7 +36,8 @@ export default {
   },
   data() {
     return {
-      plantList: [],
+      popularPlantList: {},
+      userRecentPlants: {},
     };
   },
   methods: {

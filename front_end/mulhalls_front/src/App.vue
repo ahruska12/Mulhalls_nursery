@@ -7,6 +7,7 @@
         <li v-if="isEmpl"><button class="nav-button" @click="Questions">Questions</button></li>
         <li v-if="isEmpl"><button class="nav-button" @click="addPlant">Add Plants</button></li>
         <li><div class="username">Welcome {{ isLoggedIn ? username : 'Guest' }}!</div></li>
+        <li v-if="isLoggedIn & !isEmpl"><button class="nav-button" @click="userQuestions">My Questions</button></li>
         <li v-if="!isLoggedIn"><button class="nav-button" @click="Register">Register</button></li>
         <li v-if="!isLoggedIn"><button class="nav-button" @click="Login">Login</button></li>
         <li v-if="isLoggedIn"><button class="nav-button" @click="Logout">Logout</button></li>
@@ -40,6 +41,9 @@ export default {
     },
     Questions() {
       this.$router.push('/questions');
+    },
+    userQuestions() {
+      this.$router.push('/current-questions')
     },
     addPlant() {
       this.$router.push('/add/plant');

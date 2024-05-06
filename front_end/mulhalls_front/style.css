@@ -185,9 +185,27 @@ nav ul li button:hover {
   padding: 8px 16px; /* Adjust username padding to match buttons */
   color: white;
 }
-/*ADDING PLANT*/
 
 .enter-info {
     flex: 10;
     align-items: initial;
+}
+
+.frequent-questions-card {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    justify-content: center;
+    align-content: center;
+    border-radius: 10px;
+    margin-top: 20px;
+
+}
+
+.faq-card {
+    width: 75%;
+    color: #333333;
+    max-width: 500px;
+    border-radius: 10px;
+    margin-top: 20px;
 }

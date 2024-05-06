@@ -88,6 +88,5 @@ export default createStore({
       console.log("username", state.username)
       console.log("acct", state.account_info)
     },
-    // ... other actions ...
   }
 });
