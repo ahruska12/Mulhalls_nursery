@@ -14,8 +14,9 @@
       </div>
       </div>
     </div>
+    <div v-if="isLoggedIn && !isEmpl">
     <h2 class="section-title">Here are your recent searches!</h2>
-    <div v-if="isLoggedIn && !isEmpl" class="home-plant-list">
+    <div class="home-plant-list">
       <div v-for="plant in userRecentPlants" :key="plant.plant_id">
       <div class="card-body" @click="getPlantDetail(plant.plant_id)" style="cursor: pointer;">
         <h5 class="card-title">{{ plant.plant_name }}</h5>
@@ -23,9 +24,12 @@
       </div>
       </div>
     </div>
-    <div v-if="!isLoggedIn || isEmpl" class="section">
+    </div>
+    <div v-if="!isLoggedIn || isEmpl">
       <h2 class="section-title">Here are some of our new plants!</h2>
-      <!-- Add content for new plants -->
+      <div class="home-plant-list">
+
+      </div>
     </div>
   </div>
 </template>
@@ -89,11 +93,17 @@ export default {
       return `http://127.0.0.1:8000${relativePath}`;
     },
     getPlantDetail(plant_id) {
-      if (!this.isEmpl) {
+      this.search_info.plant = plant_id;
+      if (!this.isEmpl && this.isLoggedIn) {
         this.search_info.customer = this.account_info.customer_id;
-        this.search_info.plant = plant_id;
-        plantAPI.addPlantSearch(this.search_info)
       }
+      if (!this.isLoggedIn) {
+        this.search_info.customer = 0
+      }
+      if (this.isEmpl) {
+        this.search_info.customer = this.account_info.employee_id;
+      }
+      plantAPI.addPlantSearch(this.search_info)
       router.push(`plants/${plant_id}`);
     },
   },
