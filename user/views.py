@@ -64,15 +64,7 @@ def login(request, username):
 def elogin(request, username):
     emp = Employee.objects.get(employee_email=username)
     if emp is not None:
-        refresh = RefreshToken.for_user(emp)
-        token = str(refresh.access_token)
-        login = EmployeeLogin(employee=emp,
-                              login_token=token,
-                              date=datetime.today())
-        admin_status = emp.is_admin
-        login.save()
-        return JsonResponse({'token': token,
-                             'admin_status': admin_status}, status=200)
+        return JsonResponse({'admin_status': "is admin"}, status=200)
 
     else:
         return JsonResponse({'error': "no employee account"}, status=400)

@@ -137,7 +137,6 @@ import bcrypt from 'bcryptjs'
         async handleSuccessfulLogin() {
           try {
             const res = await apiService.authenticateEmpLogin(this.credentials);
-            localStorage.setItem('token', res.data.token);
             localStorage.setItem('isAdmin', "1");
             localStorage.setItem('isAuthenticated', JSON.stringify(true));
             localStorage.setItem('log_user', this.stored_info.employee_email);
@@ -151,7 +150,7 @@ import bcrypt from 'bcryptjs'
           this.loading = false;
           localStorage.removeItem('isAuthenticated');
           localStorage.removeItem('log_user');
-          localStorage.removeItem('token');
+          localStorage.removeItem('isAdmin');
           this.showMsg = message;
           router.go('/authEmp');
         },

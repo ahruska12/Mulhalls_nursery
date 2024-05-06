@@ -160,7 +160,6 @@
         async handleSuccessfulLogin() {
           try {
             const res = await apiService.authenticateLogin(this.credentials);
-            localStorage.setItem('token', res.data.token);
             localStorage.setItem('isAuthenticated', JSON.stringify(true));
             localStorage.setItem('log_user', this.stored_info.customer_email);
             router.push("/");
@@ -173,7 +172,6 @@
           this.loading = false;
           localStorage.removeItem('isAuthenticated');
           localStorage.removeItem('log_user');
-          localStorage.removeItem('token');
           this.showMsg = message;
           router.go(-1);
         },
