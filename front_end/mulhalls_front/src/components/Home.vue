@@ -5,11 +5,25 @@
       <!-- Insert your image here -->
       <img src="../assets/mulhalls_background.jpg" alt="Mulhall's Background" class="home-image">
     </div>
-    <div class="section">
-      <h2 class="section-title">Here are some of our popular plants this month!</h2>
-      <!-- Add content for popular plants -->
+    <h2 class="section-title">Here are some of our popular plants!</h2>
+    <div class="home-plant-list">
+      <div v-for="plant in popularPlantList" :key="plant.plant_id">
+      <div class="card-body" @click="getPlantDetail(plant.plant_id)" style="cursor: pointer;">
+        <h5 class="card-title">{{ plant.plant_name }}</h5>
+        <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-image" style="cursor: pointer;">
+      </div>
+      </div>
     </div>
-    <div class="section">
+    <h2 class="section-title">Here are your recent searches!</h2>
+    <div v-if="isLoggedIn && !isEmpl" class="home-plant-list">
+      <div v-for="plant in userRecentPlants" :key="plant.plant_id">
+      <div class="card-body" @click="getPlantDetail(plant.plant_id)" style="cursor: pointer;">
+        <h5 class="card-title">{{ plant.plant_name }}</h5>
+        <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-image" style="cursor: pointer;">
+      </div>
+      </div>
+    </div>
+    <div v-if="!isLoggedIn || isEmpl" class="section">
       <h2 class="section-title">Here are some of our new plants!</h2>
       <!-- Add content for new plants -->
     </div>
@@ -38,6 +52,8 @@ export default {
     return {
       popularPlantList: {},
       userRecentPlants: {},
+      user_id: "",
+      search_info: {},
     };
   },
   methods: {
@@ -47,17 +63,43 @@ export default {
     // Fetch list of all plants
     async fetchPlants() {
       try {
-        const response = await plantAPI.getPlantList();
-        this.plantList = response.data;
-        console.log("Plant list:", this.plantList);
+        const response = await plantAPI.getMostPopularSearches();
+        this.popularPlantList = response.data;
+        if (this.isEmpl) {
+          this.user_id = this.account_info.employee_id;
+        }
+        if (this.isLoggedIn && !this.isEmpl) {
+
+          this.user_id = this.account_info.customer_id;
+        }
+        else {
+          this.user_id = "";
+        }
+        if (this.isLoggedIn) {
+          const userResponse = await plantAPI.getRecentSearchesByUser(this.user_id);
+          this.userRecentPlants = userResponse.data;
+        }
+        console.log("Plant list:", this.popularPlantList);
+        console.log("User list:", this.userRecentPlants);
       } catch (error) {
         console.error("Failed to fetch plants:", error);
       }
     },
+    getImageUrl(relativePath) {
+      return `http://127.0.0.1:8000${relativePath}`;
+    },
+    getPlantDetail(plant_id) {
+      if (!this.isEmpl) {
+        this.search_info.customer = this.account_info.customer_id;
+        this.search_info.plant = plant_id;
+        plantAPI.addPlantSearch(this.search_info)
+      }
+      router.push(`plants/${plant_id}`);
+    },
   },
   mounted() {
-    this.fetchPlants();
     this.checkAuth();
+    this.fetchPlants();
   },
 };
 </script>

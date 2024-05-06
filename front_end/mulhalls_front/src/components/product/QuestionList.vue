@@ -6,7 +6,7 @@
         <div class="card-body">
         <h1 class="card-title">{{ data.plant.plant_name }}</h1>
         <h3 class="card-text">{{ data.question }}</h3>
-        <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name">
+        <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name" class="plant-image-question">
           <br>
         <button @click="answerQuestion(data.question_id)">Answer</button>
         <div v-if="currentAnsweringID === data.question_id">
@@ -26,7 +26,7 @@
           <br>
             {{data.answer}}
           </h3>
-          <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name">
+          <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name" class="plant-image-question">
       </div>
     </div>
   </div>
@@ -49,7 +49,7 @@ export default {
     //flag for filter on what questions are shown
     current_list: false,
     //message for current list
-    list: "Unanswered Questions",
+    list: "View All Questions",
     //array of all questions in db
     all_questions: [],
     //array of all unanswered questions in db
@@ -170,10 +170,10 @@ export default {
       //button to filter between all questions and unanswered
       this.current_list = !this.current_list;
       if (this.current_list) {
-        this.list = "Unanswered Questions";
+        this.list = "View Unanswered Questions";
       }
       else {
-        this.list = "All Questions";
+        this.list = "View All Questions";
       }
       console.log("oooo", this.list)
     },

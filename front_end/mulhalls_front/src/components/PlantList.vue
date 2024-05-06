@@ -92,9 +92,11 @@ export default {
       });
     },
     getPlantDetail(plant_id) {
-      this.search_info.customer = this.account_info.customer_id;
-      this.search_info.plant = plant_id;
-      plantApi.addPlantSearch(this.search_info)
+      if (!this.isEmpl) {
+        this.search_info.customer = this.account_info.customer_id;
+        this.search_info.plant = plant_id;
+        plantApi.addPlantSearch(this.search_info)
+      }
       router.push(`plants/${plant_id}`);
     },
     getImageUrl(relativePath) {

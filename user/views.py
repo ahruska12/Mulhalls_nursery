@@ -3,6 +3,7 @@ from datetime import datetime
 import jwt
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
+from django.db.models import Count
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
@@ -19,6 +20,9 @@ from .models import Customer, CustomerLogin, Department, Employee, EmployeeLogin
 
 from .serializer import RegisterSerializer, CustomerSerializer, DepartmentSerializer, RegisterEmployeeSerializer, \
     EmployeeSerializer, QuestionAskedSerializer, QuestionSerializer, QuestionAnsweredSerializer, CreateSearchSerializer
+from product.serializer import PlantSerializer
+
+from product.models import Plant
 
 
 # generic view for registering to our site
@@ -125,18 +129,33 @@ class AnswerQuestion(generics.CreateAPIView):
 @api_view(['GET'])
 def getPopularSearches(request):
     plant_search_counts = SearchHistory.objects.values('plant_id').annotate(search_count=Count('plant_id')).order_by(
-        '-search_count')
+        '-search_count')[:5]
 
-    if plant_search_counts:
-        most_popular_plant = plant_search_counts[0]
-        return Response({
-            'most_popular_plant_id': most_popular_plant['plant_id'],
-            'search_count': most_popular_plant['search_count']
-        })
-    else:
-        return Response({
-            'message': 'No searches found.'
-        })
+    plant_ids = [entry['plant_id'] for entry in plant_search_counts]
+
+    top_plants = Plant.objects.filter(plant_id__in=plant_ids).order_by('-plant_id')
+
+    serializer = PlantSerializer(top_plants, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getPlantByUserSearch(request, user_id):
+    recent_searches = []
+    plant_ids_seen = set()
+    print(f"collecting all plants for {user_id}")
+    plants = SearchHistory.objects.filter(customer_id=user_id).order_by('-search_date')
+    for plant in plants:
+        if plant.plant_id not in plant_ids_seen:
+            p = Plant.objects.get(plant_id=plant.plant_id)
+            recent_searches.append(p)
+            plant_ids_seen.add(plant.plant_id)
+
+        # Stop if we have collected 5 unique plants
+        if len(recent_searches) == 5:
+            break
+    serializer = PlantSerializer(recent_searches, many=True)
+    return Response(serializer.data)
 
 
 class addPlantSearch(generics.CreateAPIView):

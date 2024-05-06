@@ -6,6 +6,7 @@ from django.dispatch import receiver
 
 class Plant(models.Model):
     plant_id = models.AutoField(primary_key=True)
+    add_date = models.DateField(blank=True, null=True)
     plant_type = models.CharField(max_length=10)
     plant_name = models.CharField(max_length=30, blank=True, null=True)
     plant_size = models.CharField(max_length=30, blank=True, null=True)

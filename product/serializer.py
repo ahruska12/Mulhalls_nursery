@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
@@ -69,7 +71,8 @@ class CreatePlantSerializer(serializers.ModelSerializer):
             plant_color=validated_data['plant_color'],
             plant_description=validated_data['plant_description'],
             plant_picture=validated_data['plant_picture'],
-            department_id=validated_data['department_id']
+            department_id=validated_data['department_id'],
+            add_date=date.today()
         )
         return plant
 

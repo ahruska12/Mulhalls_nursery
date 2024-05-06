@@ -1,14 +1,29 @@
 <template>
-<div v-for="data in combinedAllData" v-bind:key="data.question_id" class="card">
-        <div class="card-body">
+  <h1>Your Questions</h1>
+  <div class="main-container-questions">
+    <div v-for="data in combined_data" v-bind:key="data.question_id" class="card-question">
+      <div v-if="data.is_answered">
+        <div class="card-body-green">
           <h1 class="card-title">{{ data.plant.plant_name }}</h1>
           <h3 class="card-text">{{ data.question }}
-          <br>
-            {{data.answer}}
+            <br>
+            <h1 class="card-title">Expert Answer:</h1> {{data.answer}}
           </h3>
-          <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name">
+          <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name" class="plant-image-question">
+        </div>
+      </div>
+      <div v-if="!data.is_answered">
+          <div class="card-body-red">
+            <h1 class="card-title">{{ data.plant.plant_name }}</h1>
+            <h3 class="card-text">{{ data.question }}
+             <br>
+             <h1 class="card-title">Expert Answer:</h1> {{data.answer}}
+            </h3>
+            <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name" class="plant-image-question">
+          </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -68,6 +83,9 @@ export default {
       });
       console.log("final: ", this.combined_data)
     },
+    getImageUrl(relativePath) {
+      return `http://127.0.0.1:8000${relativePath}`;
+    }
   },
   mounted() {
     this.getAllQuestions();

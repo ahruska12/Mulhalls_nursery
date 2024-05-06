@@ -128,12 +128,12 @@ export class APIGetPlants {
     }
     //returns most popular searches
     getMostPopularSearches() {
-        const url = `${API_URL}/product`;
+        const url = `${API_URL}/user/plant/popular/plants`;
         return axios.get(url);
     }
     //returns list of plants recently searched by specific user
     getRecentSearchesByUser(user_id) {
-        const url = `${API_URL}/product`;
+        const url = `${API_URL}/user/plant/searches/${user_id}`;
         return axios.get(url);
     }
 
