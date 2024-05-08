@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib import admin
 from django.urls import path
 from .views import get_plant_list, getPlantByType, getPlantByDept, getPlantByColor, getPlantByTypeCategory, \
-    getPlantByID, getPlantPrev, getPlantsByArr, addPlant, addAnnual, addShrub, addTree, addPerennial
+    getPlantByID, getPlantPrev, getPlantsByArr, addPlant, addAnnual, addShrub, addTree, addPerennial, newPlants
 
 app_name = "product"
 
@@ -22,5 +22,7 @@ urlpatterns = [
     path('add/plant-perennial', addPerennial.as_view(), name='add-plant'),
     path('add/plant-shrub', addShrub.as_view(), name='add-plant'),
     path('add/plant-tree', addTree.as_view(), name='add-plant'),
+
+    path('plant/new', newPlants, name='new-plant'),
 
 ]

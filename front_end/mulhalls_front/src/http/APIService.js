@@ -126,6 +126,10 @@ export class APIGetPlants {
         const url = `${API_URL}/product/plant/group?ids=${arr.join(',')}`;
         return axios.get(url);
     }
+    getRecentPlants() {
+        const url = `${API_URL}/product/plant/new`;
+        return axios.get(url);
+    }
     //returns most popular searches
     getMostPopularSearches() {
         const url = `${API_URL}/user/plant/popular/plants`;

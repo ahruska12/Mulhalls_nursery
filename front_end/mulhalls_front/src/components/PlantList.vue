@@ -34,7 +34,8 @@ export default {
       selectedType: '',
       sortKey: 'name',
       types: ['Shrub', 'Tree', 'Annual', 'Perennial'],
-      search_info: {},
+      search_info: {"plant": "",
+                    "customer": "0"},
       isLoading: false
     };
   },
@@ -92,11 +93,14 @@ export default {
       });
     },
     getPlantDetail(plant_id) {
-      if (!this.isEmpl) {
+      this.search_info.plant = plant_id;
+      if (!this.isEmpl && this.isLoggedIn) {
         this.search_info.customer = this.account_info.customer_id;
-        this.search_info.plant = plant_id;
-        plantApi.addPlantSearch(this.search_info)
       }
+      if (this.isEmpl) {
+        this.search_info.customer = this.account_info.employee_id;
+      }
+      plantApi.addPlantSearch(this.search_info)
       router.push(`plants/${plant_id}`);
     },
     getImageUrl(relativePath) {

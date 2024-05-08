@@ -142,3 +142,10 @@ class addTree(generics.CreateAPIView):
 
 class addShrub(generics.CreateAPIView):
     serializer_class = CreateShrubSerializer
+
+
+@api_view(['GET'])
+def newPlants(request):
+    plant = Plant.objects.all().order_by("-add_date")
+    serializer = PlantSerializer(plant[:5], many=True)
+    return Response(serializer.data)

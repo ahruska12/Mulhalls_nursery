@@ -28,7 +28,14 @@
     <div v-if="!isLoggedIn || isEmpl">
       <h2 class="section-title">Here are some of our new plants!</h2>
       <div class="home-plant-list">
-
+        <div class="home-plant-list">
+      <div v-for="plant in newPlants" :key="plant.plant_id">
+      <div class="card-body" @click="getPlantDetail(plant.plant_id)" style="cursor: pointer;">
+        <h5 class="card-title">{{ plant.plant_name }}</h5>
+        <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-image" style="cursor: pointer;">
+      </div>
+      </div>
+    </div>
       </div>
     </div>
   </div>
@@ -56,8 +63,10 @@ export default {
     return {
       popularPlantList: {},
       userRecentPlants: {},
+      newPlants: {},
       user_id: "",
-      search_info: {},
+      search_info: {"plant": "",
+                    "customer": "0"},
     };
   },
   methods: {
@@ -83,6 +92,8 @@ export default {
           const userResponse = await plantAPI.getRecentSearchesByUser(this.user_id);
           this.userRecentPlants = userResponse.data;
         }
+        const recentResponse = await plantAPI.getRecentPlants();
+        this.newPlants = recentResponse.data;
         console.log("Plant list:", this.popularPlantList);
         console.log("User list:", this.userRecentPlants);
       } catch (error) {
@@ -93,17 +104,16 @@ export default {
       return `http://127.0.0.1:8000${relativePath}`;
     },
     getPlantDetail(plant_id) {
+      console.log("search info: ", this.search_info)
       this.search_info.plant = plant_id;
       if (!this.isEmpl && this.isLoggedIn) {
         this.search_info.customer = this.account_info.customer_id;
-      }
-      if (!this.isLoggedIn) {
-        this.search_info.customer = 0
       }
       if (this.isEmpl) {
         this.search_info.customer = this.account_info.employee_id;
       }
       plantAPI.addPlantSearch(this.search_info)
+      console.log("search info: ", this.search_info)
       router.push(`plants/${plant_id}`);
     },
   },
