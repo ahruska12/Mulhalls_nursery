@@ -4,6 +4,14 @@
       <h1>{{ plant.plant_name }}</h1>
       <p class="plant-type">{{ plant.plant_type }}</p>
       <p class="plant-description">{{ plant.plant_description }}</p>
+      <table v-if="specialPlantInfo && Object.keys(specialPlantInfo).length > 0" class="plant-detail-card" style="alignment: center">
+        <tbody>
+          <tr v-for="(value, key) in specialPlantInfo" :key="key" v-if="key !== 'plant'">
+            <td>{{ getPresentableKey(key) }}</td>
+            <td>{{ value }}</td>
+          </tr>
+        </tbody>
+      </table>
       <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-picture">
       <div v-if="isLoggedIn">
         <button @click="toggleQuestionForm" class="question-button">{{ questionButtonLabel }}</button>
@@ -43,7 +51,24 @@ export default {
       isAskingQuestion: false,
       question: "",
       questionButtonLabel: "Ask A Question",
+      specialPlantInfo: {},
+      keyMap: {
+        'plant': 'Plant ID:',
+        'is_hardy': 'Hardy:',
+        'is_semi_hardy': 'Semi-Hardy:',
+        'shade_tolerant': 'Shade Tolerant:',
+        'heat_tolerant': 'Heat Tolerant:',
+        'drought_tolerant': 'Drought Tolerant:',
+        'annual_category': 'Category:',
+        'perennial_category': 'Category:',
+        'tree_category': 'Category:',
+        'shrub_category': 'Category:'
+      }
     };
+  },
+  mounted() {
+    this.checkAuth();
+    this.getPlantInfo();
   },
   computed: {
     ...mapState({
@@ -60,8 +85,10 @@ export default {
       const plantId = this.$route.params.plant_id;
       const plantResponse = await plantAPI.getPlantByID(plantId);
       const questionResponse = await questAPI.findQuestionByPlant(plantId);
+      const specialResponse = await plantAPI.getSpecialPlantByID(plantId);
       this.plant = plantResponse.data;
       this.questions = questionResponse.data;
+      this.specialPlantInfo = specialResponse.data;
     },
     getImageUrl(relativePath) {
       return `http://127.0.0.1:8000${relativePath}`;
@@ -80,23 +107,22 @@ export default {
           question: this.question,
         };
         questAPI.askQuestion(questionInfo)
-          .then(response => {
-            console.log("Question submitted successfully:", response);
-          })
-          .catch(error => {
-            console.error("Error submitting question:", error);
-          });
+            .then(response => {
+              console.log("Question submitted successfully:", response);
+            })
+            .catch(error => {
+              console.error("Error submitting question:", error);
+            });
         this.isAskingQuestion = false;
         this.question = "";
         this.questionButtonLabel = "Ask A Question";
       }
     },
+    getPresentableKey(key) {
+      return this.keyMap[key] || key
+    },
   },
-  mounted() {
-    this.checkAuth();
-    this.getPlantInfo();
-  },
-};
+}
 </script>
 
 <style scoped>

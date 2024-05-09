@@ -5,6 +5,10 @@ export class APIService {
     constructor() {
 
     }
+    backupData(emp_id) {
+        const url = `${API_URL}/user/backup/database/${emp_id}`;
+        return axios.get(url);
+    }
     //posts user credentials to db, hashes pw on frontend
     registerUser(credentials) {
         const url = `${API_URL}/user/register/customer`;
@@ -119,6 +123,11 @@ export class APIGetPlants {
     //returns specific plants - done
     getPlantByID(plant_id) {
         const url = `${API_URL}/product/plant/select/${plant_id}`;
+        return axios.get(url);
+    }
+
+    getSpecialPlantByID(plant_id) {
+        const url = `${API_URL}/product/plant/select/special/${plant_id}`;
         return axios.get(url);
     }
     //gets list of plants from list of plant ids

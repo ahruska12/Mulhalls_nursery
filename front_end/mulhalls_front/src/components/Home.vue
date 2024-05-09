@@ -2,7 +2,6 @@
   <div class="home-container">
     <h1 class="home-title">Welcome to the Mulhall's Plant Support System</h1>
     <div class="image-container">
-      <!-- Insert your image here -->
       <img src="../assets/mulhalls_background.jpg" alt="Mulhall's Background" class="home-image">
     </div>
     <h2 class="section-title">Here are some of our popular plants!</h2>
@@ -25,7 +24,6 @@
       </div>
     </div>
     </div>
-    <div v-if="!isLoggedIn || isEmpl">
       <h2 class="section-title">Here are some of our new plants!</h2>
       <div class="home-plant-list">
         <div class="home-plant-list">
@@ -37,7 +35,6 @@
       </div>
     </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -78,6 +75,8 @@ export default {
       try {
         const response = await plantAPI.getMostPopularSearches();
         this.popularPlantList = response.data;
+        const recentResponse = await plantAPI.getRecentPlants();
+        this.newPlants = recentResponse.data;
         if (this.isEmpl) {
           this.user_id = this.account_info.employee_id;
         }
@@ -92,13 +91,12 @@ export default {
           const userResponse = await plantAPI.getRecentSearchesByUser(this.user_id);
           this.userRecentPlants = userResponse.data;
         }
-        const recentResponse = await plantAPI.getRecentPlants();
-        this.newPlants = recentResponse.data;
-        console.log("Plant list:", this.popularPlantList);
-        console.log("User list:", this.userRecentPlants);
       } catch (error) {
         console.error("Failed to fetch plants:", error);
       }
+      console.log("Plant list:", this.popularPlantList);
+      console.log("User list:", this.userRecentPlants);
+      console.log("new list:", this.newPlants);
     },
     getImageUrl(relativePath) {
       return `http://127.0.0.1:8000${relativePath}`;

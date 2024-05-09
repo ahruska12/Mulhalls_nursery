@@ -13,7 +13,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializer import PlantSerializer, PlantPrevSerializer, CreatePlantSerializer, CreateAnnualSerializer, \
-    CreatePerennialSerializer, CreateTreeSerializer, CreateShrubSerializer
+    CreatePerennialSerializer, CreateTreeSerializer, CreateShrubSerializer, AnnualSerializer, PerennialSerializer,\
+    ShrubSerializer, TreeSerializer
 
 from .models import Plant, Tree, Shrub, Annual, Perennial
 
@@ -93,6 +94,27 @@ def getPlantByID(request, plant_id):
     plant = Plant.objects.get(plant_id=plant_id)
     serializer = PlantSerializer(plant)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getSpecialPlantByID(request, plant_id):
+    print(f"collecting all {plant_id} plants")
+    model_serializer_map = {
+        'Annual': (Annual, AnnualSerializer),
+        'Perennial': (Perennial, PerennialSerializer),
+        'Tree': (Tree, TreeSerializer),
+        'Shrub': (Shrub, ShrubSerializer)
+    }
+
+    # Attempt to find the plant in each model
+    for model_name, (model, serializer_class) in model_serializer_map.items():
+        try:
+            plant = model.objects.get(plant_id=plant_id)
+            serializer = serializer_class(plant)
+            return Response(serializer.data)
+        except model.DoesNotExist:
+            continue
+    return Response("Error: No plant")
 
 
 @api_view(['GET'])

@@ -30,11 +30,13 @@ body, html {
 
 .main-container-questions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     gap: 20px;
     overflow-y: auto; /* Adds scroll to the container */
     max-height: 90vh; /* Adjust as necessary */
+    padding: 20px;
+    align-items: stretch;
 }
 
 .card-question {
@@ -48,6 +50,7 @@ body, html {
     margin-right: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #333333;
+    flex-direction: column;
 }
 .card-body-green {
     background-color: forestgreen;
