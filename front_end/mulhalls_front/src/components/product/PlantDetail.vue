@@ -13,7 +13,7 @@
         </tbody>
       </table>
       <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-picture">
-      <div v-if="isLoggedIn">
+      <div v-if="isLoggedIn & !isEmpl">
         <button @click="toggleQuestionForm" class="question-button">{{ questionButtonLabel }}</button>
         <div v-if="isAskingQuestion" class="question-form">
           <input v-model="question" placeholder="Ask a question..." class="question-input">

@@ -13,7 +13,7 @@
       </div>
       </div>
     </div>
-    <div v-if="isLoggedIn && !isEmpl">
+    <div v-if="isLoggedIn || isEmpl">
     <h2 class="section-title">Here are your recent searches!</h2>
     <div class="home-plant-list">
       <div v-for="plant in userRecentPlants" :key="plant.plant_id">
@@ -83,9 +83,6 @@ export default {
         if (this.isLoggedIn && !this.isEmpl) {
 
           this.user_id = this.account_info.customer_id;
-        }
-        else {
-          this.user_id = "";
         }
         if (this.isLoggedIn) {
           const userResponse = await plantAPI.getRecentSearchesByUser(this.user_id);
