@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0ff01168-ce96-4127-8331-82009c8f01e4" name="Changes" comment="Added database &amp; added login/register&#10;&#10;Working on REST &amp; serializers next">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front_end/mulhalls_front/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front_end/mulhalls_front/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/PlantList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/PlantList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/product/PlantDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front_end/mulhalls_front/src/components/product/PlantDetail.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
