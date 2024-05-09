@@ -4,7 +4,7 @@ from django.urls import path
 from .views import RegisterView, login, get_customer_account, RegisterEmpView, getDepartments, elogin, \
     get_employee_account, QuestionAsked, getAllQuestions, getQuestionsByCust, getQuestionsByPlant, \
     getQuestionsByID, AnswerQuestion, addPlantSearch, getPlantByUserSearch, getPopularSearches
-
+from .backup import backup_database_view
 app_name = "user"
 
 urlpatterns = [
@@ -29,4 +29,6 @@ urlpatterns = [
 
     path('plant/popular/plants', getPopularSearches, name='popular-plants'),
     path('plant/searches/<int:user_id>', getPlantByUserSearch, name='user-plants'),
+
+    path('backup/database/<int:emp_id>', backup_database_view, name='db-backup'),
 ]

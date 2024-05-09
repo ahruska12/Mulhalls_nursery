@@ -10,6 +10,7 @@
         <li v-if="isLoggedIn & !isEmpl"><button class="nav-button" @click="userQuestions">My Questions</button></li>
         <li v-if="!isLoggedIn"><button class="nav-button" @click="Register">Register</button></li>
         <li v-if="!isLoggedIn"><button class="nav-button" @click="Login">Login</button></li>
+        <li v-if="isEmpl"><button class="nav-button" @click="empSetting">Settings</button></li>
         <li v-if="isLoggedIn"><button class="nav-button" @click="Logout">Logout</button></li>
       </ul>
     </nav>
@@ -57,6 +58,9 @@ export default {
     Logout() {
       this.logout();
     },
+    empSetting() {
+      this.$router.push('/employee-settings');
+    }
   },
 }
 </script>
