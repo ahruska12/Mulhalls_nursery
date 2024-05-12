@@ -5,6 +5,7 @@
         <div class="col-12 col-sm-6 col-md-4 col-lg-4">
           <div class="card mx-auto shadow">
             <div class="card-body">
+              <div v-if="error">Not a valid Account! Try again!</div>
               <div class="card-title"><span>Login</span></div>
               <div
                 v-if="showMsg === 'Wrong Password or Username'"
@@ -76,9 +77,9 @@
 
 
                 <button ref ="form" @click.prevent="login" class="btn btn-primary">Login</button>
-                <div type="button" class="btn btn-primary col-4" @click="register">Not a member? <b>Register Here</b></div>
+                <div type="button" class="btn btn-primary col-4" @click="register">Not a member? <button>Register Here</button></div>
                 <br>
-                <div type="button" class="btn btn-primary col-4" @click="empLogin">Employee Login</div>
+                <div type="button" class="btn btn-primary col-4" @click="empLogin"><button>Employee Login</button></div>
 
 
 
@@ -115,6 +116,7 @@
         showMsg: '',
         loading: false,
         pwMatch: false,
+        error: false,
         rules: {
           username: [
             v => !!v || "Email is required",
@@ -154,6 +156,7 @@
           } catch (error) {
             console.error('Login error: ', error);
             this.handleFailedLogin('Error during login process');
+            this.error = true;
           }
         },
 
@@ -173,7 +176,6 @@
           localStorage.removeItem('isAuthenticated');
           localStorage.removeItem('log_user');
           this.showMsg = message;
-          router.go(-1);
         },
         register() {
           router.push('/customer/registerUser')

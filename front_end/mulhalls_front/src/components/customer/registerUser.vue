@@ -30,10 +30,10 @@
                                         </div>
                                     </div>
                                     <div v-if="this.valid === true" class="alert alert-danger" role="alert">
-                                      GREEN CHECK
+
                                     </div>
                                     <div v-if="this.valid === false" class="alert alert-danger" role="alert">
-                                      RED X
+                                      Passwords Must Match!
                                     </div>
                                     <div class="form-group row justify-content-left py-2">
                                         <label class="col-4">Re-enter password</label>
@@ -54,8 +54,8 @@
                                         </div>
                                     </div>
                                     <div class="row justify-content-around">
-                                        <div type="button" class="btn btn-secondary col-6" @click="login">Back to Login</div>
-                                       <div type="button" class="btn btn-primary col-4" @click="registerUser">Register</div>
+                                      <div type="button" class="btn btn-primary col-4" @click="registerUser"><button>Register</button></div>
+                                      <div type="button" class="btn btn-secondary col-6" @click="login"><button>Back to Login</button></div>
                                    </div>
                            </div>
                         </form>

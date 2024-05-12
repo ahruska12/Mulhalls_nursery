@@ -5,6 +5,7 @@
         <div class="col-12 col-sm-6 col-md-4 col-lg-4">
           <div class="card mx-auto shadow">
             <div class="card-body">
+              <div v-if="error">Not a valid Account! Try again!</div>
               <div class="card-title"><span>Login</span></div>
               <div
                 v-if="showMsg === 'error'"
@@ -92,6 +93,7 @@ import bcrypt from 'bcryptjs'
         valid: true,
         showMsg: '',
         loading: false,
+        error: false,
         rules: {
           username: [
             v => !!v || "Email is required",
@@ -143,6 +145,7 @@ import bcrypt from 'bcryptjs'
             router.push("/");
           } catch (error) {
             this.handleFailedLogin('Authentication failed');
+            this.error = true;
           }
         },
 
@@ -152,7 +155,6 @@ import bcrypt from 'bcryptjs'
           localStorage.removeItem('log_user');
           localStorage.removeItem('isAdmin');
           this.showMsg = message;
-          router.go('/authEmp');
         },
 
         empLogin() {
