@@ -8,10 +8,11 @@
         <h3 class="card-text">{{ data.question }}</h3>
         <img :src="getImageUrl(data.plant.plant_picture)" :alt="data.plant.plant_name" class="plant-image-question">
           <br>
-        <button @click="answerQuestion(data.question_id)">Answer</button>
+          <button @click="answerQuestion(data.question_id)">{{ option }}</button>
         <div v-if="currentAnsweringID === data.question_id">
           <input v-model="answer" placeholder="Answer me" />
           <button @click="submitQuestion(data.question_id)">Send</button>
+          <div v-if="msg !== '' ">{{msg}}</div>
         </div>
         </div>
       </div>
@@ -46,6 +47,7 @@ const apiPService = new APIGetPlants()
 export default {
   name: 'QuestionList',
   data: () => ({
+    option: "Answer",
     //flag for filter on what questions are shown
     current_list: false,
     //message for current list
@@ -76,6 +78,7 @@ export default {
     answer_info: {'question_id': "",
                   'employee_id': "",
                   'answer': ""},
+    msg: "",
   }),
   computed: {
     ...mapState({
@@ -137,6 +140,13 @@ export default {
     },
     //change answer id to current question being answered
     answerQuestion(question_id) {
+      this.msg = "";
+      if (this.option === "Answer") {
+        this.option = "Cancel";
+      }
+      if (this.option === "Cancel") {
+        this.option = "Answer"
+      }
       if (!this.currentAnswerFlag) {
         this.currentAnsweringID = question_id;
         this.currentAnswerFlag = true;
@@ -147,6 +157,8 @@ export default {
       }
     },
     submitQuestion(question_id) {
+      this.msg = "";
+      this.option = "Answer";
       //set the array for answering the question
       this.answer_info.question_id = question_id;
       this.answer_info.employee_id = this.account_info.employee_id;
@@ -161,6 +173,7 @@ export default {
       this.currentAnsweringID = "";
       //refresh all questions
       this.getAllQuestions();
+      this.msg = "Question Asnwered!";
       })
       .catch(error => {
       console.error("Error submitting answer:", error);
