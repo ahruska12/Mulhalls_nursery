@@ -13,11 +13,15 @@
         </tbody>
       </table>
       <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-picture">
+      <div v-if="!isLoggedIn"><h1>Register or Log in to ask a question!</h1></div>
       <div v-if="isLoggedIn & !isEmpl">
         <button @click="toggleQuestionForm" class="question-button">{{ questionButtonLabel }}</button>
         <div v-if="isAskingQuestion" class="question-form">
           <input v-model="question" placeholder="Ask a question..." class="question-input">
           <button @click="submitQuestion(plant.plant_id)" class="submit-button">Submit</button>
+        </div>
+        <div v-if="msg !== '' ">
+          <h3>{{msg}}</h3>
         </div>
       </div>
     </div>
@@ -47,6 +51,7 @@ export default {
   data() {
     return {
       plant: {},
+      msg: "",
       questions: [],
       isAskingQuestion: false,
       question: "",
@@ -94,10 +99,12 @@ export default {
       return `http://127.0.0.1:8000${relativePath}`;
     },
     toggleQuestionForm() {
+      this.msg = "";
       this.isAskingQuestion = !this.isAskingQuestion;
       this.questionButtonLabel = this.isAskingQuestion ? "Cancel" : "Ask A Question";
     },
     submitQuestion(plantId) {
+      this.msg = "";
       if (this.isEmpl) {
         this.msg = "Employees cannot submit questions!";
       } else {
@@ -116,6 +123,7 @@ export default {
         this.isAskingQuestion = false;
         this.question = "";
         this.questionButtonLabel = "Ask A Question";
+        this.msg = "Question Submitted!";
       }
     },
     getPresentableKey(key) {
