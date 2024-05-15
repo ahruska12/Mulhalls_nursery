@@ -64,15 +64,17 @@ class CreatePlantSerializer(serializers.ModelSerializer):
                   "department_id", ]
 
     def create(self, validated_data):
-        plant = Plant.objects.create(
+        print(validated_data)
+        print("department: ", validated_data['department_id'])
+        d = Department.objects.get(department_id=validated_data['department_id'])
+        plant = Plant(
             plant_type=validated_data['plant_type'],
             plant_name=validated_data['plant_name'],
             plant_size=validated_data['plant_size'],
             plant_color=validated_data['plant_color'],
             plant_description=validated_data['plant_description'],
             plant_picture=validated_data['plant_picture'],
-            department_id=validated_data['department_id'],
-            add_date=date.today()
+            department_id=d,
         )
         return plant
 

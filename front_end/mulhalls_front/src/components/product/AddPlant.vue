@@ -61,7 +61,7 @@
   </div>
   <div class="enter-info">
     <h2>Department</h2>
-    <select v-model="plant_info.department_id">
+    <select v-model="plant_info.department">
       <option v-for="dept in departments"
               :key="dept.department_id"
               :value="dept.department_id">
@@ -70,6 +70,7 @@
     </select>
   </div>
     <button @click="submitPlant" class="button">Submit</button>
+  <div v-if="msg !== ''"><h2>{{msg}}</h2></div>
 </div>
 </template>
 
@@ -93,7 +94,7 @@ export default {
                  'plant_color': "",
                  'plant_description': "",
                  'plant_picture': "",
-                 'department_id': ""},
+                 'department': ""},
     plant_sub_info: {},
     image: "",
     departments: {},
@@ -106,17 +107,21 @@ export default {
       this.plant_info.plant_picture = event.target.files[0];
     },
     submitPlant() {
+      this.msg = "";
       this.plant_info.plant_type = this.current_type;
       console.log("PLANT INFO", this.plant_info);
       console.log("SUB PLANT INFO", this.plant_sub_info);
+      console.log("before adding to form: ", this.plant_info.department)
       let formData = new FormData();
 
-      formData.append('department_id', this.plant_info.department_id);
+      formData.append('department', this.plant_info.department);
       formData.append('plant_color', this.plant_info.plant_color);
       formData.append('plant_description', this.plant_info.plant_description);
       formData.append('plant_name', this.plant_info.plant_name);
       formData.append('plant_size', this.plant_info.plant_size);
       formData.append('plant_type', this.plant_info.plant_type);
+
+      console.log("after form appended", this.plant_info.department)
 
       if (this.plant_info.plant_picture) {
         formData.append('plant_picture', this.plant_info.plant_picture);
@@ -128,29 +133,37 @@ export default {
           case "Annual":
             plantApi.addAnnual(this.plant_sub_info).then(response => {
               console.log('Success adding sub type: ', response)
+              this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
               console.error("uh oh: ", error)
+              this.msg = "Error, Try again!";
             })
             break;
           case "Perennial":
             plantApi.addPerennial(this.plant_sub_info).then(response => {
               console.log('Success adding sub type: ', response)
+              this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
               console.error("uh oh: ", error)
+              this.msg = "Error, Try again!";
             })
             break;
           case "Tree":
             plantApi.addTree(this.plant_sub_info).then(response => {
               console.log('Success adding sub type: ', response)
+              this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
               console.error("uh oh: ", error)
+              this.msg = "Error, Try again!";
             })
             break;
           case "Shrub":
             plantApi.addShrub(this.plant_sub_info).then(response => {
               console.log('Success adding sub type: ', response)
+              this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
               console.error("uh oh: ", error)
+              this.msg = "Error, Try again!";
             })
             break;
         }
@@ -162,7 +175,7 @@ export default {
                            'plant_color': "",
                            'plant_description': "",
                            'plant_picture': "",
-                           'department_id': ""}
+                           'department': ""}
         this.plant_sub_info = {};
         this.msg = "Plant Added!";
         }).catch(error => {

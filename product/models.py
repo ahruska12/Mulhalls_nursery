@@ -1,4 +1,6 @@
+import django.utils.timezone
 from django.db import models
+from datetime import date
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -6,14 +8,14 @@ from django.dispatch import receiver
 
 class Plant(models.Model):
     plant_id = models.AutoField(primary_key=True)
-    add_date = models.DateField(blank=True, null=True)
+    add_date = models.DateField(default=date.today())
     plant_type = models.CharField(max_length=10)
     plant_name = models.CharField(max_length=30, blank=True, null=True)
     plant_size = models.CharField(max_length=30, blank=True, null=True)
     plant_color = models.CharField(max_length=30, blank=True, null=True)
     plant_description = models.CharField(max_length=1000, blank=True, null=True)
     plant_picture = models.ImageField(upload_to="plants/", default="default/default_plant.png")
-    department = models.ForeignKey('user.Department', on_delete=models.CASCADE, blank=True, null=True)
+    department = models.ForeignKey('user.Department', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.plant_name
@@ -29,7 +31,7 @@ class Annual(models.Model):
     shade_tolerant = models.BooleanField(blank=True, null=True)
     heat_tolerant = models.BooleanField(blank=True, null=True)
     drought_tolerant = models.BooleanField(blank=True, null=True)
-    annual_category = models.CharField(blank=True, null=True)
+    annual_category = models.CharField(blank=True, null=True, max_length=100)
 
     class Meta:
         db_table = 'annual'
@@ -60,4 +62,3 @@ class Tree(models.Model):
 
     class Meta:
         db_table = 'tree'
-

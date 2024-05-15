@@ -85,7 +85,10 @@ WSGI_APPLICATION = 'mulhalls_nursery.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://u9ke3i88bug1j0:pfb9297a72793d298aea744e4a2eb1b28c9a70703b9deb358bf56457ca0879073@ceu9lmqblp8t3q.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d3pg1kk1uaoje9')
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+    }
 }
 
 # Password validation

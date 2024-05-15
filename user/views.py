@@ -55,24 +55,21 @@ def get_employee_account(self, email):
 @api_view(['POST'])
 # login view
 def login(request, username):
-    cust = Customer.objects.get(customer_email=username)
-    if cust is not None:
-        print("authenticated and token sent")
+    try:
+        cust = Customer.objects.get(customer_email=username)
         return JsonResponse({'success': "Account approved"}, status=200)
         # logged in
-    else:
+    except Customer.DoesNotExist:
         return JsonResponse({'error': "no associated account"}, status=400)
 
 
 @api_view(['POST'])
 def elogin(request, username):
-    emp = Employee.objects.get(employee_email=username)
-    if emp is not None:
+    try:
+        emp = Employee.objects.get(employee_email=username)
         return JsonResponse({'admin_status': "is admin"}, status=200)
-
-    else:
+    except Employee.DoesNotExist:
         return JsonResponse({'error': "no employee account"}, status=400)
-
 
 @api_view(['GET'])
 def getDepartments(request):
