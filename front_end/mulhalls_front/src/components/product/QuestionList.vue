@@ -191,7 +191,7 @@ export default {
       console.log("oooo", this.list)
     },
     getImageUrl(relativePath) {
-      return `http://mulhalls1nursery.pythonanywhere.com${relativePath}`;
+      return `https://mulhalls1nursery.pythonanywhere.com${relativePath}`;
     }
   },
   mounted() {

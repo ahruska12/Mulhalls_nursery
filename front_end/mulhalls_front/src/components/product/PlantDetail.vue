@@ -96,7 +96,7 @@ export default {
       this.specialPlantInfo = specialResponse.data;
     },
     getImageUrl(relativePath) {
-      return `http://mulhalls1nursery.pythonanywhere.com${relativePath}`;
+      return `https://mulhalls1nursery.pythonanywhere.com${relativePath}`;
     },
     toggleQuestionForm() {
       this.msg = "";

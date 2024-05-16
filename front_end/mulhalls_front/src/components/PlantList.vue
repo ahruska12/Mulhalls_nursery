@@ -104,7 +104,7 @@ export default {
       router.push(`plants/${plant_id}`);
     },
     getImageUrl(relativePath) {
-      return `http://mulhalls1nursery.pythonanywhere.com${relativePath}`;
+      return `https://mulhalls1nursery.pythonanywhere.com${relativePath}`;
     }
   },
   mounted() {
