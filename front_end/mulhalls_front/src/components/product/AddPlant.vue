@@ -12,35 +12,35 @@
     </select>
     <div v-if="current_type === 'Tree'" class="enter-info">
       <h2 style="color: #181818">Tree Category</h2>
-      <input v-model="plant_sub_info.tree_category" placeholder="Tree Category">
+      <input v-model="tree_sub_info.tree_category" placeholder="Tree Category">
     </div>
     <div v-if="current_type === 'Shrub'" class="enter-info">
       <h2 style="color: #181818">Shrub Category</h2>
-      <input v-model="plant_sub_info.shrub_category" placeholder="Shrub Category">
+      <input v-model="shrub_sub_info.shrub_category" placeholder="Shrub Category">
     </div>
     <div v-if="current_type === 'Perennial'" class="enter-info">
       <h2 style="color: #181818">Perennial Category</h2>
-      <input v-model="plant_sub_info.perennial_category" placeholder="Perennial Category">
+      <input v-model="perennial_sub_info.perennial_category" placeholder="Perennial Category">
       <h2 style="color: #181818">Light Code</h2>
-      <input v-model="plant_sub_info.light_code" placeholder="Light Code">
+      <input v-model="perennial_sub_info.light_code" placeholder="Light Code">
       <h2 style="color: #181818">Moisture Level</h2>
-      <input v-model="plant_sub_info.moisture_level" placeholder="Moisture Level">
+      <input v-model="perennial_sub_info.moisture_level" placeholder="Moisture Level">
       <h2 style="color: #181818">Care Level</h2>
-      <input v-model="plant_sub_info.care_level" placeholder="Care Level">
+      <input v-model="perennial_sub_info.care_level" placeholder="Care Level">
     </div>
     <div v-if="current_type === 'Annual'" class="enter-info">
       <h2 style="color: #181818">Annual Category</h2>
-      <input v-model="plant_sub_info.annual_category" placeholder="Annual Category">
+      <input v-model="annual_sub_info.annual_category" placeholder="Annual Category">
       <h2 style="color: #181818">Hardy Plant</h2>
-      <input type="checkbox" v-model="plant_sub_info.is_hardy" placeholder="Hardy">
+      <input type="checkbox" v-model="annual_sub_info.is_hardy" placeholder="Hardy">
       <h2 style="color: #181818">Semi-Hardy Plant</h2>
-      <input type="checkbox" v-model="plant_sub_info.is_semi_hardy" placeholder="Semi-Hardy">
+      <input type="checkbox" v-model="annual_sub_info.is_semi_hardy" placeholder="Semi-Hardy">
       <h2 style="color: #181818">Shade Tolerance</h2>
-      <input type="checkbox" v-model="plant_sub_info.shade_tolerant" placeholder="Shade Tolerance">
+      <input type="checkbox" v-model="annual_sub_info.shade_tolerant" placeholder="Shade Tolerance">
       <h2 style="color: #181818">Heat Tolerance</h2>
-      <input type="checkbox" v-model="plant_sub_info.heat_tolerant" placeholder="Heat Tolerance">
+      <input type="checkbox" v-model="annual_sub_info.heat_tolerant" placeholder="Heat Tolerance">
       <h2 style="color: #181818">Drought Tolerance</h2>
-      <input type="checkbox" v-model="plant_sub_info.drought_tolerant" placeholder="Drought Tolerance">
+      <input type="checkbox" v-model="annual_sub_info.drought_tolerant" placeholder="Drought Tolerance">
     </div>
   </div>
   <div class="enter-info">
@@ -95,11 +95,27 @@ export default {
                  'plant_description': "",
                  'plant_picture': "",
                  'department': ""},
-    plant_sub_info: {},
+    annual_sub_info: {'annual_category': "",
+                      'drought_tolerant': false,
+                      'heat_tolerant': false,
+                      'is_hardy': false,
+                      'is_semi_hardy': false,
+                      'plant': "",
+                      'shade_tolerant': false,},
+    perennial_sub_info: {'care_level': false,
+                         'light_code': false,
+                         'moisture_level': false,
+                         'perennial_category': "",
+                         'plant': "",},
+    shrub_sub_info: {'plant': "",
+                     'shrub_category': "",},
+    tree_sub_info: {'plant': "",
+                    'tree_category': "",},
     image: "",
     departments: {},
     //used to store any sys messages
     msg: "",
+    plant: "",
   }),
   methods: {
     inputImage(event) {
@@ -128,10 +144,11 @@ export default {
       }
       plantApi.addPlant(formData).then(response => {
         console.log('Success:', response);
-        this.plant_sub_info.plant = response.plant_id;
+        this.plant = response.plant_id;
         switch (this.plant_info.plant_type) {
           case "Annual":
-            plantApi.addAnnual(this.plant_sub_info).then(response => {
+            this.annual_sub_info.plant = this.plant;
+            plantApi.addAnnual(this.annual_sub_info).then(response => {
               console.log('Success adding sub type: ', response)
               this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
@@ -140,7 +157,8 @@ export default {
             })
             break;
           case "Perennial":
-            plantApi.addPerennial(this.plant_sub_info).then(response => {
+            this.perennial_sub_info.plant = this.plant;
+            plantApi.addPerennial(this.perennial_sub_info).then(response => {
               console.log('Success adding sub type: ', response)
               this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
@@ -149,7 +167,8 @@ export default {
             })
             break;
           case "Tree":
-            plantApi.addTree(this.plant_sub_info).then(response => {
+            this.tree_sub_info.plant = this.plant;
+            plantApi.addTree(this.tree_sub_info).then(response => {
               console.log('Success adding sub type: ', response)
               this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
@@ -158,7 +177,8 @@ export default {
             })
             break;
           case "Shrub":
-            plantApi.addShrub(this.plant_sub_info).then(response => {
+            this.shrub_sub_info.plant = this.plant;
+            plantApi.addShrub(this.shrub_sub_info).then(response => {
               console.log('Success adding sub type: ', response)
               this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
