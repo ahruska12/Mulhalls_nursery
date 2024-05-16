@@ -96,7 +96,7 @@ export default {
       console.log("new list:", this.newPlants);
     },
     getImageUrl(relativePath) {
-      return `http://127.0.0.1:8000${relativePath}`;
+      return `http://mulhalls1nursery.pythonanywhere.com${relativePath}`;
     },
     getPlantDetail(plant_id) {
       console.log("search info: ", this.search_info)

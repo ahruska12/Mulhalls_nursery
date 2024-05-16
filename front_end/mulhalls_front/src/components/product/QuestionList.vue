@@ -10,7 +10,7 @@
           <br>
           <button @click="answerQuestion(data.question_id)">{{ option }}</button>
         <div v-if="currentAnsweringID === data.question_id">
-          <input v-model="answer" placeholder="Answer me" />
+          <input v-model="answer" placeholder="Answer me" class="question-input" style="width: 100%"/>
           <button @click="submitQuestion(data.question_id)">Send</button>
           <div v-if="msg !== '' ">{{msg}}</div>
         </div>
@@ -191,7 +191,7 @@ export default {
       console.log("oooo", this.list)
     },
     getImageUrl(relativePath) {
-      return `http://127.0.0.1:8000${relativePath}`;
+      return `http://mulhalls1nursery.pythonanywhere.com${relativePath}`;
     }
   },
   mounted() {

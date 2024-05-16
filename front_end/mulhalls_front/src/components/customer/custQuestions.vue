@@ -1,5 +1,5 @@
 <template>
-  <h1>Your Questions</h1>
+  <h1 style="color: #181818">Your Questions</h1>
   <div class="main-container-questions">
     <div v-for="data in combined_data" v-bind:key="data.question_id" class="card-question">
       <div v-if="data.is_answered">
@@ -84,7 +84,7 @@ export default {
       console.log("final: ", this.combined_data)
     },
     getImageUrl(relativePath) {
-      return `http://127.0.0.1:8000${relativePath}`;
+      return `http://mulhalls1nursery.pythonanywhere.com${relativePath}`;
     }
   },
   mounted() {

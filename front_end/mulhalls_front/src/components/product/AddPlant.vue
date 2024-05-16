@@ -1,66 +1,66 @@
 <template>
-  <h1>New Plant</h1>
+  <h1 style="color: #181818">New Plant</h1>
 <div class="main-container">
   <div class="enter-info">
-  <h2>Name</h2>
+  <h2 style="color: #181818">Name</h2>
   <input v-model="plant_info.plant_name" placeholder="Name">
   </div>
   <div class="enter-info">
-    <h2>Type</h2>
+    <h2 style="color: #181818">Type</h2>
     <select v-model="current_type">
       <option v-for="type in plant_type">{{type}}</option>
     </select>
     <div v-if="current_type === 'Tree'" class="enter-info">
-      <h2>Tree Category</h2>
+      <h2 style="color: #181818">Tree Category</h2>
       <input v-model="plant_sub_info.tree_category" placeholder="Tree Category">
     </div>
     <div v-if="current_type === 'Shrub'" class="enter-info">
-      <h2>Shrub Category</h2>
+      <h2 style="color: #181818">Shrub Category</h2>
       <input v-model="plant_sub_info.shrub_category" placeholder="Shrub Category">
     </div>
     <div v-if="current_type === 'Perennial'" class="enter-info">
-      <h2>Perennial Category</h2>
+      <h2 style="color: #181818">Perennial Category</h2>
       <input v-model="plant_sub_info.perennial_category" placeholder="Perennial Category">
-      <h2>Light Code</h2>
+      <h2 style="color: #181818">Light Code</h2>
       <input v-model="plant_sub_info.light_code" placeholder="Light Code">
-      <h2>Moisture Level</h2>
+      <h2 style="color: #181818">Moisture Level</h2>
       <input v-model="plant_sub_info.moisture_level" placeholder="Moisture Level">
-      <h2>Care Level</h2>
+      <h2 style="color: #181818">Care Level</h2>
       <input v-model="plant_sub_info.care_level" placeholder="Care Level">
     </div>
     <div v-if="current_type === 'Annual'" class="enter-info">
-      <h2>Annual Category</h2>
+      <h2 style="color: #181818">Annual Category</h2>
       <input v-model="plant_sub_info.annual_category" placeholder="Annual Category">
-      <h2>Hardy Plant</h2>
+      <h2 style="color: #181818">Hardy Plant</h2>
       <input type="checkbox" v-model="plant_sub_info.is_hardy" placeholder="Hardy">
-      <h2>Semi-Hardy Plant</h2>
+      <h2 style="color: #181818">Semi-Hardy Plant</h2>
       <input type="checkbox" v-model="plant_sub_info.is_semi_hardy" placeholder="Semi-Hardy">
-      <h2>Shade Tolerance</h2>
+      <h2 style="color: #181818">Shade Tolerance</h2>
       <input type="checkbox" v-model="plant_sub_info.shade_tolerant" placeholder="Shade Tolerance">
-      <h2>Heat Tolerance</h2>
+      <h2 style="color: #181818">Heat Tolerance</h2>
       <input type="checkbox" v-model="plant_sub_info.heat_tolerant" placeholder="Heat Tolerance">
-      <h2>Drought Tolerance</h2>
+      <h2 style="color: #181818">Drought Tolerance</h2>
       <input type="checkbox" v-model="plant_sub_info.drought_tolerant" placeholder="Drought Tolerance">
     </div>
   </div>
   <div class="enter-info">
-    <h2>Color</h2>
+    <h2 style="color: #181818">Color</h2>
     <input v-model="plant_info.plant_color" placeholder="Color">
   </div>
   <div class="enter-info">
-    <h2>Description</h2>
+    <h2 style="color: #181818">Description</h2>
     <input v-model="plant_info.plant_description" placeholder="Description">
   </div>
   <div class="enter-info">
-    <h2>Size</h2>
+    <h2 style="color: #181818">Size</h2>
     <input v-model="plant_info.plant_size" placeholder="Size">
   </div>
   <div class="enter-info">
-    <h2>Picture</h2>
+    <h2 style="color: #181818">Picture</h2>
     <input type="file" @change="inputImage($event)">
   </div>
   <div class="enter-info">
-    <h2>Department</h2>
+    <h2 style="color: #181818">Department</h2>
     <select v-model="plant_info.department">
       <option v-for="dept in departments"
               :key="dept.department_id"
@@ -70,7 +70,7 @@
     </select>
   </div>
     <button @click="submitPlant" class="button">Submit</button>
-  <div v-if="msg !== ''"><h2>{{msg}}</h2></div>
+  <div v-if="msg !== ''"><h2 style="color: #181818">{{msg}}</h2></div>
 </div>
 </template>
 

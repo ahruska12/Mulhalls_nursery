@@ -15,7 +15,7 @@ class Plant(models.Model):
     plant_color = models.CharField(max_length=30, blank=True, null=True)
     plant_description = models.CharField(max_length=1000, blank=True, null=True)
     plant_picture = models.ImageField(upload_to="plants/", default="default/default_plant.png")
-    department = models.ForeignKey('user.Department', on_delete=models.CASCADE)
+    department = models.ForeignKey('user.Department', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.plant_name

@@ -9,7 +9,7 @@ import PlantDetail from "@/components/product/PlantDetail.vue";
 import QuestionList from "@/components/product/QuestionList.vue";
 import AddPlant from "@/components/product/AddPlant.vue";
 import custQuestions from "@/components/customer/custQuestions.vue";
-import employeeSettings from "@/components/employee/employeeSettings.vue";
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -70,12 +70,6 @@ const router = createRouter({
           path: '/current-questions',
           name: 'custQuestions',
           component: custQuestions,
-      },
-      {
-          // employee settings
-          path: '/employee-settings',
-          name: 'employeeSettings',
-          component: employeeSettings,
       },
   ]
 })

@@ -1,19 +1,19 @@
 <template>
   <div class="main-container">
     <div class="plant-detail-card">
-      <h1>{{ plant.plant_name }}</h1>
-      <p class="plant-type">{{ plant.plant_type }}</p>
-      <p class="plant-description">{{ plant.plant_description }}</p>
+      <h1 style="color: #181818">{{ plant.plant_name }}</h1>
+      <p class="plant-type" style="color: #181818">{{ plant.plant_type }}</p>
+      <p class="plant-description" style="color: #181818">{{ plant.plant_description }}</p>
       <table v-if="specialPlantInfo && Object.keys(specialPlantInfo).length > 0" class="plant-detail-card" style="alignment: center">
         <tbody>
           <tr v-for="(value, key) in specialPlantInfo" :key="key" v-if="key !== 'plant'">
-            <td>{{ getPresentableKey(key) }}</td>
-            <td>{{ value }}</td>
+            <td style="color: #181818">{{ getPresentableKey(key) }}</td>
+            <td style="color: #181818">{{ value }}</td>
           </tr>
         </tbody>
       </table>
       <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-picture">
-      <div v-if="!isLoggedIn"><h1>Register or Log in to ask a question!</h1></div>
+      <div v-if="!isLoggedIn"><h1 style="color: #181818">Register or Log in to ask a question!</h1></div>
       <div v-if="isLoggedIn & !isEmpl">
         <button @click="toggleQuestionForm" class="question-button">{{ questionButtonLabel }}</button>
         <div v-if="isAskingQuestion" class="question-form">
@@ -21,14 +21,14 @@
           <button @click="submitQuestion(plant.plant_id)" class="submit-button">Submit</button>
         </div>
         <div v-if="msg !== '' ">
-          <h3>{{msg}}</h3>
+          <h3 style="color: #181818">{{msg}}</h3>
         </div>
       </div>
     </div>
   </div>
 
   <div class="main-container">
-    <h1>Frequently Asked Questions</h1>
+    <h1 style="color: #181818">Frequently Asked Questions</h1>
     <div class="frequent-questions-card">
       <div v-for="question in questions" :key="question.question_id" class="faq-card">
         <p class="question">{{ question.question }}</p>
@@ -96,7 +96,7 @@ export default {
       this.specialPlantInfo = specialResponse.data;
     },
     getImageUrl(relativePath) {
-      return `http://127.0.0.1:8000${relativePath}`;
+      return `http://mulhalls1nursery.pythonanywhere.com${relativePath}`;
     },
     toggleQuestionForm() {
       this.msg = "";
