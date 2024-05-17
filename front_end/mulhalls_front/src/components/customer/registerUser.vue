@@ -70,7 +70,7 @@
 <script>
 
   import router from '../../router/index.js';
-  import {APIService} from '../../http/APIService.js';
+  import {APIService} from '@/http/APIService.js';
   import bcrypt from "bcryptjs";
   const apiService = new APIService();
 
