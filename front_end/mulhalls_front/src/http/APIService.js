@@ -18,7 +18,6 @@ export class APIService {
     //this is called after user signs in
     authenticateLogin(credentials) {
         const username = credentials.username
-        console.log(credentials);
         const url = `${API_URL}/user/auth/${username}`;
         return axios.post(url);
     }
@@ -31,8 +30,6 @@ export class APIService {
     }
     authenticateEmpLogin(credentials) {
         const username = credentials.username
-        //make sure to take this out at some point....
-        console.log(credentials);
         const url = `${API_URL}/user/auth/employee/${username}`;
         return axios.post(url);
     }
@@ -64,7 +61,6 @@ export class APIGetPlants {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(response => {
-        console.log('Plant added with ID:', response.data.plant_id);
         return response.data;
         }).catch(error => {
             console.error('Error adding plant:', error.response.data);

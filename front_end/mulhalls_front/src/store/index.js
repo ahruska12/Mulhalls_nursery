@@ -77,9 +77,6 @@ export default createStore({
       } catch (error) {
         console.error(error);
       }
-      console.log("email", state.email)
-      console.log("username", state.username)
-      console.log("acct", state.account_info)
     },
   }
 });

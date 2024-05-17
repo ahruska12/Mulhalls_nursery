@@ -141,7 +141,6 @@ export default {
     //change answer id to current question being answered
     answerQuestion(question_id) {
       this.msg = "";
-      console.log(this.option, "AFTER")
       if (!this.currentAnswerFlag) {
         this.currentAnsweringID = question_id;
         this.currentAnswerFlag = true;

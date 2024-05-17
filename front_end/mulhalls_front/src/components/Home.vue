@@ -91,15 +91,11 @@ export default {
       } catch (error) {
         console.error("Failed to fetch plants:", error);
       }
-      console.log("Plant list:", this.popularPlantList);
-      console.log("User list:", this.userRecentPlants);
-      console.log("new list:", this.newPlants);
     },
     getImageUrl(relativePath) {
       return `https://mulhalls1nursery.pythonanywhere.com${relativePath}`;
     },
     getPlantDetail(plant_id) {
-      console.log("search info: ", this.search_info)
       this.search_info.plant = plant_id;
       if (!this.isEmpl && this.isLoggedIn) {
         this.search_info.customer = this.account_info.customer_id;
@@ -108,7 +104,6 @@ export default {
         this.search_info.customer = "0";
       }
       plantAPI.addPlantSearch(this.search_info)
-      console.log("search info: ", this.search_info)
       router.push(`/plants/${plant_id}`);
     },
   },

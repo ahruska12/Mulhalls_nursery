@@ -72,10 +72,8 @@ export default {
       const apiService = new APIGetPlants();
       apiService.getPlantList()
         .then(response => {
-          console.log("API Response:", response.data); // Log the response data
           this.plant = response.data;
           this.filteredPlants = this.plant;
-          console.log("Filtered plants: ", this.filteredPlants);
         })
         .catch(error => {
           console.error("Failed to fetch plants:", error);
