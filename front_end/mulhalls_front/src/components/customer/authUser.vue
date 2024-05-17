@@ -178,7 +178,7 @@
           this.showMsg = message;
         },
         register() {
-          router.push('/customer/registerUser')
+          router.push('/registerUser')
         },
         empLogin() {
           router.push('/authEmp')

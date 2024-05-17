@@ -57,7 +57,7 @@
   </div>
   <div class="enter-info">
     <h2 style="color: #181818">Picture</h2>
-    <input type="file" @change="inputImage($event)">
+    <input type="file" style="color: #181818" @change="inputImage($event)">
   </div>
   <div class="enter-info">
     <h2 style="color: #181818">Department</h2>

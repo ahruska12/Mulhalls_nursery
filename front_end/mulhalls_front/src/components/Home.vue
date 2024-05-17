@@ -8,7 +8,7 @@
     <div class="home-plant-list">
       <div v-for="plant in popularPlantList" :key="plant.plant_id">
       <div class="card-body" @click="getPlantDetail(plant.plant_id)" style="cursor: pointer;">
-        <h5 class="card-title">{{ plant.plant_name }}</h5>
+        <h5 class="card-title" style="color: #181818">{{ plant.plant_name }}</h5>
         <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-image" style="cursor: pointer;">
       </div>
       </div>
@@ -18,7 +18,7 @@
     <div class="home-plant-list">
       <div v-for="plant in userRecentPlants" :key="plant.plant_id">
       <div class="card-body" @click="getPlantDetail(plant.plant_id)" style="cursor: pointer;">
-        <h5 class="card-title">{{ plant.plant_name }}</h5>
+        <h5 class="card-title" style="color: #181818">{{ plant.plant_name }}</h5>
         <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-image" style="cursor: pointer;">
       </div>
       </div>
@@ -29,7 +29,7 @@
         <div class="home-plant-list">
       <div v-for="plant in newPlants" :key="plant.plant_id">
       <div class="card-body" @click="getPlantDetail(plant.plant_id)" style="cursor: pointer;">
-        <h5 class="card-title">{{ plant.plant_name }}</h5>
+        <h5 class="card-title" style="color: #181818">{{ plant.plant_name }}</h5>
         <img :src="getImageUrl(plant.plant_picture)" :alt="plant.plant_name" class="plant-image" style="cursor: pointer;">
       </div>
       </div>
