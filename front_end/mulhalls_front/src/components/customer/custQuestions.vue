@@ -63,7 +63,6 @@ export default {
     async getAllQuestions() {
       await this.checkAuth();
       //list all questions in db
-      console.log("cust info", this.account_info);
       const result = await apiService.findQuestionByUser(this.account_info.customer_id);
       //all questions
       this.all_questions = result.data;
@@ -81,7 +80,6 @@ export default {
           plant: this.plants.find(plant => plant.plant_id === question.plant)
         };
       });
-      console.log("final: ", this.combined_data)
     },
     getImageUrl(relativePath) {
       return `http://mulhalls1nursery.pythonanywhere.com${relativePath}`;

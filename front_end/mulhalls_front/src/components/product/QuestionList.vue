@@ -141,19 +141,16 @@ export default {
     //change answer id to current question being answered
     answerQuestion(question_id) {
       this.msg = "";
-      if (this.option === "Answer") {
-        this.option = "Cancel";
-      }
-      if (this.option === "Cancel") {
-        this.option = "Answer"
-      }
+      console.log(this.option, "AFTER")
       if (!this.currentAnswerFlag) {
         this.currentAnsweringID = question_id;
         this.currentAnswerFlag = true;
+        this.option = "Cancel";
       }
       else {
         this.currentAnsweringID = "";
         this.currentAnswerFlag = false;
+        this.option = "Answer";
       }
     },
     submitQuestion(question_id) {
@@ -163,11 +160,9 @@ export default {
       this.answer_info.question_id = question_id;
       this.answer_info.employee_id = this.account_info.employee_id;
       this.answer_info.answer = this.answer;
-      console.log("ans info ", this.answer_info)
       //answer the question
       apiService.answerQuestion(this.answer_info)
       .then(response => {
-      console.log("Answer submitted successfully:", response);
       //reset answer variables
       this.answer = '';
       this.currentAnsweringID = "";
@@ -188,7 +183,6 @@ export default {
       else {
         this.list = "View All Questions";
       }
-      console.log("oooo", this.list)
     },
     getImageUrl(relativePath) {
       return `https://mulhalls1nursery.pythonanywhere.com${relativePath}`;
@@ -197,7 +191,6 @@ export default {
   mounted() {
     this.checkAuth();
     this.getAllQuestions();
-    console.log("ans: ", this.currentAnsweringID)
   }
 }
 </script>

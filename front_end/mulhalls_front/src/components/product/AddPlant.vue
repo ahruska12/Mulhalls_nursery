@@ -125,9 +125,6 @@ export default {
     submitPlant() {
       this.msg = "";
       this.plant_info.plant_type = this.current_type;
-      console.log("PLANT INFO", this.plant_info);
-      console.log("SUB PLANT INFO", this.plant_sub_info);
-      console.log("before adding to form: ", this.plant_info.department)
       let formData = new FormData();
 
       formData.append('department', this.plant_info.department);
@@ -137,19 +134,15 @@ export default {
       formData.append('plant_size', this.plant_info.plant_size);
       formData.append('plant_type', this.plant_info.plant_type);
 
-      console.log("after form appended", this.plant_info.department)
-
       if (this.plant_info.plant_picture) {
         formData.append('plant_picture', this.plant_info.plant_picture);
       }
       plantApi.addPlant(formData).then(response => {
-        console.log('Success:', response);
         this.plant = response.plant_id;
         switch (this.plant_info.plant_type) {
           case "Annual":
             this.annual_sub_info.plant = this.plant;
             plantApi.addAnnual(this.annual_sub_info).then(response => {
-              console.log('Success adding sub type: ', response)
               this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
               console.error("uh oh: ", error)
@@ -159,7 +152,6 @@ export default {
           case "Perennial":
             this.perennial_sub_info.plant = this.plant;
             plantApi.addPerennial(this.perennial_sub_info).then(response => {
-              console.log('Success adding sub type: ', response)
               this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
               console.error("uh oh: ", error)
@@ -169,7 +161,6 @@ export default {
           case "Tree":
             this.tree_sub_info.plant = this.plant;
             plantApi.addTree(this.tree_sub_info).then(response => {
-              console.log('Success adding sub type: ', response)
               this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
               console.error("uh oh: ", error)
@@ -179,7 +170,6 @@ export default {
           case "Shrub":
             this.shrub_sub_info.plant = this.plant;
             plantApi.addShrub(this.shrub_sub_info).then(response => {
-              console.log('Success adding sub type: ', response)
               this.msg = this.plant_info.plant_name + " Added!";
             }).catch(error => {
               console.error("uh oh: ", error)
@@ -207,7 +197,6 @@ export default {
       //list all questions in db
       const result = await apiService.getDepartments();
       this.departments = result.data;
-      console.log("depts: ", this.departments);
     }
   },
   computed: {

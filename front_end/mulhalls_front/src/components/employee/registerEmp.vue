@@ -118,10 +118,8 @@
             }
 
             this.credentials.employee_password = hash;
-            console.log(this.credentials)
 
             apiService.registerEmployee(this.credentials).then(response => {
-              console.log(this.credentials)
               if (response.status === 201) {
                 this.movie = response.data;
                 this.showMsg = "Employee Registered";

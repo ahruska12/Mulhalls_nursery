@@ -13,7 +13,7 @@
       </div>
       </div>
     </div>
-    <div v-if="isLoggedIn || isEmpl">
+    <div v-if="isLoggedIn && !isEmpl">
     <h2 class="section-title">Here are your recent searches!</h2>
     <div class="home-plant-list">
       <div v-for="plant in userRecentPlants" :key="plant.plant_id">
@@ -104,12 +104,12 @@ export default {
       if (!this.isEmpl && this.isLoggedIn) {
         this.search_info.customer = this.account_info.customer_id;
       }
-      if (this.isEmpl) {
-        this.search_info.customer = this.account_info.employee_id;
+      else {
+        this.search_info.customer = "0";
       }
       plantAPI.addPlantSearch(this.search_info)
       console.log("search info: ", this.search_info)
-      router.push(`plants/${plant_id}`);
+      router.push(`/plants/${plant_id}`);
     },
   },
   mounted() {

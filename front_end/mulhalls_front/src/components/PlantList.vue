@@ -97,8 +97,8 @@ export default {
       if (!this.isEmpl && this.isLoggedIn) {
         this.search_info.customer = this.account_info.customer_id;
       }
-      if (this.isEmpl) {
-        this.search_info.customer = this.account_info.employee_id;
+      else {
+        this.search_info.customer = "0";
       }
       plantApi.addPlantSearch(this.search_info)
       router.push(`plants/${plant_id}`);

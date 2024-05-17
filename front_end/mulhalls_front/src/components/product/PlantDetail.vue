@@ -6,7 +6,7 @@
       <p class="plant-description" style="color: #181818">{{ plant.plant_description }}</p>
       <table v-if="specialPlantInfo && Object.keys(specialPlantInfo).length > 0" class="plant-detail-card" style="alignment: center">
         <tbody>
-          <tr v-for="(value, key) in specialPlantInfo" :key="key" v-if="key !== 'plant'">
+          <tr v-for="(value, key) in specialPlantInfo" :key="key">
             <td style="color: #181818">{{ getPresentableKey(key) }}</td>
             <td style="color: #181818">{{ value }}</td>
           </tr>
@@ -67,7 +67,10 @@ export default {
         'annual_category': 'Category:',
         'perennial_category': 'Category:',
         'tree_category': 'Category:',
-        'shrub_category': 'Category:'
+        'shrub_category': 'Category:',
+        'light_code': 'Light Code:',
+        'moisture_level': 'Moisture Level:',
+        'care_level': 'Care Level:'
       }
     };
   },
@@ -115,7 +118,6 @@ export default {
         };
         questAPI.askQuestion(questionInfo)
             .then(response => {
-              console.log("Question submitted successfully:", response);
             })
             .catch(error => {
               console.error("Error submitting question:", error);

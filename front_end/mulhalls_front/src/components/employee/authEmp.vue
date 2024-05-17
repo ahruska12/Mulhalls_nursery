@@ -118,7 +118,6 @@ import bcrypt from 'bcryptjs'
             // Fetch customer account information
             const response = await apiService.findEmployeeAccount(this.credentials.username);
             this.stored_info = response.data;
-            console.log("Fetched stored info: ", this.stored_info);
 
             // Compare the hashed password
             const result = await bcrypt.compare(this.credentials.password, this.stored_info.employee_password);
@@ -139,8 +138,8 @@ import bcrypt from 'bcryptjs'
         async handleSuccessfulLogin() {
           try {
             const res = await apiService.authenticateEmpLogin(this.credentials);
-            localStorage.setItem('isAdmin', "1");
-            localStorage.setItem('isAuthenticated', JSON.stringify(true));
+            localStorage.setItem('4125879635', "112544879526328");
+            localStorage.setItem('1100101657896245', '548792615836');
             localStorage.setItem('log_user', this.stored_info.employee_email);
             router.push("/");
           } catch (error) {
@@ -151,9 +150,9 @@ import bcrypt from 'bcryptjs'
 
         handleFailedLogin(message) {
           this.loading = false;
-          localStorage.removeItem('isAuthenticated');
+          localStorage.removeItem('1100101657896245');
           localStorage.removeItem('log_user');
-          localStorage.removeItem('isAdmin');
+          localStorage.removeItem('4125879635');
           this.showMsg = message;
         },
 

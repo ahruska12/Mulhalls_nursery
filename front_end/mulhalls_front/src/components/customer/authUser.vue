@@ -141,7 +141,6 @@
             // Fetch customer account information
             const response = await apiService.findCustomerAccount(this.credentials.username);
             this.stored_info = response.data;
-            console.log("Fetched stored info: ", this.stored_info);
 
             // Compare the hashed password
             const result = await bcrypt.compare(this.credentials.password, this.stored_info.customer_password);
@@ -163,7 +162,7 @@
         async handleSuccessfulLogin() {
           try {
             const res = await apiService.authenticateLogin(this.credentials);
-            localStorage.setItem('isAuthenticated', JSON.stringify(true));
+            localStorage.setItem("1100101657896245", "548792615836");
             localStorage.setItem('log_user', this.stored_info.customer_email);
             router.push("/");
           } catch (error) {
@@ -173,7 +172,7 @@
 
         handleFailedLogin(message) {
           this.loading = false;
-          localStorage.removeItem('isAuthenticated');
+          localStorage.removeItem("1100101657896245");
           localStorage.removeItem('log_user');
           this.showMsg = message;
         },

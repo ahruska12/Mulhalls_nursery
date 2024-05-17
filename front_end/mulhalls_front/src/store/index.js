@@ -33,12 +33,12 @@ export default createStore({
   actions: {
     logout({ commit, state }) {
       commit('SET_LOADING', true);
-      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('1100101657896245');
       localStorage.removeItem('log_user');
       localStorage.removeItem('token');
 
       if (state.isEmpl) {
-        localStorage.removeItem('isAdmin');
+        localStorage.removeItem('4125879635');
       }
 
       commit('SET_LOGIN_STATE', { isLoggedIn: false, isEmpl: false });
@@ -46,35 +46,28 @@ export default createStore({
       commit('SET_LOADING', false);
 
       router.push('/');
-      console.log("Logged out");
     },
     async checkAuth({ commit, state }) {
-      console.log("checkAuth v2 called")
-      if (localStorage.getItem('isAuthenticated')) {
+      if (localStorage.getItem("1100101657896245") === "548792615836") {
         state.isLoggedIn = true;
         state.email = localStorage.getItem('log_user');
-        if (localStorage.getItem('isAdmin') === "1") {
+        if (localStorage.getItem("4125879635") === "112544879526328") {
         state.isEmpl = true;
         }
       }
-      console.log("not empl")
       try {
         let account_info;
-        console.log("inside try")
         if (state.isEmpl) {
           const response = await apiService.findEmployeeAccount(state.email);
           state.account_info = response.data;
-          console.log("account info", account_info)
           commit('SET_ACCOUNT_INFO', {
             email: state.email,
             username: state.account_info.employee_first_name,
             account_info: state.account_info
           });
         } else if (state.isLoggedIn) {
-          console.log("inside find account cust")
           const response = await apiService.findCustomerAccount(state.email);
           state.account_info = response.data;
-          console.log("account info", account_info)
           commit('SET_ACCOUNT_INFO', {
             email: state.email,
             username: state.account_info.customer_first_name,

@@ -88,7 +88,6 @@
     }),
     methods: {
       registerUser() {
-        console.log("creds", this.credentials);
         if (this.credentials.customer_password === this.credentials.password2) {
           bcrypt.hash(this.credentials.customer_password, 10, (err, hash) => {
             if (err) {
@@ -97,11 +96,9 @@
             }
 
             this.credentials.customer_password = hash;
-            console.log("before registering user");
             router.push('/authUser');
 
              apiService.registerUser(this.credentials).then(response => {
-               console.log("response", response.status)
                if (response.status === 201) {
                  this.temp = response.data;
                  this.showMsg = "User Registered";
@@ -115,6 +112,9 @@
                  router.push("/AuthUser");
                } else if (error.response.status === 400) {
                  this.showMsg = "Email already exists";
+               }
+               else {
+                 this.showMsg = "Choose a different password!";
                }
              });
           });
